@@ -115,8 +115,16 @@ public class Authenticator implements Auth {
     }
 
     @Override
-    public Acc login(HttpServletRequest req, HttpServletResponse resp) {
-        return null;
+    public Acc login(HttpServletRequest req, HttpServletResponse resp) throws AuthenticationError, AccountIsLocked, EncryptionDontWork, AccountDoesNotExist {
+        // Not sure if it is done like this
+        String accountName = req.getParameter("accountName");
+        String password = req.getParameter("password");
+        // TODO: change the get to a database query
+        Acc account = accounts.get(accountName);
+        if(account == null) {
+            throw new AuthenticationError();
+        }
+        return login(accountName, password);
     }
 
 
