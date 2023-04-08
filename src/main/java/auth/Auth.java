@@ -2,6 +2,8 @@ package auth;
 
 import acc.Acc;
 import exc.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public interface Auth {
 
@@ -35,13 +37,15 @@ public interface Auth {
      * @param name the account name
      * @param pwd1 the account password
      * @param pwd2 the account password confirmation
-    void changePwd(String name, String pwd1, String pwd2);
+     */
+    void changePwd(String name, String pwd1, String pwd2) throws NullParameterException, PasswordsDontMatch, EncryptionDontWork;
 
     /**
      * Login an account
      * @param name the account name
      * @param pwd the account password
      * @return the account
+     */
     Acc login(String name, String pwd);
 
     /**
@@ -49,7 +53,8 @@ public interface Auth {
      * PRE: name must identify an created account
      * PRE: pwd1 == pwd2
      * @param acc the account
-    void logout(Account acc);
+     */
+    void logout(Acc acc);
 
     /**
      * Authenticates the caller, given name and password
@@ -66,6 +71,6 @@ public interface Auth {
      * @param req the request
      * @param resp the response
      * @return the account
+     */
     Acc login(HttpServletRequest req, HttpServletResponse resp);
-    */
 }

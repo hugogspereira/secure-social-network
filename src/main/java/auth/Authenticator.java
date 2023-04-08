@@ -4,9 +4,10 @@ import acc.Acc;
 import acc.Account;
 import java.util.HashMap;
 import java.util.Map;
-
 import crypto.EncryptDecryptUtils;
 import exc.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Authenticator class:
@@ -72,5 +73,36 @@ public class Authenticator implements Auth {
         }
         return account;
     }
+
+    @Override
+    public void changePwd(String name, String pwd1, String pwd2) throws NullParameterException, PasswordsDontMatch, EncryptionDontWork {
+        if(name == null || name.isEmpty() || pwd1 == null || pwd1.isEmpty() || pwd2 == null || pwd2.isEmpty()) {
+            throw new NullParameterException();
+        }
+        else if (!pwd1.equals(pwd2)) {
+            throw new PasswordsDontMatch();
+        }
+
+        Acc acc = accounts.get(name);
+        acc.setPassword(EncryptDecryptUtils.getInstance().encrypt(pwd1));
+        // TODO: add account to database instead of hashmap
+        accounts.replace(name, acc);
+    }
+
+    @Override
+    public Acc login(String name, String pwd) {
+        return null;
+    }
+
+    @Override
+    public void logout(Acc acc) {
+
+    }
+
+    @Override
+    public Acc login(HttpServletRequest req, HttpServletResponse resp) {
+        return null;
+    }
+
 
 }
