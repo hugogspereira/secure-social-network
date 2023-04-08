@@ -72,5 +72,5 @@ public interface Auth {
      * @param resp the response
      * @return the account
      */
-    Acc login(HttpServletRequest req, HttpServletResponse resp);
+    Acc login(HttpServletRequest req, HttpServletResponse resp) throws AuthenticationError, AccountIsLocked, EncryptionDontWork, AccountDoesNotExist;
 }
