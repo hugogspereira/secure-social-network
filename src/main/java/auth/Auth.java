@@ -46,7 +46,7 @@ public interface Auth {
      * @param pwd the account password
      * @return the account
      */
-    Acc login(String name, String pwd);
+    Acc login(String name, String pwd) throws AccountDoesNotExist, AccountIsLocked, EncryptionDontWork, AuthenticationError;
 
     /**
      * Logout an account

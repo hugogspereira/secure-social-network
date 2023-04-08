@@ -32,4 +32,9 @@ public interface Acc {
      */
     boolean isLocked();
 
+    /**
+     * Set the account logged in status
+     * @param loggedIn the new logged in status for the account
+     */
+    void setLoggedIn(boolean loggedIn);
 }

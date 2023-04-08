@@ -90,8 +90,22 @@ public class Authenticator implements Auth {
     }
 
     @Override
-    public Acc login(String name, String pwd) {
-        return null;
+    public Acc login(String name, String pwd) throws AccountDoesNotExist, AccountIsLocked, EncryptionDontWork, AuthenticationError {
+        // TODO: change the get to a database query
+        Acc account = accounts.get(name);
+        if(account == null) {
+            throw new AccountDoesNotExist();
+        }
+        else if(account.isLocked()) {
+            throw new AccountIsLocked();
+        }
+        else if(EncryptDecryptUtils.getInstance().encrypt(pwd).equals(account.getPassword())) {
+            account.setLoggedIn(true);
+            return account;
+        }
+        else {
+            throw new AuthenticationError();
+        }
     }
 
     @Override
