@@ -1,5 +1,6 @@
 package auth;
 
+import acc.Acc;
 import exc.*;
 
 public interface Auth {
@@ -25,7 +26,8 @@ public interface Auth {
      * Get an account
      * @param name the account name
      * @return the account
-    Account getAccount(String name);
+     */
+    Acc getAccount(String name) throws AccountDoesNotExist;
 
     /**
      * Change an account password
@@ -39,7 +41,7 @@ public interface Auth {
      * @param name the account name
      * @param pwd the account password
      * @return the account
-    Account login(String name, String pwd);
+    Acc login(String name, String pwd);
 
     /**
      * Logout an account
@@ -63,6 +65,6 @@ public interface Auth {
      * @param req the request
      * @param resp the response
      * @return the account
-    Account login(HttpServletRequest req, HttpServletResponse resp);
+    Acc login(HttpServletRequest req, HttpServletResponse resp);
     */
 }
