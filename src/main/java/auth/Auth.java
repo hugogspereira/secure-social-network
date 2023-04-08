@@ -38,7 +38,7 @@ public interface Auth {
      * @param pwd1 the account password
      * @param pwd2 the account password confirmation
      */
-    void changePwd(String name, String pwd1, String pwd2) throws NullParameterException, PasswordsDontMatch, EncryptionDontWork;
+    void changePwd(String name, String pwd1, String pwd2) throws NullParameterException, PasswordsDontMatch, EncryptionDontWork, AccountDoesNotExist;
 
     /**
      * Login an account

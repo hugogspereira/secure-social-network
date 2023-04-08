@@ -37,4 +37,10 @@ public interface Acc {
      * @param loggedIn the new logged in status for the account
      */
     void setLoggedIn(boolean loggedIn);
+
+    /**
+     * Set the account locked status
+     * @param locked the new locked status for the account
+     */
+    void setLocked(boolean locked);
 }

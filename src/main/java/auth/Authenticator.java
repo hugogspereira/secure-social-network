@@ -1,11 +1,9 @@
 package auth;
 
 import acc.Acc;
-import acc.Account;
-import java.util.HashMap;
-import java.util.Map;
 import crypto.EncryptDecryptUtils;
 import exc.*;
+import storage.dbAccount;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,37 +17,29 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Authenticator implements Auth {
 
-    // TODO: change to database instead of hashmap
-    private Map<String, Acc> accounts;
-
     /**
      * Authenticator constructor
      */
-    public Authenticator() {
-        this.accounts = new HashMap<>();
-    }
+    public Authenticator() { }
 
     @Override
     public void createAccount(String name, String pwd1, String pwd2) throws NullParameterException, AccountAlreadyExists, PasswordsDontMatch, EncryptionDontWork {
         if(name == null || name.isEmpty() || pwd1 == null || pwd1.isEmpty() || pwd2 == null || pwd2.isEmpty()) {
             throw new NullParameterException();
         }
-        else if (accounts.containsKey(name)) {
+        else if (dbAccount.hasAccount(name)) {
             throw new AccountAlreadyExists();
         }
         else if (!pwd1.equals(pwd2)) {
             throw new PasswordsDontMatch();
         }
 
-        Acc acc = new Account(name, EncryptDecryptUtils.getInstance().encrypt(pwd1));
-        // TODO: add account to database instead of hashmap
-        accounts.put(name, acc);
+        dbAccount.createAccount(name,EncryptDecryptUtils.getInstance().encrypt(pwd1));
     }
 
     @Override
     public void deleteAccount(String name) throws AccountDoesNotExist, AccountIsLoggedIn, AccountIsNotLocked {
-        // TODO: change the get to a database query
-        Acc account = accounts.get(name);
+        Acc account = dbAccount.getAccount(name);
         if(account == null) {
             throw new AccountDoesNotExist();
         }
@@ -60,14 +50,12 @@ public class Authenticator implements Auth {
             throw new AccountIsNotLocked();
         }
 
-        // TODO: remove account on database instead of hashmap
-        accounts.remove(name);
+        dbAccount.deleteAccount(name);
     }
 
     @Override
     public Acc getAccount(String name) throws AccountDoesNotExist {
-        // TODO: change the get to a database query
-        Acc account = accounts.get(name);
+        Acc account = dbAccount.getAccount(name);
         if(account == null) {
             throw new AccountDoesNotExist();
         }
@@ -75,24 +63,24 @@ public class Authenticator implements Auth {
     }
 
     @Override
-    public void changePwd(String name, String pwd1, String pwd2) throws NullParameterException, PasswordsDontMatch, EncryptionDontWork {
+    public void changePwd(String name, String pwd1, String pwd2) throws NullParameterException, PasswordsDontMatch, EncryptionDontWork, AccountDoesNotExist {
         if(name == null || name.isEmpty() || pwd1 == null || pwd1.isEmpty() || pwd2 == null || pwd2.isEmpty()) {
             throw new NullParameterException();
         }
         else if (!pwd1.equals(pwd2)) {
             throw new PasswordsDontMatch();
         }
-
-        Acc acc = accounts.get(name);
+        Acc acc = dbAccount.getAccount(name);
+        if(acc == null) {
+            throw new AccountDoesNotExist();
+        }
         acc.setPassword(EncryptDecryptUtils.getInstance().encrypt(pwd1));
-        // TODO: add account to database instead of hashmap
-        accounts.replace(name, acc);
+        dbAccount.updateAccount(acc);
     }
 
     @Override
     public Acc login(String name, String pwd) throws AccountDoesNotExist, AccountIsLocked, EncryptionDontWork, AuthenticationError {
-        // TODO: change the get to a database query
-        Acc account = accounts.get(name);
+        Acc account = dbAccount.getAccount(name);
         if(account == null) {
             throw new AccountDoesNotExist();
         }
@@ -110,8 +98,9 @@ public class Authenticator implements Auth {
 
     @Override
     public void logout(Acc acc) {
-        // TODO: change the set to a database query
-        accounts.get(acc.getAccountName()).setLoggedIn(false);
+        Acc account = dbAccount.getAccount(acc.getAccountName());
+        account.setLoggedIn(false);
+        dbAccount.updateAccount(account);
     }
 
     @Override
@@ -119,8 +108,8 @@ public class Authenticator implements Auth {
         // Not sure if it is done like this
         String accountName = req.getParameter("accountName");
         String password = req.getParameter("password");
-        // TODO: change the get to a database query
-        Acc account = accounts.get(accountName);
+
+        Acc account = dbAccount.getAccount(accountName);
         if(account == null) {
             throw new AuthenticationError();
         }

@@ -27,6 +27,22 @@ public class Account implements Acc {
         this.locked = false;
     }
 
+    /**
+     * Account constructor
+     * @param accountName the account name
+     * @param password the account password
+     * @param loggedIn the account logged in status
+     * @param locked the account locked status
+     */
+    public Account(String accountName, String password, boolean loggedIn, boolean locked) {
+        this.accountName = accountName;
+        this.password = password;
+
+        // Rethink if this fields need or not to be passed as parameters
+        this.loggedIn = loggedIn;
+        this.locked = locked;
+    }
+
     @Override
     public String getAccountName() {
         return accountName;
@@ -50,5 +66,15 @@ public class Account implements Acc {
     @Override
     public boolean isLocked() {
         return locked;
+    }
+
+    @Override
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
+
+    @Override
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 }
