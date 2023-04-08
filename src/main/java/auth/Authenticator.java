@@ -63,4 +63,14 @@ public class Authenticator implements Auth {
         accounts.remove(name);
     }
 
+    @Override
+    public Acc getAccount(String name) throws AccountDoesNotExist {
+        // TODO: change the get to a database query
+        Acc account = accounts.get(name);
+        if(account == null) {
+            throw new AccountDoesNotExist();
+        }
+        return account;
+    }
+
 }

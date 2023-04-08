@@ -26,7 +26,9 @@ public interface Auth {
      * Get an account
      * @param name the account name
      * @return the account
-    Acc getAccount(String name);
+     * @throws AccountDoesNotExist if the account does not exist
+     */
+    Acc getAccount(String name) throws AccountDoesNotExist;
 
     /**
      * Change an account password
