@@ -110,7 +110,8 @@ public class Authenticator implements Auth {
 
     @Override
     public void logout(Acc acc) {
-
+        // TODO: change the set to a database query
+        accounts.get(acc.getAccountName()).setLoggedIn(false);
     }
 
     @Override
