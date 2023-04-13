@@ -82,7 +82,6 @@ public class Account implements Acc {
 
     @Override
     public String getJWT() {
-        // TODO: Implement this method - changes in JWTAccount class may be needed
-        return null;
+        return JWTAccount.createJWT(accountName);
     }
 }

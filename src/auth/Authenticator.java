@@ -3,6 +3,7 @@ package auth;
 import acc.Acc;
 import crypto.EncryptDecryptUtils;
 import exc.*;
+import jwt.JWTAccount;
 import storage.DbAccount;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -105,15 +106,13 @@ public class Authenticator implements Auth {
 
     @Override
     public Acc checkAuthenticatedRequest(HttpServletRequest req, HttpServletResponse resp) throws AuthenticationError, AccountIsLocked, EncryptionDontWork, AccountDoesNotExist {
-        // This is using session parameters.
-        // TODO: Professor wants us to use JWT instead.
-        String accountName = req.getParameter("accountName");
-        String password = req.getParameter("password");
+        String jwt = req.getSession().getAttribute("JWT").toString();
 
-        // This is using JWT
-        //  String jwt = req.getSession().getAttribute("JWT").toString();
         // Get the accountName and password from the JWT
-        // refresh the JWT
+        String accountName = (String) JWTAccount.getClaim(jwt, "subject");
+        String password = (String) JWTAccount.getClaim(jwt, "password");
+
+        // TODO: refresh the JWT
 
         Acc account = DbAccount.getInstance().getAccount(accountName);
         if(account == null) {

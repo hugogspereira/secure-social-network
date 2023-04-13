@@ -32,11 +32,7 @@ public class AuthenticateUserServlet extends HttpServlet {
             Acc authuser = auth.authenticateUser(name, pwd);
 
             HttpSession session = request.getSession(true);
-            // This is using session parameters.
-            session.setAttribute("username", authuser.getAccountName());
-            session.setAttribute("password", authuser.getPassword());
-            // TODO: Professor wants us to use JWT instead.
-            // session.setAttribute("JWT", authuser.getJWT());
+            session.setAttribute("JWT", authuser.getJWT());
         }
         catch (AccountIsLocked e) {
             e.printStackTrace();
