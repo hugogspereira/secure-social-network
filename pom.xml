@@ -41,6 +41,11 @@
             <artifactId>jaxb-api</artifactId>
             <version>2.4.0-b180725.0427</version>
         </dependency>
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.7.2</version>
+        </dependency>
 
         <!-- Should have some dependencies missing -->
     </dependencies>
