@@ -33,7 +33,7 @@ public class JWTAccount {
                 //.setNotBefore(now)  // set the time before which the token is not yet valid (created)
                 //.setExpiration(exp) // Expiration date
                 .signWith(signatureAlgorithm, signingKey);
-        // Note that we can use .set(VARIABLE_NAME, var)
+        // Note that we can use .claim(VARIABLE_NAME, var)
 
         //Builds the JWT and serializes it to a compact, URL-safe string
         return builder.compact();
