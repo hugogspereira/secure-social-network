@@ -47,6 +47,7 @@
 
     <build>
         <sourceDirectory>src</sourceDirectory>
+        <outputDirectory>WEB-INF/classes</outputDirectory>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
