@@ -77,4 +77,10 @@ public class Account implements Acc {
     public void setLocked(boolean locked) {
         this.locked = locked;
     }
+
+    @Override
+    public String getJWT() {
+        // TODO: Implement this method - changes in JWTAccount class may be needed
+        return null;
+    }
 }

@@ -43,4 +43,10 @@ public interface Acc {
      * @param locked the new locked status for the account
      */
     void setLocked(boolean locked);
+
+    /**
+     * Get the account JWT
+     * @return the account JWT
+     */
+    String getJWT();
 }

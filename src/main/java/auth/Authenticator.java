@@ -105,9 +105,15 @@ public class Authenticator implements Auth {
 
     @Override
     public Acc checkAuthenticatedRequest(HttpServletRequest req, HttpServletResponse resp) throws AuthenticationError, AccountIsLocked, EncryptionDontWork, AccountDoesNotExist {
-        // Not sure if it is done like this
+        // This is using session parameters.
+        // TODO: Professor wants us to use JWT instead.
         String accountName = req.getParameter("accountName");
         String password = req.getParameter("password");
+
+        // This is using JWT
+        //  String jwt = req.getSession().getAttribute("JWT").toString();
+        // Get the accountName and password from the JWT
+        // refresh the JWT
 
         Acc account = dbAccount.getAccount(accountName);
         if(account == null) {
