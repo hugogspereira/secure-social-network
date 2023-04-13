@@ -1,5 +1,7 @@
 package acc;
 
+import jwt.JWTAccount;
+
 /**
  * Account class - Represents a principal identity in the system.
  * @author Hugo Pereira e Daniel Cavalheiro

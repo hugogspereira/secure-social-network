@@ -8,7 +8,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class dbAccount {
+public class DbAccount {
 
     /**
      * Get a connection to the database

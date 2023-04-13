@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(name="authenticateUser", urlPatterns={"/authenticateUser"})
-public class authenticateUser extends HttpServlet {
+@WebServlet(name="AuthenticateUser", urlPatterns={"/AuthenticateUser"})
+public class AuthenticateUserServlet extends HttpServlet {
 
     private Auth auth;
 

@@ -3,7 +3,7 @@ package auth;
 import acc.Acc;
 import crypto.EncryptDecryptUtils;
 import exc.*;
-import storage.dbAccount;
+import storage.DbAccount;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,19 +27,19 @@ public class Authenticator implements Auth {
         if(name == null || name.isEmpty() || pwd1 == null || pwd1.isEmpty() || pwd2 == null || pwd2.isEmpty()) {
             throw new NullParameterException();
         }
-        else if (dbAccount.hasAccount(name)) {
+        else if (DbAccount.hasAccount(name)) {
             throw new AccountAlreadyExists();
         }
         else if (!pwd1.equals(pwd2)) {
             throw new PasswordsDontMatch();
         }
 
-        dbAccount.createAccount(name,EncryptDecryptUtils.getInstance().encrypt(pwd1));
+        DbAccount.createAccount(name,EncryptDecryptUtils.getInstance().encrypt(pwd1));
     }
 
     @Override
     public void deleteAccount(String name) throws AccountDoesNotExist, AccountIsLoggedIn, AccountIsNotLocked {
-        Acc account = dbAccount.getAccount(name);
+        Acc account = DbAccount.getAccount(name);
         if(account == null) {
             throw new AccountDoesNotExist();
         }
@@ -50,12 +50,12 @@ public class Authenticator implements Auth {
             throw new AccountIsNotLocked();
         }
 
-        dbAccount.deleteAccount(name);
+        DbAccount.deleteAccount(name);
     }
 
     @Override
     public Acc getAccount(String name) throws AccountDoesNotExist {
-        Acc account = dbAccount.getAccount(name);
+        Acc account = DbAccount.getAccount(name);
         if(account == null) {
             throw new AccountDoesNotExist();
         }
@@ -70,17 +70,17 @@ public class Authenticator implements Auth {
         else if (!pwd1.equals(pwd2)) {
             throw new PasswordsDontMatch();
         }
-        Acc acc = dbAccount.getAccount(name);
+        Acc acc = DbAccount.getAccount(name);
         if(acc == null) {
             throw new AccountDoesNotExist();
         }
         acc.setPassword(EncryptDecryptUtils.getInstance().encrypt(pwd1));
-        dbAccount.updateAccount(acc);
+        DbAccount.updateAccount(acc);
     }
 
     @Override
     public Acc authenticateUser(String name, String pwd) throws AccountDoesNotExist, AccountIsLocked, EncryptionDontWork, AuthenticationError {
-        Acc account = dbAccount.getAccount(name);
+        Acc account = DbAccount.getAccount(name);
         if(account == null) {
             throw new AccountDoesNotExist();
         }
@@ -98,9 +98,9 @@ public class Authenticator implements Auth {
 
     @Override
     public void logout(Acc acc) {
-        Acc account = dbAccount.getAccount(acc.getAccountName());
+        Acc account = DbAccount.getAccount(acc.getAccountName());
         account.setLoggedIn(false);
-        dbAccount.updateAccount(account);
+        DbAccount.updateAccount(account);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class Authenticator implements Auth {
         // Get the accountName and password from the JWT
         // refresh the JWT
 
-        Acc account = dbAccount.getAccount(accountName);
+        Acc account = DbAccount.getAccount(accountName);
         if(account == null) {
             throw new AuthenticationError();
         }
