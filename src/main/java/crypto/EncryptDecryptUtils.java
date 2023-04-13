@@ -74,21 +74,4 @@ public class EncryptDecryptUtils {
         }
     }
 
-    /**
-     * decrypt - Decrypts data.
-     * @param encryptedData the data to be decrypted
-     * @return the decrypted data
-     * @throws EncryptionDontWork if the decryption fails
-     */
-    public String decrypt(String encryptedData) throws EncryptionDontWork {
-        try {
-            Cipher c = Cipher.getInstance(ALGO);
-            c.init(Cipher.DECRYPT_MODE, instance.getKey());
-            byte[] decodedValue = java.util.Base64.getDecoder().decode(encryptedData);
-            byte[] decValue = c.doFinal(decodedValue);
-            return new String(decValue);
-        } catch (Exception e) {
-            throw new EncryptionDontWork();
-        }
-    }
 }

@@ -46,7 +46,7 @@ public interface Auth {
      * @param pwd the account password
      * @return the account
      */
-    Acc login(String name, String pwd) throws AccountDoesNotExist, AccountIsLocked, EncryptionDontWork, AuthenticationError;
+    Acc authenticateUser(String name, String pwd) throws AccountDoesNotExist, AccountIsLocked, EncryptionDontWork, AuthenticationError;
 
     /**
      * Logout an account
@@ -72,5 +72,5 @@ public interface Auth {
      * @param resp the response
      * @return the account
      */
-    Acc login(HttpServletRequest req, HttpServletResponse resp) throws AuthenticationError, AccountIsLocked, EncryptionDontWork, AccountDoesNotExist;
+    Acc checkAuthenticatedRequest(HttpServletRequest req, HttpServletResponse resp) throws AuthenticationError, AccountIsLocked, EncryptionDontWork, AccountDoesNotExist;
 }

@@ -79,7 +79,7 @@ public class Authenticator implements Auth {
     }
 
     @Override
-    public Acc login(String name, String pwd) throws AccountDoesNotExist, AccountIsLocked, EncryptionDontWork, AuthenticationError {
+    public Acc authenticateUser(String name, String pwd) throws AccountDoesNotExist, AccountIsLocked, EncryptionDontWork, AuthenticationError {
         Acc account = dbAccount.getAccount(name);
         if(account == null) {
             throw new AccountDoesNotExist();
@@ -104,7 +104,7 @@ public class Authenticator implements Auth {
     }
 
     @Override
-    public Acc login(HttpServletRequest req, HttpServletResponse resp) throws AuthenticationError, AccountIsLocked, EncryptionDontWork, AccountDoesNotExist {
+    public Acc checkAuthenticatedRequest(HttpServletRequest req, HttpServletResponse resp) throws AuthenticationError, AccountIsLocked, EncryptionDontWork, AccountDoesNotExist {
         // Not sure if it is done like this
         String accountName = req.getParameter("accountName");
         String password = req.getParameter("password");
@@ -113,7 +113,7 @@ public class Authenticator implements Auth {
         if(account == null) {
             throw new AuthenticationError();
         }
-        return login(accountName, password);
+        return authenticateUser(accountName, password);
     }
 
 
