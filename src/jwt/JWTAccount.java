@@ -12,22 +12,40 @@ import io.jsonwebtoken.impl.crypto.MacProvider;
 
 public class JWTAccount {
 
-    private static final Key secret = MacProvider.generateKey(SignatureAlgorithm.HS256);
-    private static final byte[] secretBytes = secret.getEncoded();
-    // Note that in the code provided, the base64SecretBytes is apiKey.getSecret()
-    private static final String base64SecretBytes = Base64.getEncoder().encodeToString(secretBytes);
-
     /**
      * The defined issuer for this JWTs
      */
     private static final String ISSUER = "secure-rest-api";
+    /**
+     * The secret bytes used to sign the token
+     */
+    private String base64SecretBytes;
+
+    /**
+     * The singleton instance
+     */
+    private static JWTAccount instance;
+
+    public static JWTAccount getInstance() {
+        if(instance == null) {
+            instance = new JWTAccount();
+        }
+        return instance;
+    }
+
+    public JWTAccount() {
+        Key secret = MacProvider.generateKey(SignatureAlgorithm.HS256);
+        byte[] secretBytes = secret.getEncoded();
+        // Note that in the code provided, the base64SecretBytes is apiKey.getSecret()
+        base64SecretBytes = Base64.getEncoder().encodeToString(secretBytes);
+    }
 
     /**
      * Create a JWT
      * @param subject identifies the principal that is the subject of the JWT (e.g. "user1")
      * @return the JWT
      */
-    public static String createJWT(String subject) {
+    public String createJWT(String subject) {
         //The JWT signature algorithm used to sign the token
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
@@ -59,7 +77,7 @@ public class JWTAccount {
      * Parse a JWT
      * @param jwt the JWT
      */
-    public static void parseJWT(String jwt) {
+    public void parseJWT(String jwt) {
         Claims claims = Jwts.parser()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(base64SecretBytes))
                 .parseClaimsJws(jwt).getBody();
@@ -81,7 +99,7 @@ public class JWTAccount {
      * @param claim the claim
      * @return the claim value
      */
-    public static Object getClaim(String jwt, String claim) {
+    public Object getClaim(String jwt, String claim) {
         return Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(base64SecretBytes))
                 .parseClaimsJws(jwt).getBody().get(claim);
     }
