@@ -107,11 +107,7 @@ public class Authenticator implements Auth {
 
     @Override
     public Acc checkAuthenticatedRequest(HttpServletRequest req, HttpServletResponse resp) throws AuthenticationError, AccountIsLocked, EncryptionDontWork, AccountDoesNotExist {
-        Object jwtObj = req.getSession().getAttribute("JWT");
-        if(jwtObj == null) {
-            throw new JwtException("JWT not found");
-        }
-        String jwt = jwtObj.toString();
+        String jwt = req.getSession().getAttribute("JWT").toString();
 
         // Get the accountName and password from the JWT
         String accountName = (String) JWTAccount.getInstance().getClaim(jwt, "subject");
