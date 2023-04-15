@@ -2,10 +2,7 @@ package storage;
 
 import acc.Acc;
 import acc.Account;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 public class DbAccount {
 
@@ -32,14 +29,20 @@ public class DbAccount {
      * The constructor of the DbAccount class
      */
     public DbAccount() {
+        Connection conn = getConnection();
         try {
-            Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("CREATE TABLE IF NOT EXISTS accounts (accountName VARCHAR(255), password VARCHAR(255), loggedIn INTEGER, locked INTEGER)");
             ps.executeUpdate();
-            conn.close();
         }
         catch (Exception e) {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -49,7 +52,6 @@ public class DbAccount {
      */
     public static Connection getConnection() {
         try {
-            // TODO
             Class.forName("org.sqlite.JDBC");
             String sqliteConn = "jdbc:sqlite:SQLite.db";
             return DriverManager.getConnection(sqliteConn);
@@ -67,18 +69,24 @@ public class DbAccount {
      * @param password the account password
      */
     public void createAccount(String accountName, String password) {
+        Connection conn = getConnection();
         try {
-            Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO accounts (accountName, password, loggedIn, locked) VALUES (?, ?, ?, ?)");
             ps.setString(1, accountName);
             ps.setString(2, password);
             ps.setInt(3, FALSE);
             ps.setInt(4, FALSE);
             ps.executeUpdate();
-            conn.close();
         }
         catch (Exception e) {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -87,8 +95,8 @@ public class DbAccount {
      * @param accountName the account name
      */
     public Acc getAccount(String accountName) {
+        Connection conn = getConnection();
         try {
-            Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM accounts WHERE accountName = ?");
             ps.setString(1, accountName);
             ResultSet rs = ps.executeQuery();
@@ -105,6 +113,13 @@ public class DbAccount {
         catch (Exception e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         return null;
     }
 
@@ -113,8 +128,8 @@ public class DbAccount {
      * @param accountName the account name
      */
     public boolean hasAccount(String accountName) {
+        Connection conn = getConnection();
         try {
-            Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM accounts WHERE accountName = ?");
             ps.setString(1, accountName);
             ResultSet rs = ps.executeQuery();
@@ -127,6 +142,13 @@ public class DbAccount {
         catch (Exception e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         return false;
     }
 
@@ -135,8 +157,8 @@ public class DbAccount {
      * @param accountName the account name
      */
     public void deleteAccount(String accountName) {
+        Connection conn = getConnection();
         try {
-            Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("DELETE FROM accounts WHERE accountName = ?");
             ps.setString(1, accountName);
             ps.executeUpdate();
@@ -145,6 +167,13 @@ public class DbAccount {
         catch (Exception e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -152,8 +181,8 @@ public class DbAccount {
      * @param acc the account
      */
     public void updateAccount(Acc acc) {
+        Connection conn = getConnection();
         try {
-            Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("UPDATE accounts SET password = ?, loggedIn = ?, locked = ? WHERE accountName = ?");
             ps.setString(1, acc.getPassword());
             if(acc.isLoggedIn()) {
@@ -174,6 +203,13 @@ public class DbAccount {
         }
         catch (Exception e) {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
