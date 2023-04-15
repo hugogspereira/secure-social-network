@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ddcdfb2e-c3b4-4c7a-9f85-933d86f6f63c" name="Changes" comment="quick fix on db">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2ONaN9H6Ey6bO0D7EPnKyVdKUwg" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/hugog/Downloads/apache-tomcat-9.0.73-windows-x64/apache-tomcat-9.0.73/webapps/seg-soft",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "spring.configuration.checksum": "46f86faa6bbf9ac94a7e459509a20ed0",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
+    ]
+  }
+}]]></component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn compile" />
+      <command value="mvn clean" />
+      <command value="/AuthenticateUser" />
+      <command value="mvn clean compile" />
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Tomcat Server" type="ShConfigurationType">
+      <option name="SCRIPT_TEXT" value="" />
+      <option name="INDEPENDENT_SCRIPT_PATH" value="false" />
+      <option name="SCRIPT_PATH" value="$PROJECT_DIR$/../../bin/catalina.bat" />
+      <option name="SCRIPT_OPTIONS" value="run" />
+      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="false" />
+      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+      <option name="INTERPRETER_PATH" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="EXECUTE_IN_TERMINAL" value="true" />
+      <option name="EXECUTE_SCRIPT_FILE" value="true" />
+      <envs />
+      <method v="2">
+        <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="compile" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ddcdfb2e-c3b4-4c7a-9f85-933d86f6f63c" name="Changes" comment="" />
+      <created>1681403450184</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1681403450184</updated>
+      <workItem from="1681403451285" duration="2038000" />
+      <workItem from="1681420148351" duration="8505000" />
+      <workItem from="1681559854612" duration="14312000" />
+      <workItem from="1681574856892" duration="3248000" />
+      <workItem from="1681579992500" duration="220000" />
+      <workItem from="1681580257168" duration="947000" />
+      <workItem from="1681581208906" duration="579000" />
+      <workItem from="1681590775950" duration="84000" />
+      <workItem from="1681590994831" duration="466000" />
+    </task>
+    <task id="LOCAL-00001" summary="changes due to configuring sqlite">
+      <created>1681423077247</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1681423077247</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Changes due to JWT">
+      <created>1681424937597</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1681424937597</updated>
+    </task>
+    <task id="LOCAL-00003" summary="started LogoutServlet">
+      <created>1681425309614</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1681425309614</updated>
+    </task>
+    <task id="LOCAL-00004" summary="worked on AuthenticateUser">
+      <created>1681561141061</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1681561141062</updated>
+    </task>
+    <task id="LOCAL-00005" summary="small fix">
+      <created>1681562316227</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1681562316227</updated>
+    </task>
+    <task id="LOCAL-00006" summary="createAcc and deleteAcc (both jsp and Servlet)">
+      <created>1681565243869</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1681565243869</updated>
+    </task>
+    <task id="LOCAL-00007" summary="changes in jwt (singleton)">
+      <created>1681571141139</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1681571141139</updated>
+    </task>
+    <task id="LOCAL-00008" summary="logout (jsp and servlet)">
+      <created>1681571184531</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1681571184531</updated>
+    </task>
+    <task id="LOCAL-00009" summary="changePwd (jsp and servlet)">
+      <created>1681572117062</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1681572117062</updated>
+    </task>
+    <task id="LOCAL-00010" summary="manageUsers (jsp and servlet)">
+      <created>1681574616039</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1681574616039</updated>
+    </task>
+    <task id="LOCAL-00011" summary="changes servlet (some logic from doPost went to doGet)">
+      <created>1681574786900</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1681574786901</updated>
+    </task>
+    <task id="LOCAL-00012" summary="prevent exception">
+      <created>1681575137091</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1681575137091</updated>
+    </task>
+    <task id="LOCAL-00013" summary="remove comments">
+      <created>1681575951881</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1681575951881</updated>
+    </task>
+    <task id="LOCAL-00014" summary="quick fix">
+      <created>1681577658293</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1681577658293</updated>
+    </task>
+    <task id="LOCAL-00015" summary="added root to db">
+      <created>1681580272193</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1681580272194</updated>
+    </task>
+    <task id="LOCAL-00016" summary="changes to db">
+      <created>1681581419624</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1681581419624</updated>
+    </task>
+    <task id="LOCAL-00017" summary="quick fix on db">
+      <created>1681590851842</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1681590851842</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="changes due to configuring sqlite" />
+    <MESSAGE value="Changes due to JWT" />
+    <MESSAGE value="started LogoutServlet" />
+    <MESSAGE value="worked on AuthenticateUser" />
+    <MESSAGE value="small fix" />
+    <MESSAGE value="createAcc and deleteAcc (both jsp and Servlet)" />
+    <MESSAGE value="changes in jwt (singleton)" />
+    <MESSAGE value="logout (jsp and servlet)" />
+    <MESSAGE value="changePwd (jsp and servlet)" />
+    <MESSAGE value="manageUsers (jsp and servlet)" />
+    <MESSAGE value="changes servlet (some logic from doPost went to doGet)" />
+    <MESSAGE value="prevent exception" />
+    <MESSAGE value="remove comments" />
+    <MESSAGE value="quick fix" />
+    <MESSAGE value="added root to db" />
+    <MESSAGE value="changes to db" />
+    <MESSAGE value="quick fix on db" />
+    <option name="LAST_COMMIT_MESSAGE" value="quick fix on db" />
+  </component>
+</project>
