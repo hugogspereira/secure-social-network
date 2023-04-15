@@ -39,7 +39,9 @@ public class DbAccount {
         }
         finally {
             try {
-                conn.close();
+                if(conn != null) {
+                    conn.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -83,7 +85,9 @@ public class DbAccount {
         }
         finally {
             try {
-                conn.close();
+                if(conn != null) {
+                    conn.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -115,7 +119,9 @@ public class DbAccount {
         }
         finally {
             try {
-                conn.close();
+                if(conn != null) {
+                    conn.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -144,7 +150,9 @@ public class DbAccount {
         }
         finally {
             try {
-                conn.close();
+                if(conn != null) {
+                    conn.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -169,7 +177,9 @@ public class DbAccount {
         }
         finally {
             try {
-                conn.close();
+                if(conn != null) {
+                    conn.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -206,7 +216,9 @@ public class DbAccount {
         }
         finally {
             try {
-                conn.close();
+                if(conn != null) {
+                    conn.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
