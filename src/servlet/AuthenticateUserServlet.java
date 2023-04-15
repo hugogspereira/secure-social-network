@@ -40,7 +40,7 @@ public class AuthenticateUserServlet extends HttpServlet {
 
             HttpSession session = request.getSession(true);
             session.setAttribute("JWT", authUser.getJWT());
-            response.sendRedirect(request.getContextPath() + "/manageusers");
+            response.sendRedirect(request.getContextPath() + "/ManageUsers");
         }
         catch (AuthenticationError e) {
             request.setAttribute("errorMessage", "Invalid username or password");

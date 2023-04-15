@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Login</h1>
-    <form action="/AuthenticateUser" method="post">
+    <form action="/seg-soft/AuthenticateUser" method="post">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
         <br><br>
