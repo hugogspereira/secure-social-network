@@ -25,19 +25,38 @@ public class CreateAccServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
-    }
-
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            // TODO: "(should only work for “root”)" - does it means root needs to be authenticated?
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
 
             // Only allow root user to create accounts
             if (!authUser.getAccountName().equals("root")) {
-                response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                request.setAttribute("errorMessage", "Do not have permission to delete accounts");
+                request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
                 return;
             }
+            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
+        }
+        catch (AuthenticationError e) {
+            request.setAttribute("errorMessage", "Invalid username or password");
+            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+        }
+        catch (AccountIsLocked e) {
+            request.setAttribute("errorMessage", "Your account is locked");
+            request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
+        }
+        catch (EncryptionDontWork e) {
+            request.setAttribute("errorMessage", "Problems with encryption");
+            request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
+        }
+        catch (AccountDoesNotExist e) {
+            request.setAttribute("errorMessage", "The Root account does not exist");
+            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+        }
+    }
 
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
             String username = request.getParameter("username");
             String password1 = request.getParameter("password1");
             String password2 = request.getParameter("password2");
@@ -46,22 +65,9 @@ public class CreateAccServlet extends HttpServlet {
 
             // Redirect to home page after successful account creation
             response.sendRedirect(request.getContextPath() + "/manageUsers.jsp");
-
-        }
-        catch (AuthenticationError e) {
-            request.setAttribute("errorMessage", "Invalid username or password");
-            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
-        }
-        catch (AccountIsLocked e) {
-            request.setAttribute("errorMessage", "Your account is locked");
-            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
         }
         catch (EncryptionDontWork e) {
             request.setAttribute("errorMessage", "Problems with encryption");
-            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
-        }
-        catch (AccountDoesNotExist e) {
-            request.setAttribute("errorMessage", "The Root account does not exist");
             request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
         }
         catch (AccountAlreadyExists e) {
