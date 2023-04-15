@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,6 +45,6 @@
             <input type="submit" value="Create Account">
         </div>
     </form>
-    <p><a href="authenticateUser.jsp">Back to Home Page</a></p>
+    <p><a href="${pageContext.request.contextPath}/ManageUsers">Cancel</a></p>
 </body>
 </html>

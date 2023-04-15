@@ -20,6 +20,6 @@
 <body>
     <h1>Logout</h1>
     <p>You have been successfully logged out.</p>
-    <p><a href="authenticateUser.jsp">Back to Login Page</a></p>
+    <p><a href="${pageContext.request.contextPath}/AuthenticateUser">Back to Login Page</a></p>
 </body>
 </html>
