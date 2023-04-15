@@ -21,8 +21,6 @@ public class ManageUsersServlet extends HttpServlet {
     @Override
     public void init() {
         auth =  new Authenticator();
-        // Not sure if it is done in that way or like this:
-        // (Auth) getServletContext().getAttribute("authenticator");
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
