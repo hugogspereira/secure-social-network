@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Change Password</title>
+    <title>Change Password Page</title>
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
