@@ -70,15 +70,15 @@ public class CreateAccServlet extends HttpServlet {
         }
         catch (AccountAlreadyExists e) {
             request.setAttribute("errorMessage", "Username already exists");
-            request.getRequestDispatcher("/WEB-INF/createUser.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
         }
         catch (PasswordsDontMatch e) {
             request.setAttribute("errorMessage", "Passwords do not match");
-            request.getRequestDispatcher("/WEB-INF/createUser.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
         }
         catch (NullParameterException e) {
             request.setAttribute("errorMessage", "Please fill out all fields");
-            request.getRequestDispatcher("/WEB-INF/createUser.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
         }
     }
 }
