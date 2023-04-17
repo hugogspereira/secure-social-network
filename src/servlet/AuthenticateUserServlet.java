@@ -3,10 +3,8 @@ package servlet;
 import acc.Acc;
 import auth.Auth;
 import auth.Authenticator;
-import exc.AccountDoesNotExist;
-import exc.AccountIsLocked;
-import exc.AuthenticationError;
-import exc.EncryptionDontWork;
+import exc.*;
+import storage.DbAccount;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +36,7 @@ public class AuthenticateUserServlet extends HttpServlet {
 
             HttpSession session = request.getSession(true);
             session.setAttribute("JWT", authUser.getJWT());
-            response.sendRedirect(request.getContextPath() + "/ManageUsers");
+            request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
         }
         catch (AuthenticationError e) {
             request.setAttribute("errorMessage", "Invalid username or password");

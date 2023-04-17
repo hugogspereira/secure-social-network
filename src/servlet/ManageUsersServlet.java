@@ -29,13 +29,16 @@ public class ManageUsersServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
         }
         catch (AuthenticationError e) {
-            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
-        } catch (AccountIsLocked e) {
-            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
-        } catch (EncryptionDontWork e) {
-            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
-        } catch (AccountDoesNotExist e) {
-            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
+            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+        }
+        catch (AccountIsLocked e) {
+            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+        }
+        catch (EncryptionDontWork e) {
+            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+        }
+        catch (AccountDoesNotExist e) {
+            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
         }
     }
 }

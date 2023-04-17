@@ -25,7 +25,7 @@
 </head>
 <body>
 <h1>Login</h1>
-<form action="${pageContext.request.contextPath}/AuthenticateUser" method="post">
+<form action="/seg-soft/AuthenticateUser" method="post">
     <div>
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
@@ -39,6 +39,5 @@
         <input type="submit" value="Submit">
     </div>
 </form>
-<p> ${pageContext.getAttribute("errorMessage")}</p>
 </body>
 </html>

@@ -4,8 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddcdfb2e-c3b4-4c7a-9f85-933d86f6f63c" name="Changes" comment="quick fix on db">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+    <list default="true" id="ddcdfb2e-c3b4-4c7a-9f85-933d86f6f63c" name="Changes" comment="change gitignore">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/authenticateUser.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/authenticateUser.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/acc/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/acc/Account.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/auth/Authenticator.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/auth/Authenticator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/jwt/JWTAccount.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/jwt/JWTAccount.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/AuthenticateUserServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/AuthenticateUserServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/ChangePwdServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/ChangePwdServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/CreateAccServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/CreateAccServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/ManageUsersServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/ManageUsersServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/storage/DbAccount.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/storage/DbAccount.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/manageUsers.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/manageUsers.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/acc/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/acc/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/auth/Authenticator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth/Authenticator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jwt/JWTAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jwt/JWTAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/AuthenticateUserServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/AuthenticateUserServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/ChangePwdServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/ChangePwdServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/CreateAccServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/CreateAccServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/ManageUsersServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/ManageUsersServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/storage/DbAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/storage/DbAccount.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +62,9 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "preferences.pluginManager",
     "spring.configuration.checksum": "46f86faa6bbf9ac94a7e459509a20ed0",
     "vue.rearranger.settings.migration": "true"
@@ -54,6 +75,13 @@
     ]
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\hugog\Downloads\apache-tomcat-9.0.73-windows-x64\apache-tomcat-9.0.73\webapps\seg-soft" />
+      <recent name="C:\Users\hugog\Downloads\apache-tomcat-9.0.73-windows-x64\apache-tomcat-9.0.73\webapps\seg-soft\WEB-INF" />
+      <recent name="C:\Users\hugog\Downloads\apache-tomcat-9.0.73-windows-x64\apache-tomcat-9.0.73\webapps\seg-soft\WEB-INF\lib" />
+    </key>
+  </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn compile" />
@@ -98,6 +126,9 @@
       <workItem from="1681581208906" duration="579000" />
       <workItem from="1681590775950" duration="84000" />
       <workItem from="1681590994831" duration="466000" />
+      <workItem from="1681720206160" duration="36000" />
+      <workItem from="1681743948797" duration="320000" />
+      <workItem from="1681744285806" duration="4621000" />
     </task>
     <task id="LOCAL-00001" summary="changes due to configuring sqlite">
       <created>1681423077247</created>

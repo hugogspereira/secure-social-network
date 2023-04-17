@@ -110,7 +110,7 @@ public class Authenticator implements Auth {
         String jwt = req.getSession().getAttribute("JWT").toString();
 
         // Get the accountName and password from the JWT
-        String accountName = (String) JWTAccount.getInstance().getClaim(jwt, "subject");
+        String accountName = (String) JWTAccount.getInstance().getClaim(jwt, "accountName");
         String password = (String) JWTAccount.getInstance().getClaim(jwt, "password");
 
         // TODO: refresh the JWT
@@ -119,7 +119,7 @@ public class Authenticator implements Auth {
         if(account == null) {
             throw new AuthenticationError();
         }
-        return authenticateUser(accountName, password);
+        return account;
     }
 
 

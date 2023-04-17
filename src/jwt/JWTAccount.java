@@ -45,7 +45,7 @@ public class JWTAccount {
      * @param subject identifies the principal that is the subject of the JWT (e.g. "user1")
      * @return the JWT
      */
-    public String createJWT(String subject) {
+    public String createJWT(String subject, String password) {
         //The JWT signature algorithm used to sign the token
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
@@ -61,7 +61,8 @@ public class JWTAccount {
                 .setId(id) // is an optional claim that provides a unique identifier, UUID has very low probability of collision
                 .setSubject(subject)
                 .setIssuer(ISSUER)
-                .claim("password", "password")
+                .claim("accountName", subject)
+                .claim("password", password)
                 .signWith(signatureAlgorithm, signingKey);
 
         // TODO: add these claims for the expiration date and time

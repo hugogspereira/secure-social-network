@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "ChangePwd", urlPatterns = {"/ChangePwd"})
+@WebServlet(name = "ChangePwd", urlPatterns = {"/ChangePassword"})
 public class ChangePwdServlet extends HttpServlet {
 
     private Auth auth;

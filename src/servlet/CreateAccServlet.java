@@ -4,6 +4,7 @@ import acc.Acc;
 import auth.Auth;
 import auth.Authenticator;
 import exc.*;
+import storage.DbAccount;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -62,7 +63,7 @@ public class CreateAccServlet extends HttpServlet {
             auth.createAccount(username, password1, password2);
 
             // Redirect to home page after successful account creation
-            response.sendRedirect(request.getContextPath() + "/manageUsers.jsp");
+            request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
         }
         catch (EncryptionDontWork e) {
             request.setAttribute("errorMessage", "Problems with encryption");

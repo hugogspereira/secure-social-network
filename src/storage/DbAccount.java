@@ -109,17 +109,16 @@ public class DbAccount {
                 Acc acc = new Account(rs.getString("accountName"), rs.getString("password"));
                 acc.setLoggedIn(rs.getBoolean("loggedIn"));
                 acc.setLocked(rs.getBoolean("locked"));
-
+                conn.close();
                 return acc;
             }
-            conn.close();
         }
         catch (Exception e) {
             e.printStackTrace();
         }
         finally {
             try {
-                if(conn != null) {
+                if(conn != null && !conn.isClosed()) {
                     conn.close();
                 }
             } catch (SQLException e) {
@@ -209,6 +208,32 @@ public class DbAccount {
             }
             ps.setString(4, acc.getAccountName());
             ps.executeUpdate();
+            conn.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if(conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // Good for debug
+    public void viewRows() {
+        Connection conn = getConnection();
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM accounts");
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                System.out.println("Account Name: " + rs.getString("accountName") + " Password: " + rs.getString("password") + " Logged In: " + rs.getInt("loggedIn") + " Locked: " + rs.getInt("locked"));
+            }
             conn.close();
         }
         catch (Exception e) {

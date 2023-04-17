@@ -20,8 +20,8 @@
 <body>
     <h1>Manage Users</h1>
     <ul>
-        <li><a href="<%=request.getContextPath()%>/CreateUser">Create User</a></li>
-        <li><a href="<%=request.getContextPath()%>/DeleteUser">Delete User</a></li>
+        <li><a href="<%=request.getContextPath()%>/CreateAccount">Create User</a></li>
+        <li><a href="<%=request.getContextPath()%>/DeleteAccount">Delete User</a></li>
         <li><a href="<%=request.getContextPath()%>/ChangePassword">Change Password</a></li>
         <li><a href="<%=request.getContextPath()%>/Logout">Logout</a></li>
     </ul>
