@@ -55,7 +55,7 @@ public class DbAccount {
     public static Connection getConnection() {
         try {
             Class.forName("org.sqlite.JDBC");
-            String sqliteConn = "jdbc:sqlite:SQLite.db";
+            String sqliteConn = "jdbc:sqlite:../webapps/seg-soft/SQLite.db";
             return DriverManager.getConnection(sqliteConn);
         }
         catch (Exception e) {
