@@ -34,7 +34,7 @@ public class DeleteAccServlet extends HttpServlet {
 
             // Only allow root user to delete accounts
             if (!authUser.getAccountName().equals("root")) {
-                logger.log(Level.WARNING, "User does not have permission to delete accounts");
+                logger.log(Level.WARNING, "User '" + authUser.getAccountName() + "'does not have permission to delete accounts");
                 request.setAttribute("errorMessage", "Do not have permission to delete accounts");
                 response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
                 return;
