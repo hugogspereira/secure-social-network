@@ -32,27 +32,27 @@ public class ChangePwdServlet extends HttpServlet {
         try {
             authUser = auth.checkAuthenticatedRequest(request, response);
             request.getRequestDispatcher("/WEB-INF/changePwd.jsp").forward(request, response);
-            logger.log(Level.INFO, "User is trying to change password");
+            logger.log(Level.INFO, "User" + authUser.getAccountName() + " is trying to change password");
         }
         catch (AuthenticationError e) {
-            request.setAttribute("errorMessage", "Invalid username or password");
             logger.log(Level.WARNING, "Invalid username or password");
-            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+            request.setAttribute("errorMessage", "Invalid username or password");
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
         catch (AccountIsLocked e) {
-            request.setAttribute("errorMessage", "Your account is locked");
             logger.log(Level.WARNING, "Account is locked");
-            request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
+            request.setAttribute("errorMessage", "Your account is locked");
+            response.sendRedirect(request.getContextPath() + "/ManageUsers");
         }
         catch (EncryptionDontWork e) {
-            request.setAttribute("errorMessage", "Problems with encryption");
             logger.log(Level.SEVERE, "Problems with encryption");
-            request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
+            request.setAttribute("errorMessage", "Problems with encryption");
+            response.sendRedirect(request.getContextPath() + "/ManageUsers");
         }
         catch (AccountDoesNotExist e) {
             request.setAttribute("errorMessage", "The Root account does not exist");
             logger.log(Level.WARNING, "The account does not exist");
-            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
     }
 
@@ -64,11 +64,11 @@ public class ChangePwdServlet extends HttpServlet {
             auth.changePwd(authUser.getAccountName(), password1, password2);
 
             // Redirect to home page after successful password change
-            response.sendRedirect(request.getContextPath() + "/manageUsers.jsp");
+            response.sendRedirect(request.getContextPath() + "/ManageUsers");
         }
         catch (EncryptionDontWork e) {
             request.setAttribute("errorMessage", "Problems with encryption");
-            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
         catch (PasswordsDontMatch e) {
             request.setAttribute("errorMessage", "New passwords do not match");
@@ -80,7 +80,7 @@ public class ChangePwdServlet extends HttpServlet {
         }
         catch (AccountDoesNotExist e) {
             request.setAttribute("errorMessage", "The Root account does not exist");
-            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
     }
 }

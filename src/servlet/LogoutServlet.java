@@ -27,6 +27,7 @@ public class LogoutServlet extends HttpServlet {
     @Override
     public void init() {
         auth =  new Authenticator();
+        logger = Logger.getLogger(LogoutServlet.class.getName());
         logger.setLevel(Level.FINE);
     }
 
@@ -39,22 +40,22 @@ public class LogoutServlet extends HttpServlet {
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username or password");
-            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
         catch (AccountIsLocked e) {
             logger.log(Level.WARNING, "Account is locked");
             request.setAttribute("errorMessage", "Your account is locked");
-            request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/ManageUsers");
         }
         catch (EncryptionDontWork e) {
             logger.log(Level.SEVERE, "Problems with encryption");
             request.setAttribute("errorMessage", "Problems with encryption");
-            request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/ManageUsers");
         }
         catch (AccountDoesNotExist e) {
             logger.log(Level.WARNING, "The account does not exist");
             request.setAttribute("errorMessage", "The account does not exist");
-            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
     }
 

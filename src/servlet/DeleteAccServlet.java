@@ -34,9 +34,9 @@ public class DeleteAccServlet extends HttpServlet {
 
             // Only allow root user to delete accounts
             if (!authUser.getAccountName().equals("root")) {
-                request.setAttribute("errorMessage", "Do not have permission to delete accounts");
                 logger.log(Level.WARNING, "User does not have permission to delete accounts");
-                request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+                request.setAttribute("errorMessage", "Do not have permission to delete accounts");
+                response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
                 return;
             }
             request.getRequestDispatcher("/WEB-INF/deleteAcc.jsp").forward(request, response);
@@ -44,19 +44,19 @@ public class DeleteAccServlet extends HttpServlet {
         } catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username or password");
-            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         } catch (AccountIsLocked e) {
             logger.log(Level.WARNING, "Account is locked");
             request.setAttribute("errorMessage", "Your account is locked");
-            request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/ManageUsers");
         } catch (EncryptionDontWork e) {
             logger.log(Level.SEVERE, "Problems with encryption");
             request.setAttribute("errorMessage", "Problems with encryption");
-            request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/ManageUsers");
         } catch (AccountDoesNotExist e) {
             logger.log(Level.SEVERE, "The Root account does not exist");
             request.setAttribute("errorMessage", "The Root account does not exist");
-            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
     }
 
@@ -68,20 +68,20 @@ public class DeleteAccServlet extends HttpServlet {
             logger.log(Level.INFO, "Account deleted: '" + username + "'");
 
             // Redirect to home page after successful account deletion
-            response.sendRedirect(request.getContextPath() + "/manageUsers.jsp");
+            response.sendRedirect(request.getContextPath() + "/ManageUsers");
 
         } catch (AccountIsNotLocked e) {
             logger.log(Level.WARNING, "The account is not locked");
             request.setAttribute("errorMessage", "The account is not locked");
-            request.getRequestDispatcher("/WEB-INF/managerUsers.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/ManageUsers");
         } catch (AccountIsLoggedIn e) {
             logger.log(Level.WARNING, "The account is logged in");
             request.setAttribute("errorMessage", "The account is logged in");
-            request.getRequestDispatcher("/WEB-INF/managerUsers.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/ManageUsers");
         } catch (AccountDoesNotExist e) {
             logger.log(Level.WARNING, "The account does not exist");
             request.setAttribute("errorMessage", "The account does not exist");
-            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
     }
 }

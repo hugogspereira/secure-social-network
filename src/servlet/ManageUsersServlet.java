@@ -36,19 +36,19 @@ public class ManageUsersServlet extends HttpServlet {
         }
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
-            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
         catch (AccountIsLocked e) {
-            logger.log(Level.WARNING, "Account is locked");;
-            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+            logger.log(Level.WARNING, "Account is locked");
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
         catch (EncryptionDontWork e) {
             logger.log(Level.SEVERE, "Problems with encryption");
-            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
         catch (AccountDoesNotExist e) {
             logger.log(Level.WARNING, "The account does not exist");
-            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
     }
 }
