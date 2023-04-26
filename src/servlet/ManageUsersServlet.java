@@ -1,5 +1,6 @@
 package servlet;
 
+import acc.Acc;
 import auth.Auth;
 import auth.Authenticator;
 import exc.AccountDoesNotExist;
@@ -30,9 +31,13 @@ public class ManageUsersServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
-            auth.checkAuthenticatedRequest(request, response);
-            logger.log(Level.INFO, "User is trying to manage users");
-            request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
+            Acc authUser = auth.checkAuthenticatedRequest(request, response);
+            logger.log(Level.INFO, "User '" + authUser.getAccountName() + "' is trying to manage users");
+
+            if (authUser.getAccountName().equals("root"))
+                request.getRequestDispatcher("/WEB-INF/manageUsersRoot.jsp").forward(request, response);
+            else
+                request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
         }
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");

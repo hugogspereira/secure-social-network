@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Manage Users Page</title>
+    <title>Manage Users Page For Root</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -18,10 +18,12 @@
     </style>
 </head>
 <body>
-<h1>Manage Users</h1>
-<ul>
-    <li><a href="<%=request.getContextPath()%>/ChangePassword">Change Password</a></li>
-    <li><a href="<%=request.getContextPath()%>/Logout">Logout</a></li>
-</ul>
+    <h1>Manage Users For Root</h1>
+    <ul>
+        <li><a href="<%=request.getContextPath()%>/CreateAccount">Create User</a></li>
+        <li><a href="<%=request.getContextPath()%>/DeleteAccount">Delete User</a></li>
+        <li><a href="<%=request.getContextPath()%>/ChangePassword">Change Password</a></li>
+        <li><a href="<%=request.getContextPath()%>/Logout">Logout</a></li>
+    </ul>
 </body>
 </html>

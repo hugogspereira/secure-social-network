@@ -36,7 +36,7 @@ public class CreateAccServlet extends HttpServlet {
             // Only allow root user to create accounts
             if (!authUser.getAccountName().equals("root")) {
                 request.setAttribute("errorMessage", "Do not have permission to create accounts");
-                logger.log(Level.WARNING, "User " + authUser.getAccountName() + " does not have permission to delete accounts");
+                logger.log(Level.WARNING, "User '" + authUser.getAccountName() + "' does not have permission to delete accounts");
                 response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
                 return;
             }
