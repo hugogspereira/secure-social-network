@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 public class LogoutServlet extends HttpServlet {
 
     private Auth auth;
-    private Acc authUser;
     private Logger logger;
 
     @Override
@@ -33,8 +32,14 @@ public class LogoutServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
-            authUser = auth.checkAuthenticatedRequest(request, response);
+            Acc authUser = auth.checkAuthenticatedRequest(request, response);
             logger.log(Level.INFO, "User '" + authUser.getAccountName() + "' is trying to logout");
+            auth.logout(authUser);
+            logger.log(Level.INFO, "User '" + authUser.getAccountName() + "' has logged out");
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                session.invalidate();
+            }
             request.getRequestDispatcher("/WEB-INF/logout.jsp").forward(request, response);
         }
         catch (AuthenticationError e) {
@@ -58,17 +63,4 @@ public class LogoutServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
     }
-
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        auth.logout(authUser);
-        logger.log(Level.INFO, "User '" + authUser.getAccountName() + "' has logged out");
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
-
-        // Redirect to login page after successful logout
-        response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
-    }
-
 }
