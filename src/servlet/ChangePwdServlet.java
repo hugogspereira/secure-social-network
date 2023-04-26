@@ -10,38 +10,48 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet(name = "ChangePwd", urlPatterns = {"/ChangePassword"})
 public class ChangePwdServlet extends HttpServlet {
 
     private Auth auth;
     private Acc authUser;
+    private Logger logger;
 
     @Override
     public void init() {
         auth = new Authenticator();
         authUser = null;
+        logger = Logger.getLogger(ChangePwdServlet.class.getName());
+        logger.setLevel(Level.FINE);
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             authUser = auth.checkAuthenticatedRequest(request, response);
             request.getRequestDispatcher("/WEB-INF/changePwd.jsp").forward(request, response);
+            logger.log(Level.INFO, "User is trying to change password");
         }
         catch (AuthenticationError e) {
             request.setAttribute("errorMessage", "Invalid username or password");
+            logger.log(Level.WARNING, "Invalid username or password");
             request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
         }
         catch (AccountIsLocked e) {
             request.setAttribute("errorMessage", "Your account is locked");
+            logger.log(Level.WARNING, "Account is locked");
             request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
         }
         catch (EncryptionDontWork e) {
             request.setAttribute("errorMessage", "Problems with encryption");
+            logger.log(Level.SEVERE, "Problems with encryption");
             request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
         }
         catch (AccountDoesNotExist e) {
             request.setAttribute("errorMessage", "The Root account does not exist");
+            logger.log(Level.WARNING, "The account does not exist");
             request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
         }
     }

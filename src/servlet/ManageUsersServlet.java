@@ -12,32 +12,42 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet(name="ManageUsers", urlPatterns={"/ManageUsers"})
 public class ManageUsersServlet extends HttpServlet {
 
     private Auth auth;
+    private Logger logger;
 
     @Override
     public void init() {
         auth =  new Authenticator();
+        logger = Logger.getLogger(ManageUsersServlet.class.getName());
+        logger.setLevel(Level.FINE);
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
             auth.checkAuthenticatedRequest(request, response);
+            logger.log(Level.INFO, "User is trying to manage users");
             request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
         }
         catch (AuthenticationError e) {
+            logger.log(Level.WARNING, "Invalid username or password");
             request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
         }
         catch (AccountIsLocked e) {
+            logger.log(Level.WARNING, "Account is locked");;
             request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
         }
         catch (EncryptionDontWork e) {
+            logger.log(Level.SEVERE, "Problems with encryption");
             request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
         }
         catch (AccountDoesNotExist e) {
+            logger.log(Level.WARNING, "The account does not exist");
             request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
         }
     }
