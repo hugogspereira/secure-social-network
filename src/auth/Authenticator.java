@@ -3,11 +3,11 @@ package auth;
 import acc.Acc;
 import crypto.EncryptDecryptUtils;
 import exc.*;
-import io.jsonwebtoken.JwtException;
 import jwt.JWTAccount;
 import storage.DbAccount;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Authenticator class:
@@ -122,12 +122,16 @@ public class Authenticator implements Auth {
         String accountName = (String) JWTAccount.getInstance().getClaim(jwt, "accountName");
         String password = (String) JWTAccount.getInstance().getClaim(jwt, "password");
 
-        // TODO: refresh the JWT
 
         Acc account = DbAccount.getInstance().getAccount(accountName);
         if(account == null) {
             throw new AuthenticationError();
         }
+
+        // refresh the JWT
+        HttpSession session = req.getSession(true);
+        session.setAttribute("JWT", JWTAccount.getInstance().createJWT(accountName, password));
+
         return account;
     }
 

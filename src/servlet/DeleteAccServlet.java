@@ -4,6 +4,8 @@ import acc.Acc;
 import auth.Auth;
 import auth.Authenticator;
 import exc.*;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.SignatureException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -58,6 +60,16 @@ public class DeleteAccServlet extends HttpServlet {
             request.setAttribute("errorMessage", "The Root account does not exist");
             response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
+        catch (ExpiredJwtException e){
+            logger.log(Level.WARNING, "JWT has expired");
+            request.setAttribute("errorMessage", "JWT has expired");
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
+        }
+        catch (SignatureException e){
+            logger.log(Level.WARNING, "JWT has been tampered with or is invalid");
+            request.setAttribute("errorMessage", "JWT has been tampered with or is invalid");
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
+        }
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -81,6 +93,16 @@ public class DeleteAccServlet extends HttpServlet {
         } catch (AccountDoesNotExist e) {
             logger.log(Level.WARNING, "The account does not exist");
             request.setAttribute("errorMessage", "The account does not exist");
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
+        }
+        catch (ExpiredJwtException e){
+            logger.log(Level.WARNING, "JWT has expired");
+            request.setAttribute("errorMessage", "JWT has expired");
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
+        }
+        catch (SignatureException e){
+            logger.log(Level.WARNING, "JWT has been tampered with or is invalid");
+            request.setAttribute("errorMessage", "JWT has been tampered with or is invalid");
             response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
     }

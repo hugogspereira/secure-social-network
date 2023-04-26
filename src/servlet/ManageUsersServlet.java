@@ -7,6 +7,9 @@ import exc.AccountDoesNotExist;
 import exc.AccountIsLocked;
 import exc.AuthenticationError;
 import exc.EncryptionDontWork;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.SignatureException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -53,6 +56,16 @@ public class ManageUsersServlet extends HttpServlet {
         }
         catch (AccountDoesNotExist e) {
             logger.log(Level.WARNING, "The account does not exist");
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
+        }
+        catch (ExpiredJwtException e){
+            logger.log(Level.WARNING, "JWT has expired");
+            request.setAttribute("errorMessage", "JWT has expired");
+            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
+        }
+        catch (SignatureException e){
+            logger.log(Level.WARNING, "JWT has been tampered with or is invalid");
+            request.setAttribute("errorMessage", "JWT has been tampered with or is invalid");
             response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
     }

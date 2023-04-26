@@ -4,6 +4,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.Base64;
+import java.util.Date;
 import java.util.UUID;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.Jwts;
@@ -61,14 +62,12 @@ public class JWTAccount {
                 .setId(id) // is an optional claim that provides a unique identifier, UUID has very low probability of collision
                 .setSubject(subject)
                 .setIssuer(ISSUER)
+                .setExpiration(new Date(System.currentTimeMillis() + 10000)) // 10 seconds
+                .setNotBefore(new Date(System.currentTimeMillis()))
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .claim("accountName", subject)
                 .claim("password", password)
                 .signWith(signatureAlgorithm, signingKey);
-
-        // TODO: add these claims for the expiration date and time
-        //.setIssuedAt(now)   // set the time when the token was issued
-        //.setNotBefore(now)  // set the time before which the token is not yet valid (created)
-        //.setExpiration(exp) // Expiration date
 
         //Builds the JWT and serializes it to a compact, URL-safe string
         return builder.compact();
@@ -87,11 +86,9 @@ public class JWTAccount {
         System.out.println("Subject: " + claims.getSubject());
         System.out.println("Issuer: " + claims.getIssuer());
         System.out.println("Password: " + claims.get("password"));
-
-        // TODO: add these claims for the expiration date and time
-        //System.out.println("Issued At: " + claims.getIssuedAt()); // set the time when the token was issued
-        //System.out.println("Not Before : "+claims.getNotBefore()); // set the time before which the token is not yet valid (created)
-        //System.out.println("Expiration: " + claims.getExpiration()); // Expiration date
+        System.out.println("Issued At: " + claims.getIssuedAt()); // set the time when the token was issued
+        System.out.println("Not Before : "+claims.getNotBefore()); // set the time before which the token is not yet valid (created)
+        System.out.println("Expiration: " + claims.getExpiration()); // Expiration date
     }
 
     /**
@@ -100,7 +97,7 @@ public class JWTAccount {
      * @param claim the claim
      * @return the claim value
      */
-    public Object getClaim(String jwt, String claim) {
+    public Object getClaim(String jwt, String claim) throws ExpiredJwtException {
         return Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(base64SecretBytes))
                 .parseClaimsJws(jwt).getBody().get(claim);
     }
