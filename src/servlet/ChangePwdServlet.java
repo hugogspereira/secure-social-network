@@ -22,7 +22,7 @@ public class ChangePwdServlet extends HttpServlet {
 
     @Override
     public void init() {
-        auth = new Authenticator();
+        auth = Authenticator.getInstance();
         authUser = null;
         logger = Logger.getLogger(ChangePwdServlet.class.getName());
         logger.setLevel(Level.FINE);

@@ -22,7 +22,7 @@ public class DeleteAccServlet extends HttpServlet {
 
     @Override
     public void init() {
-        auth = new Authenticator();
+        auth = Authenticator.getInstance();
         logger = Logger.getLogger(DeleteAccServlet.class.getName());
         logger.setLevel(Level.FINE);
     }

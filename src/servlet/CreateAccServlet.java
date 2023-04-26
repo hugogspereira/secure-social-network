@@ -23,7 +23,7 @@ public class CreateAccServlet extends HttpServlet {
 
     @Override
     public void init() {
-        auth = new Authenticator();
+        auth = Authenticator.getInstance();
         logger = Logger.getLogger(CreateAccServlet.class.getName());
         logger.setLevel(Level.FINE);
     }

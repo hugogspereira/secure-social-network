@@ -24,7 +24,7 @@ public class ManageUsersServlet extends HttpServlet {
 
     @Override
     public void init() {
-        auth =  new Authenticator();
+        auth = Authenticator.getInstance();
         logger = Logger.getLogger(ManageUsersServlet.class.getName());
         logger.setLevel(Level.FINE);
     }

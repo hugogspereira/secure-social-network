@@ -19,10 +19,19 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Authenticator implements Auth {
 
+    private static Authenticator auth;
+
     /**
      * Authenticator constructor
      */
-    public Authenticator() { }
+    private Authenticator() {}
+
+    public static Authenticator getInstance() {
+        if(auth == null) {
+            auth = new Authenticator();
+        }
+        return auth;
+    }
 
     @Override
     public void createAccount(String name, String pwd1, String pwd2) throws NullParameterException, AccountAlreadyExists, PasswordsDontMatch, EncryptionDontWork {
