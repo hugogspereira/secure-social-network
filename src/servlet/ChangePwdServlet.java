@@ -35,7 +35,7 @@ public class ChangePwdServlet extends HttpServlet {
         try {
             authUser = auth.checkAuthenticatedRequest(request, response);
             request.getRequestDispatcher("/WEB-INF/changePwd.jsp").forward(request, response);
-            logger.log(Level.INFO, "User" + authUser.getAccountName() + " is trying to change password");
+            logger.log(Level.INFO, "User " + authUser.getAccountName() + " is trying to change password");
         }
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
@@ -60,12 +60,12 @@ public class ChangePwdServlet extends HttpServlet {
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
             request.setAttribute("errorMessage", "JWT has expired");
-            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (SignatureException e){
             logger.log(Level.WARNING, "JWT has been tampered with or is invalid");
             request.setAttribute("errorMessage", "JWT has been tampered with or is invalid");
-            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
     }
 
@@ -99,12 +99,12 @@ public class ChangePwdServlet extends HttpServlet {
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
             request.setAttribute("errorMessage", "JWT has expired");
-            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (SignatureException e){
             logger.log(Level.WARNING, "JWT has been tampered with or is invalid");
             request.setAttribute("errorMessage", "JWT has been tampered with or is invalid");
-            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
     }
 }

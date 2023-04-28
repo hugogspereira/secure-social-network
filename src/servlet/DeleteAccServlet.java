@@ -63,12 +63,12 @@ public class DeleteAccServlet extends HttpServlet {
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
             request.setAttribute("errorMessage", "JWT has expired");
-            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (SignatureException e){
             logger.log(Level.WARNING, "JWT has been tampered with or is invalid");
             request.setAttribute("errorMessage", "JWT has been tampered with or is invalid");
-            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
     }
 
@@ -98,12 +98,12 @@ public class DeleteAccServlet extends HttpServlet {
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
             request.setAttribute("errorMessage", "JWT has expired");
-            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (SignatureException e){
             logger.log(Level.WARNING, "JWT has been tampered with or is invalid");
             request.setAttribute("errorMessage", "JWT has been tampered with or is invalid");
-            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
     }
 }

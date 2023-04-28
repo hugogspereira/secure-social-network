@@ -39,5 +39,6 @@
         <input type="submit" value="Submit">
     </div>
 </form>
+<p style="color:red;"> ${pageContext.request.getAttribute("errorMessage")} </p>
 </body>
 </html>

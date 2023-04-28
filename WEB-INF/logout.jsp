@@ -21,5 +21,6 @@
     <h1>Logout</h1>
     <p>You have been successfully logged out.</p>
     <p><a href="${pageContext.request.contextPath}/AuthenticateUser">Back to Login Page</a></p>
+    <p style="color:red;"> ${pageContext.request.getAttribute("errorMessage")} </p>
 </body>
 </html>

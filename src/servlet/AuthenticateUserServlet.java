@@ -61,6 +61,7 @@ public class AuthenticateUserServlet extends HttpServlet {
         catch (AccountDoesNotExist e) {
             logger.log(Level.WARNING, "Account does not exist");
             request.setAttribute("errorMessage", "Account does not exist");
+            System.out.println(request.getAttribute("errorMessage"));
             request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
         }
     }

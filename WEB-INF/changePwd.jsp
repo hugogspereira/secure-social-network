@@ -22,7 +22,7 @@
 </head>
 <body>
 <h1>Change Password</h1>
-<form action="/seg-soft/ChangePwd" method="post">
+<form action="/seg-soft/ChangePassword" method="post">
     <div>
         <label for="newPassword1">New Password:</label>
         <input type="password" id="newPassword1" name="newPassword1"  required>
@@ -36,7 +36,7 @@
         <input type="submit" value="Change Password">
     </div>
 </form>
-<br>
+<p style="color:red;"> ${pageContext.request.getAttribute("errorMessage")} </p>
 <p><a href="${pageContext.request.contextPath}/ManageUsers">Cancel</a></p>
 </body>
 </html>

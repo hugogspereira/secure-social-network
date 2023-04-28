@@ -38,6 +38,7 @@
         <input type="submit" value="Delete">
     </div>
 </form>
+    <p style="color:red;"> ${pageContext.request.getAttribute("errorMessage")} </p>
     <p><a href="${pageContext.request.contextPath}/ManageUsers">Cancel</a></p>
 </body>
 </html>

@@ -45,6 +45,7 @@
             <input type="submit" value="Create Account">
         </div>
     </form>
-    <p><a href="${pageContext.request.contextPath}/ManageUsers">Cancel</a></p>
+    <p style="color:red;"> ${pageContext.request.getAttribute("errorMessage")} </p>
+<p><a href="${pageContext.request.contextPath}/ManageUsers">Cancel</a></p>
 </body>
 </html>
