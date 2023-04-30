@@ -23,6 +23,7 @@
         <li><a href="<%=request.getContextPath()%>/CreateAccount">Create User</a></li>
         <li><a href="<%=request.getContextPath()%>/DeleteAccount">Delete User</a></li>
         <li><a href="<%=request.getContextPath()%>/ChangePassword">Change Password</a></li>
+        <li><a href="<%=request.getContextPath()%>/Test">Count Application</a></li>
         <li><a href="<%=request.getContextPath()%>/Logout">Logout</a></li>
     </ul>
     <p style="color:red;"> ${pageContext.request.getAttribute("errorMessage")} </p>
