@@ -42,23 +42,27 @@ public class DeleteAccServlet extends HttpServlet {
                 return;
             }
             request.getRequestDispatcher("/WEB-INF/deleteAcc.jsp").forward(request, response);
-
-        } catch (AuthenticationError e) {
+        }
+        catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username or password");
             response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
-        } catch (AccountIsLocked e) {
+            request.getRequestDispatcher("/WEB-INF/deleteAcc.jsp").forward(request, response);
+        }
+        catch (AccountIsLocked e) {
             logger.log(Level.WARNING, "Account is locked");
             request.setAttribute("errorMessage", "Your account is locked");
-            response.sendRedirect(request.getContextPath() + "/ManageUsers");
-        } catch (EncryptionDontWork e) {
+            request.getRequestDispatcher("/WEB-INF/deleteAcc.jsp").forward(request, response);
+        }
+        catch (EncryptionDontWork e) {
             logger.log(Level.SEVERE, "Problems with encryption");
             request.setAttribute("errorMessage", "Problems with encryption");
-            response.sendRedirect(request.getContextPath() + "/ManageUsers");
-        } catch (AccountDoesNotExist e) {
+            request.getRequestDispatcher("/WEB-INF/deleteAcc.jsp").forward(request, response);
+        }
+        catch (AccountDoesNotExist e) {
             logger.log(Level.SEVERE, "The Root account does not exist");
             request.setAttribute("errorMessage", "The Root account does not exist");
-            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
+            request.getRequestDispatcher("/WEB-INF/deleteAcc.jsp").forward(request, response);
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
@@ -82,18 +86,21 @@ public class DeleteAccServlet extends HttpServlet {
             // Redirect to home page after successful account deletion
             response.sendRedirect(request.getContextPath() + "/ManageUsers");
 
-        } catch (AccountIsNotLocked e) {
+        }
+        catch (AccountIsNotLocked e) {
             logger.log(Level.WARNING, "The account is not locked");
             request.setAttribute("errorMessage", "The account is not locked");
-            response.sendRedirect(request.getContextPath() + "/ManageUsers");
-        } catch (AccountIsLoggedIn e) {
+            request.getRequestDispatcher("/WEB-INF/deleteAcc.jsp").forward(request, response);
+        }
+        catch (AccountIsLoggedIn e) {
             logger.log(Level.WARNING, "The account is logged in");
             request.setAttribute("errorMessage", "The account is logged in");
-            response.sendRedirect(request.getContextPath() + "/ManageUsers");
-        } catch (AccountDoesNotExist e) {
+            request.getRequestDispatcher("/WEB-INF/deleteAcc.jsp").forward(request, response);
+        }
+        catch (AccountDoesNotExist e) {
             logger.log(Level.WARNING, "The account does not exist");
             request.setAttribute("errorMessage", "The account does not exist");
-            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
+            request.getRequestDispatcher("/WEB-INF/deleteAcc.jsp").forward(request, response);
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
