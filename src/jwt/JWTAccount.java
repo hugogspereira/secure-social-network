@@ -62,7 +62,7 @@ public class JWTAccount {
                 .setId(id) // is an optional claim that provides a unique identifier, UUID has very low probability of collision
                 .setSubject(subject)
                 .setIssuer(ISSUER)
-                .setExpiration(new Date(System.currentTimeMillis() + 10000)) // 10 seconds
+                .setExpiration(new Date(System.currentTimeMillis() + 100000)) // 100 seconds
                 .setNotBefore(new Date(System.currentTimeMillis()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .claim("accountName", subject)

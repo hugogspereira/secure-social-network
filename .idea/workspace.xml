@@ -4,26 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddcdfb2e-c3b4-4c7a-9f85-933d86f6f63c" name="Changes" comment="change gitignore">
+    <list default="true" id="ddcdfb2e-c3b4-4c7a-9f85-933d86f6f63c" name="Changes" comment="Some errors now appear to the user">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WEB-INF/authenticateUser.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/authenticateUser.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SQLite.db" beforeDir="false" afterPath="$PROJECT_DIR$/SQLite.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WEB-INF/classes/acc/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/acc/Account.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WEB-INF/classes/auth/Authenticator.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/auth/Authenticator.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WEB-INF/classes/jwt/JWTAccount.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/jwt/JWTAccount.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/AuthenticateUserServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/AuthenticateUserServlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/ChangePwdServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/ChangePwdServlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/CreateAccServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/CreateAccServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/DeleteAccServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/DeleteAccServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/LogoutServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/LogoutServlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/ManageUsersServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/ManageUsersServlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WEB-INF/classes/storage/DbAccount.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/storage/DbAccount.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WEB-INF/manageUsers.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/manageUsers.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/acc/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/acc/Account.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/auth/Authenticator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth/Authenticator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jwt/JWTAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jwt/JWTAccount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/servlet/AuthenticateUserServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/AuthenticateUserServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/servlet/ChangePwdServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/ChangePwdServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/servlet/CreateAccServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/CreateAccServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/servlet/ManageUsersServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/ManageUsersServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/storage/DbAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/storage/DbAccount.java" afterDir="false" />
+    </list>
+    <list id="4839196d-805e-481f-a4ae-656c93f32157" name="WeirdChanges" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/610276dd-42f2-4597-a7f2-6684b1b83a27.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,32 +53,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/hugog/Downloads/apache-tomcat-9.0.73-windows-x64/apache-tomcat-9.0.73/webapps/seg-soft",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "spring.configuration.checksum": "46f86faa6bbf9ac94a7e459509a20ed0",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/hugog/Downloads/apache-tomcat-9.0.73-windows-x64/apache-tomcat-9.0.73/webapps/seg-soft&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;46f86faa6bbf9ac94a7e459509a20ed0&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Program Files\apache-tomcat-9.0.73\webapps\seg-soft\WEB-INF" />
       <recent name="C:\Users\hugog\Downloads\apache-tomcat-9.0.73-windows-x64\apache-tomcat-9.0.73\webapps\seg-soft" />
       <recent name="C:\Users\hugog\Downloads\apache-tomcat-9.0.73-windows-x64\apache-tomcat-9.0.73\webapps\seg-soft\WEB-INF" />
       <recent name="C:\Users\hugog\Downloads\apache-tomcat-9.0.73-windows-x64\apache-tomcat-9.0.73\webapps\seg-soft\WEB-INF\lib" />
@@ -129,6 +134,9 @@
       <workItem from="1681720206160" duration="36000" />
       <workItem from="1681743948797" duration="320000" />
       <workItem from="1681744285806" duration="4621000" />
+      <workItem from="1682586860237" duration="177000" />
+      <workItem from="1682703052790" duration="4580000" />
+      <workItem from="1682868842644" duration="1197000" />
     </task>
     <task id="LOCAL-00001" summary="changes due to configuring sqlite">
       <created>1681423077247</created>
@@ -249,16 +257,94 @@
       <option name="project" value="LOCAL" />
       <updated>1681590851842</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="added logger to remaining classes">
+      <created>1682511943414</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1682511943414</updated>
+    </task>
+    <task id="LOCAL-00019" summary="fixed urls">
+      <created>1682514825478</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1682514825478</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Root and normal users now have different Manage Users page">
+      <created>1682525341546</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1682525341546</updated>
+    </task>
+    <task id="LOCAL-00021" summary="fixed logger typo">
+      <created>1682525681917</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1682525681917</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Changed Authenticator to singleton">
+      <created>1682527146822</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1682527146822</updated>
+    </task>
+    <task id="LOCAL-00023" summary="added authenticator singleton to AuthenticateUserServletUser">
+      <created>1682527443919</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1682527443919</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Logout now works correctly">
+      <created>1682528036558</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1682528036558</updated>
+    </task>
+    <task id="LOCAL-00025" summary="JWT expiry added">
+      <created>1682533127535</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1682533127535</updated>
+    </task>
+    <task id="LOCAL-00026" summary="added database to project root and altered necessary code">
+      <created>1682533922219</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1682533922219</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Some errors now appear to the user">
+      <created>1682706697187</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1682706697187</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changes due to configuring sqlite" />
-    <MESSAGE value="Changes due to JWT" />
-    <MESSAGE value="started LogoutServlet" />
     <MESSAGE value="worked on AuthenticateUser" />
     <MESSAGE value="small fix" />
     <MESSAGE value="createAcc and deleteAcc (both jsp and Servlet)" />
@@ -273,6 +359,17 @@
     <MESSAGE value="added root to db" />
     <MESSAGE value="changes to db" />
     <MESSAGE value="quick fix on db" />
-    <option name="LAST_COMMIT_MESSAGE" value="quick fix on db" />
+    <MESSAGE value="added logger to AuthenticateUserServlet" />
+    <MESSAGE value="added logger to remaining classes" />
+    <MESSAGE value="fixed urls" />
+    <MESSAGE value="Root and normal users now have different Manage Users page" />
+    <MESSAGE value="fixed logger typo" />
+    <MESSAGE value="Changed Authenticator to singleton" />
+    <MESSAGE value="added authenticator singleton to AuthenticateUserServletUser" />
+    <MESSAGE value="Logout now works correctly" />
+    <MESSAGE value="JWT expiry added" />
+    <MESSAGE value="added database to project root and altered necessary code" />
+    <MESSAGE value="Some errors now appear to the user" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some errors now appear to the user" />
   </component>
 </project>

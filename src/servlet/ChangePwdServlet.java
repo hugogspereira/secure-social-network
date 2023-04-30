@@ -82,18 +82,22 @@ public class ChangePwdServlet extends HttpServlet {
         }
         catch (EncryptionDontWork e) {
             request.setAttribute("errorMessage", "Problems with encryption");
+            logger.log(Level.SEVERE, "Problems with encryption");
             response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
         catch (PasswordsDontMatch e) {
             request.setAttribute("errorMessage", "New passwords do not match");
+            logger.log(Level.WARNING, "New passwords do not match");
             request.getRequestDispatcher("/WEB-INF/changePwd.jsp").forward(request, response);
         }
         catch (NullParameterException e) {
             request.setAttribute("errorMessage", "Please fill out all fields");
+            logger.log(Level.WARNING, "Please fill out all fields");
             request.getRequestDispatcher("/WEB-INF/changePwd.jsp").forward(request, response);
         }
         catch (AccountDoesNotExist e) {
             request.setAttribute("errorMessage", "The Root account does not exist");
+            logger.log(Level.WARNING, "The account does not exist");
             response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
         catch (ExpiredJwtException e){
