@@ -45,23 +45,22 @@ public class AuthenticateUserServlet extends HttpServlet {
         }
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
-            request.setAttribute("errorMessage", "Invalid username or password");
+            request.setAttribute("errorMessage", "Invalid username and/or password");
             request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
         }
         catch (AccountIsLocked e) {
             logger.log(Level.WARNING, "Account is locked");
-            request.setAttribute("errorMessage", "Account is locked");
+            request.setAttribute("errorMessage", "Account is locked, please try again later");
             request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
         }
         catch (EncryptionDontWork e) {
             logger.log(Level.SEVERE, "Problems with encryption");
-            request.setAttribute("errorMessage", "Problems with encryption");
+            request.setAttribute("errorMessage", "Something went wrong, please try again");
             request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
         }
         catch (AccountDoesNotExist e) {
             logger.log(Level.WARNING, "Invalid username or password");
-            request.setAttribute("errorMessage", "Invalid username or password");
-            System.out.println(request.getAttribute("errorMessage"));
+            request.setAttribute("errorMessage", "Invalid username and/or password");
             request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
         }
     }

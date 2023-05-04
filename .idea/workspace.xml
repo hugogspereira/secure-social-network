@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddcdfb2e-c3b4-4c7a-9f85-933d86f6f63c" name="Changes" comment="change redirect servlet">
-      <change afterPath="$PROJECT_DIR$/WEB-INF/test.jsp" afterDir="false" />
+    <list default="true" id="ddcdfb2e-c3b4-4c7a-9f85-933d86f6f63c" name="Changes" comment="integrate the count app">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SQLite.db" beforeDir="false" afterPath="$PROJECT_DIR$/SQLite.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/acc/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/acc/Account.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/auth/Auth.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/auth/Auth.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WEB-INF/classes/auth/Authenticator.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/auth/Authenticator.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WEB-INF/classes/jwt/JWTAccount.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/jwt/JWTAccount.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/AuthenticateUserServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/AuthenticateUserServlet.class" afterDir="false" />
@@ -18,10 +19,22 @@
       <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/DeleteAccServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/DeleteAccServlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/LogoutServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/LogoutServlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/ManageUsersServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/ManageUsersServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/TestingServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/TestingServlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WEB-INF/classes/storage/DbAccount.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/storage/DbAccount.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WEB-INF/manageUsers.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/manageUsers.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WEB-INF/manageUsersRoot.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/manageUsersRoot.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/acc/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/acc/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/auth/Auth.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth/Auth.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/auth/Authenticator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth/Authenticator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/crypto/EncryptDecryptUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/crypto/EncryptDecryptUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jwt/JWTAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jwt/JWTAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/AuthenticateUserServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/AuthenticateUserServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/ChangePwdServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/ChangePwdServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/CreateAccServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/CreateAccServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/DeleteAccServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/DeleteAccServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/LogoutServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/LogoutServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/ManageUsersServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/ManageUsersServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/servlet/TestingServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/TestingServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
     </list>
     <list id="4839196d-805e-481f-a4ae-656c93f32157" name="WeirdChanges" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/610276dd-42f2-4597-a7f2-6684b1b83a27.xml" beforeDir="false" />
@@ -45,7 +58,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="2ONaN9H6Ey6bO0D7EPnKyVdKUwg" />
   <component name="ProjectViewState">
@@ -68,6 +81,7 @@
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
+    "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "preferences.keymap",
     "spring.configuration.checksum": "46f86faa6bbf9ac94a7e459509a20ed0",
     "vue.rearranger.settings.migration": "true"
@@ -139,6 +153,8 @@
       <workItem from="1682586860237" duration="177000" />
       <workItem from="1682703052790" duration="4580000" />
       <workItem from="1682868842644" duration="1197000" />
+      <workItem from="1683065704102" duration="157000" />
+      <workItem from="1683217849922" duration="4490000" />
     </task>
     <task id="LOCAL-00001" summary="changes due to configuring sqlite">
       <created>1681423077247</created>
@@ -336,7 +352,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682871169888</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="integrate the count app">
+      <created>1682872599648</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1682872599648</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -354,7 +377,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="small fix" />
     <MESSAGE value="createAcc and deleteAcc (both jsp and Servlet)" />
     <MESSAGE value="changes in jwt (singleton)" />
     <MESSAGE value="logout (jsp and servlet)" />
@@ -379,6 +401,7 @@
     <MESSAGE value="added database to project root and altered necessary code" />
     <MESSAGE value="Some errors now appear to the user" />
     <MESSAGE value="change redirect servlet" />
-    <option name="LAST_COMMIT_MESSAGE" value="change redirect servlet" />
+    <MESSAGE value="integrate the count app" />
+    <option name="LAST_COMMIT_MESSAGE" value="integrate the count app" />
   </component>
 </project>

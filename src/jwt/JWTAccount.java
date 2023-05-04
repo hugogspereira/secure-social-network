@@ -46,7 +46,7 @@ public class JWTAccount {
      * @param subject identifies the principal that is the subject of the JWT (e.g. "user1")
      * @return the JWT
      */
-    public String createJWT(String subject, String password) {
+    public String createJWT(String subject) {
         //The JWT signature algorithm used to sign the token
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
@@ -65,8 +65,6 @@ public class JWTAccount {
                 .setExpiration(new Date(System.currentTimeMillis() + 100000)) // 100 seconds
                 .setNotBefore(new Date(System.currentTimeMillis()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .claim("accountName", subject)
-                .claim("password", password)
                 .signWith(signatureAlgorithm, signingKey);
 
         //Builds the JWT and serializes it to a compact, URL-safe string
@@ -85,7 +83,6 @@ public class JWTAccount {
         System.out.println("ID: " + claims.getId());
         System.out.println("Subject: " + claims.getSubject());
         System.out.println("Issuer: " + claims.getIssuer());
-        System.out.println("Password: " + claims.get("password"));
         System.out.println("Issued At: " + claims.getIssuedAt()); // set the time when the token was issued
         System.out.println("Not Before : "+claims.getNotBefore()); // set the time before which the token is not yet valid (created)
         System.out.println("Expiration: " + claims.getExpiration()); // Expiration date
@@ -94,11 +91,10 @@ public class JWTAccount {
     /**
      * Get a claim from a JWT
      * @param jwt the JWT to parse
-     * @param claim the claim
-     * @return the claim value
+     * @return the accountName value
      */
-    public Object getClaim(String jwt, String claim) throws ExpiredJwtException {
+    public Object getSubject(String jwt) throws ExpiredJwtException {
         return Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(base64SecretBytes))
-                .parseClaimsJws(jwt).getBody().get(claim);
+                .parseClaimsJws(jwt).getBody().getSubject();
     }
 }

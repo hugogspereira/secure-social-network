@@ -6,7 +6,6 @@ import auth.Authenticator;
 import exc.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,7 +30,6 @@ public class DeleteAccServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            // TODO: "(should only work for “root”)" - does it means root needs to be authenticated?
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
 
             // Only allow root user to delete accounts
@@ -45,33 +43,18 @@ public class DeleteAccServlet extends HttpServlet {
         }
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
-            request.setAttribute("errorMessage", "Invalid username or password");
+            request.setAttribute("errorMessage", "Invalid username and/or password");
             response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
-            request.getRequestDispatcher("/WEB-INF/deleteAcc.jsp").forward(request, response);
-        }
-        catch (AccountIsLocked e) {
-            logger.log(Level.WARNING, "Account is locked");
-            request.setAttribute("errorMessage", "Your account is locked");
-            request.getRequestDispatcher("/WEB-INF/deleteAcc.jsp").forward(request, response);
-        }
-        catch (EncryptionDontWork e) {
-            logger.log(Level.SEVERE, "Problems with encryption");
-            request.setAttribute("errorMessage", "Problems with encryption");
-            request.getRequestDispatcher("/WEB-INF/deleteAcc.jsp").forward(request, response);
-        }
-        catch (AccountDoesNotExist e) {
-            logger.log(Level.SEVERE, "The Root account does not exist");
-            request.setAttribute("errorMessage", "The Root account does not exist");
             request.getRequestDispatcher("/WEB-INF/deleteAcc.jsp").forward(request, response);
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
-            request.setAttribute("errorMessage", "JWT has expired");
+            request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (SignatureException e){
             logger.log(Level.WARNING, "JWT has been tampered with or is invalid");
-            request.setAttribute("errorMessage", "JWT has been tampered with or is invalid");
+            request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
     }
@@ -104,12 +87,12 @@ public class DeleteAccServlet extends HttpServlet {
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
-            request.setAttribute("errorMessage", "JWT has expired");
+            request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (SignatureException e){
             logger.log(Level.WARNING, "JWT has been tampered with or is invalid");
-            request.setAttribute("errorMessage", "JWT has been tampered with or is invalid");
+            request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
     }

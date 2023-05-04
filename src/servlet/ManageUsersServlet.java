@@ -3,13 +3,9 @@ package servlet;
 import acc.Acc;
 import auth.Auth;
 import auth.Authenticator;
-import exc.AccountDoesNotExist;
-import exc.AccountIsLocked;
 import exc.AuthenticationError;
-import exc.EncryptionDontWork;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,29 +39,17 @@ public class ManageUsersServlet extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
         }
         catch (AuthenticationError e) {
-            logger.log(Level.WARNING, "Invalid username or password");
-            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
-        }
-        catch (AccountIsLocked e) {
-            logger.log(Level.WARNING, "Account is locked");
-            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
-        }
-        catch (EncryptionDontWork e) {
-            logger.log(Level.SEVERE, "Problems with encryption");
-            response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
-        }
-        catch (AccountDoesNotExist e) {
-            logger.log(Level.WARNING, "The account does not exist");
+            logger.log(Level.WARNING, "Invalid username and/or password");
             response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
-            request.setAttribute("errorMessage", "JWT has expired");
+            request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (SignatureException e){
             logger.log(Level.WARNING, "JWT has been tampered with or is invalid");
-            request.setAttribute("errorMessage", "JWT has been tampered with or is invalid");
+            request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
     }

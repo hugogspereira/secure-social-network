@@ -3,6 +3,7 @@ package auth;
 import acc.Acc;
 import crypto.EncryptDecryptUtils;
 import exc.*;
+import io.jsonwebtoken.ExpiredJwtException;
 import jwt.JWTAccount;
 import storage.DbAccount;
 import javax.servlet.http.HttpServletRequest;
@@ -115,13 +116,12 @@ public class Authenticator implements Auth {
     }
 
     @Override
-    public Acc checkAuthenticatedRequest(HttpServletRequest req, HttpServletResponse resp) throws AuthenticationError, AccountIsLocked, EncryptionDontWork, AccountDoesNotExist {
+    public Acc checkAuthenticatedRequest(HttpServletRequest req, HttpServletResponse resp) throws AuthenticationError, ExpiredJwtException {
         String jwt = req.getSession().getAttribute("JWT").toString();
 
         // Get the accountName and password from the JWT
-        String accountName = (String) JWTAccount.getInstance().getClaim(jwt, "accountName");
-        String password = (String) JWTAccount.getInstance().getClaim(jwt, "password");
-
+        // If JWT token has expired a exception is raised - 100s time range
+        String accountName = (String) JWTAccount.getInstance().getSubject(jwt);
 
         Acc account = DbAccount.getInstance().getAccount(accountName);
         if(account == null) {
@@ -130,7 +130,7 @@ public class Authenticator implements Auth {
 
         // refresh the JWT
         HttpSession session = req.getSession(true);
-        session.setAttribute("JWT", JWTAccount.getInstance().createJWT(accountName, password));
+        session.setAttribute("JWT", JWTAccount.getInstance().createJWT(accountName));
 
         return account;
     }

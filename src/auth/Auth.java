@@ -2,6 +2,7 @@ package auth;
 
 import acc.Acc;
 import exc.*;
+import io.jsonwebtoken.ExpiredJwtException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -72,5 +73,5 @@ public interface Auth {
      * @param resp the response
      * @return the account
      */
-    Acc checkAuthenticatedRequest(HttpServletRequest req, HttpServletResponse resp) throws AuthenticationError, AccountIsLocked, EncryptionDontWork, AccountDoesNotExist;
+    Acc checkAuthenticatedRequest(HttpServletRequest req, HttpServletResponse resp) throws AuthenticationError, ExpiredJwtException;
 }
