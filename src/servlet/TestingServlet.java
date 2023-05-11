@@ -53,8 +53,16 @@ public class TestingServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        counter++;
-        doGet(request, response);
+        try {
+            auth.checkAuthenticatedRequest(request, response);
+            counter++;
+            doGet(request, response);
+        }
+        catch (AuthenticationError e) {
+            logger.log(Level.WARNING, "Invalid username or password");
+            request.setAttribute("errorMessage", "Invalid username and/or password");
+            request.getRequestDispatcher("/WEB-INF/changePwd.jsp").forward(request, response);
+        }
     }
 }
 

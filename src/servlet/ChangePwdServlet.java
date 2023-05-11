@@ -55,6 +55,7 @@ public class ChangePwdServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            auth.checkAuthenticatedRequest(request, response);
 
             String password1 = request.getParameter("newPassword1");
             String password2 = request.getParameter("newPassword2");
@@ -93,6 +94,11 @@ public class ChangePwdServlet extends HttpServlet {
             logger.log(Level.WARNING, "JWT has been tampered with or is invalid");
             request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
+        }
+        catch (AuthenticationError e) {
+            logger.log(Level.WARNING, "Invalid username or password");
+            request.setAttribute("errorMessage", "Invalid username and/or password");
+            request.getRequestDispatcher("/WEB-INF/changePwd.jsp").forward(request, response);
         }
     }
 }
