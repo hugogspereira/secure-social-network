@@ -1,30 +1,28 @@
 package accCtrl;
 
 import acc.Acc;
+import storage.DbAccount;
 import java.util.List;
 
 public class AccessControllerClass implements AccessController {
 
     public AccessControllerClass() {
-        // TODO - connect to db
     }
 
     @Override
     public Role newRole(String roleId) {
+        // put in Db
         return new RoleClass(roleId);
     }
 
     @Override
     public void setRole(Acc user, Role role) {
-        // connect to db
-        // update the table of accountRoles with the accountId   (accountId, roleId)
+        DbAccount.getInstance().setRole(user.getAccountName(), role.getRoleId());
     }
 
     @Override
     public List<Role> getRole(Acc user) {
-        // connect to db
-        // get rows of the table of accountRoles with the accountId   (accountId, roleId)
-        return null;
+        return DbAccount.getInstance().getRoles(user.getAccountName());
     }
 
     @Override
@@ -41,6 +39,7 @@ public class AccessControllerClass implements AccessController {
 
     @Override
     public Capability makeKey(Role role) {
+        // TODO
         return new CapabilityClass(role);
     }
 

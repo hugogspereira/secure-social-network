@@ -2,7 +2,11 @@ package storage;
 
 import acc.Acc;
 import acc.Account;
+import accCtrl.Role;
+import accCtrl.RoleClass;
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class DbAccount {
 
@@ -31,8 +35,15 @@ public class DbAccount {
     public DbAccount() {
         Connection conn = getConnection();
         try {
-            PreparedStatement ps = conn.prepareStatement("CREATE TABLE IF NOT EXISTS accounts (accountName VARCHAR(255), password VARCHAR(255), loggedIn INTEGER, locked INTEGER)");
-            ps.executeUpdate();
+            PreparedStatement ps1 = conn.prepareStatement("CREATE TABLE IF NOT EXISTS accounts (accountName VARCHAR(255), password VARCHAR(255), loggedIn INTEGER, locked INTEGER)");
+            ps1.executeUpdate();
+
+            PreparedStatement ps2 = conn.prepareStatement("CREATE TABLE IF NOT EXISTS accountRoles (accountName VARCHAR(255), roleId VARCHAR(255))");
+            ps2.executeUpdate();
+
+            // TODO: Find a way to divide resource and operation into multiple fields so it is more efficient in updates
+            PreparedStatement ps3 = conn.prepareStatement("CREATE TABLE IF NOT EXISTS rolePermissions (roleId VARCHAR(255), resource VARCHAR(255), operation VARCHAR(255))");
+            ps3.executeUpdate();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -224,17 +235,18 @@ public class DbAccount {
         }
     }
 
-    // Good for debug
-    public void viewRows() {
+    /**
+     * Set a role into a account in the database
+     * @param accountName the account name
+     * @param roleId the role identifier
+     */
+    public void setRole(String accountName, String roleId) {
         Connection conn = getConnection();
         try {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM accounts");
-            ResultSet rs = ps.executeQuery();
-
-            while(rs.next()) {
-                System.out.println("Account Name: " + rs.getString("accountName") + " Password: " + rs.getString("password") + " Logged In: " + rs.getInt("loggedIn") + " Locked: " + rs.getInt("locked"));
-            }
-            conn.close();
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO accountRoles (accountName, roleId) VALUES (?, ?)");
+            ps.setString(1, accountName);
+            ps.setString(2, roleId);
+            ps.executeUpdate();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -248,5 +260,38 @@ public class DbAccount {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Get roles of a given account in the database
+     * @param accountName the account name
+     */
+    public List<Role> getRoles(String accountName) {
+        Connection conn = getConnection();
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT roleId FROM accountRoles WHERE accountName = ?");
+            ps.setString(1, accountName);
+            ResultSet rs = ps.executeQuery();
+
+            List<Role> roles = new LinkedList<>();
+            if(rs.next()) {
+                Role role = new RoleClass(rs.getString(0));
+                roles.add(role);
+            }
+            return roles;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if(conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }

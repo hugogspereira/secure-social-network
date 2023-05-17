@@ -1,7 +1,6 @@
 package accCtrl;
 
 import acc.Acc;
-
 import java.util.List;
 
 public interface AccessController {
