@@ -1,17 +1,30 @@
 package accCtrl;
 
 import acc.Acc;
+import accCtrl.operations.Operation;
+import accCtrl.resources.Resource;
 import storage.DbAccount;
 import java.util.List;
 
 public class AccessControllerClass implements AccessController {
 
-    public AccessControllerClass() {
+    private static AccessController accCtrl;
+
+    /**
+     * Access Controller constructor
+     */
+    private AccessControllerClass() {}
+
+    public static AccessController getInstance() {
+        if(accCtrl == null) {
+            accCtrl = new AccessControllerClass();
+        }
+        return accCtrl;
     }
 
     @Override
     public Role newRole(String roleId) {
-        // put in Db
+        DbAccount.getInstance().newRole(roleId);
         return new RoleClass(roleId);
     }
 
@@ -27,14 +40,12 @@ public class AccessControllerClass implements AccessController {
 
     @Override
     public void grantPermission(Role role, Resource res, Operation op) {
-        // connect to db
-        // insert row on the table of permissions with the roleId   (roleId, res, op)
+        DbAccount.getInstance().grantPermission(role, res, op);
     }
 
     @Override
     public void revokePermission(Role role, Resource res, Operation op) {
-        // connect to db
-        // update row on the table of permissions with the roleId   (roleId, res, op)
+        DbAccount.getInstance().revokePermission(role, res, op);
     }
 
     @Override
@@ -46,6 +57,12 @@ public class AccessControllerClass implements AccessController {
     @Override
     public void checkPermission(Capability key, Resource res, Operation op) {
         // TODO
+
+        // Criar uma capability a partir do res e do op e ver se é "igual" à capability q foi passada como argumento
+            // NOTA: n é ser igual, é conter essa permissao
+        // Se for igual, então o user tem permissão
+        // Se não for igual, então temos de ir à DB ver se tem permissão
+        // Se nao tiver, então nao tem permissão
     }
 
 }

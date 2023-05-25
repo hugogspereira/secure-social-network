@@ -4,6 +4,8 @@ import acc.Acc;
 import acc.Account;
 import accCtrl.Role;
 import accCtrl.RoleClass;
+import accCtrl.operations.Operation;
+import accCtrl.resources.Resource;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,9 +43,11 @@ public class DbAccount {
             PreparedStatement ps2 = conn.prepareStatement("CREATE TABLE IF NOT EXISTS accountRoles (accountName VARCHAR(255), roleId VARCHAR(255))");
             ps2.executeUpdate();
 
-            // TODO: Find a way to divide resource and operation into multiple fields so it is more efficient in updates
             PreparedStatement ps3 = conn.prepareStatement("CREATE TABLE IF NOT EXISTS rolePermissions (roleId VARCHAR(255), resource VARCHAR(255), operation VARCHAR(255))");
             ps3.executeUpdate();
+
+            PreparedStatement ps4 = conn.prepareStatement("CREATE TABLE IF NOT EXISTS roles (roleId VARCHAR(255))");
+            ps4.executeUpdate();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -293,5 +297,84 @@ public class DbAccount {
             }
         }
         return null;
+    }
+
+    /**
+     * Insert in the database the new permissions, this is the operations that a role can do on a resource
+     * @param role the role
+     * @param res the resource
+     * @param op the operation
+     */
+    public void grantPermission(Role role, Resource res, Operation op) {
+        Connection conn = getConnection();
+        try {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO rolePermissions (roleId, resource, operation) VALUES (?, ?, ?)");
+            ps.setString(1, role.getRoleId());
+            ps.setString(2, res.getResourceId());
+            ps.setString(3, op.getOperationId());
+            ps.executeUpdate();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if(conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Delete in the database the following permission, this is the operations that a role cannot do on a resource
+     * @param role the role
+     * @param res the resource
+     * @param op the operation
+     */
+    public void revokePermission(Role role, Resource res, Operation op) {
+        Connection conn = getConnection();
+        try {
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM rolePermissions WHERE roleId = ? AND resource = ? AND operation = ?");
+            ps.setString(1, role.getRoleId());
+            ps.setString(2, res.getResourceId());
+            ps.setString(3, op.getOperationId());
+            ps.executeUpdate();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if(conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void newRole(String roleId) {
+        Connection conn = getConnection();
+        try {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO roles (roleId) VALUES (?)");
+            ps.setString(1, roleId);
+            ps.executeUpdate();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if(conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

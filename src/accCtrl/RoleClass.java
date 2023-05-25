@@ -7,11 +7,9 @@ public class RoleClass implements Role {
     public RoleClass(String roleId) {
         this.roleId = roleId;
     }
-
     @Override
     public String getRoleId() {
         return roleId;
     }
-
 
 }

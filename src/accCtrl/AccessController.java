@@ -1,6 +1,9 @@
 package accCtrl;
 
 import acc.Acc;
+import accCtrl.operations.Operation;
+import accCtrl.resources.Resource;
+
 import java.util.List;
 
 public interface AccessController {

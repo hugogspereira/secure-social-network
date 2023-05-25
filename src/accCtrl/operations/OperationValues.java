@@ -1,0 +1,21 @@
+package accCtrl.operations;
+
+public enum OperationValues {
+    ACCESS_PAGE("access page"),
+    CREATE_POST("create post"),
+    DELETE_POST("delete post"),
+    LIKE_POST("like post"),
+    UNLIKE_POST("unlike post"),
+    CREATE_PAGE("create page"),
+    DELETE_PAGE("delete page");
+
+    private final String operation;
+
+    OperationValues(String operation) {
+        this.operation = operation;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+}
