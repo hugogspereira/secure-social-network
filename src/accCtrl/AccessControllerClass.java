@@ -3,6 +3,7 @@ package accCtrl;
 import acc.Acc;
 import accCtrl.operations.Operation;
 import accCtrl.resources.Resource;
+import exc.AccessControlError;
 import storage.DbAccount;
 import java.util.List;
 
@@ -50,19 +51,24 @@ public class AccessControllerClass implements AccessController {
 
     @Override
     public Capability makeKey(Role role) {
-        // TODO
-        return new CapabilityClass(role);
+        return new CapabilityClass(role, DbAccount.getInstance().getPermissions(role));
     }
 
     @Override
-    public void checkPermission(Capability key, Resource res, Operation op) {
-        // TODO
+    public void checkPermission(Capability capability, Resource res, Operation op) throws AccessControlError {
+        /*
+         * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         * TODO: Nota: Temos de ter a certeza que a capability tem sempre o valor mais atualizado
+         * Quando é q a capability é atualizada? Sempre que é feito um grant ou revoke
+         * Quando é que metemos a capability atualizada na sessão? (O possivel ramo else no inner loop deste método)
+         * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         */
 
-        // Criar uma capability a partir do res e do op e ver se é "igual" à capability q foi passada como argumento
-            // NOTA: n é ser igual, é conter essa permissao
-        // Se for igual, então o user tem permissão
-        // Se não for igual, então temos de ir à DB ver se tem permissão
-        // Se nao tiver, então nao tem permissão
+        if(!capability.hasPermission(res, op)) {
+            if(!DbAccount.getInstance().hasPermission(capability.getRoleId(), res, op)) {
+                throw new AccessControlError("User does not have permission to perform this operation on this resource");
+            }
+        }
     }
 
 }

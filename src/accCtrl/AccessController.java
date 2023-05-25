@@ -3,6 +3,7 @@ package accCtrl;
 import acc.Acc;
 import accCtrl.operations.Operation;
 import accCtrl.resources.Resource;
+import exc.AccessControlError;
 
 import java.util.List;
 
@@ -20,6 +21,6 @@ public interface AccessController {
 
     Capability makeKey(Role role);
 
-    void checkPermission(Capability key, Resource res, Operation op);
+    void checkPermission(Capability key, Resource res, Operation op) throws AccessControlError;
 
 }
