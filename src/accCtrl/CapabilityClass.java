@@ -38,26 +38,4 @@ public class CapabilityClass implements Capability {
         return permissions.get(res.getResourceId()).contains(op.getOperationId());
     }
 
-
-    // TODO: Do not know if the methods bellow are really needed or not, lets wait to see
-    public byte[] serializeToBytes() {
-        try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-             ObjectOutputStream objectOut = new ObjectOutputStream(byteOut)) {
-            objectOut.writeObject(this);
-            return byteOut.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    public CapabilityClass deserializeFromBytes(byte[] bytes) {
-        try (ByteArrayInputStream byteIn = new ByteArrayInputStream(bytes);
-             ObjectInputStream objectIn = new ObjectInputStream(byteIn)) {
-            return (CapabilityClass) objectIn.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 }
