@@ -21,7 +21,6 @@
 <h1>Manage Users</h1>
 <ul>
     <li><a href="<%=request.getContextPath()%>/ChangePassword">Change Password</a></li>
-    <li><a href="<%=request.getContextPath()%>/Test">Count Application</a></li>
     <li><a href="<%=request.getContextPath()%>/Logout">Logout</a></li>
 </ul>
 <p style="color:red;"> ${pageContext.request.getAttribute("errorMessage")} </p>

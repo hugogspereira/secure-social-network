@@ -14,6 +14,18 @@ public class SN {
     private static Connection theconnection = null;
 
     Statement stmt;
+
+	private static SN instance;
+
+	public static SN getInstance() throws Exception {
+		if(instance == null) {
+			instance = new SN();
+
+			instance.DBDrop();
+			instance.DBBuild();
+		}
+		return instance;
+	}
 	
     void connect() throws Exception {
 		if(theconnection==null) {
@@ -23,7 +35,7 @@ public class SN {
 
     static SN theapp = null;
 
-    SN() throws Exception {
+    public SN() throws Exception {
 		connect();
 		stmt=theconnection.createStatement();
     }
