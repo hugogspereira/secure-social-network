@@ -21,6 +21,6 @@ public interface AccessController {
 
     Capability makeKey(Role role);
 
-    void checkPermission(Capability key, Resource res, Operation op) throws AccessControlError;
+    void checkPermission(List<Capability> key, Resource res, Operation op) throws AccessControlError;
 
 }

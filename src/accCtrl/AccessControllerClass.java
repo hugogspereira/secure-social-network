@@ -55,7 +55,7 @@ public class AccessControllerClass implements AccessController {
     }
 
     @Override
-    public void checkPermission(Capability capability, Resource res, Operation op) throws AccessControlError {
+    public void checkPermission(List<Capability> capabilities, Resource res, Operation op) throws AccessControlError {
         /*
          * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
          * TODO: Nota: Temos de ter a certeza que a capability tem sempre o valor mais atualizado
@@ -63,12 +63,15 @@ public class AccessControllerClass implements AccessController {
          * Quando é que metemos a capability atualizada na sessão? (O possivel ramo else no inner loop deste método)
          * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
          */
-
-        if(!capability.hasPermission(res, op)) {
-            if(!DbAccount.getInstance().hasPermission(capability.getRoleId(), res, op)) {
-                throw new AccessControlError("User does not have permission to perform this operation on this resource");
+        for (Capability capability: capabilities) {
+            if(!capability.hasPermission(res, op)) {
+                if(DbAccount.getInstance().hasPermission(capability.getRoleId(), res, op))
+                    break;
             }
+            else
+                break;
         }
+        throw new AccessControlError("User does not have permission to perform this operation on this resource");
     }
 
 }
