@@ -9,7 +9,7 @@ import java.util.*;
 
 public class SN {
     
-    private String dburl = "jdbc:sqlite:../webapps/seg-soft/SQLite.db";
+    private String dburl = "jdbc:sqlite:C:\\Program Files\\apache-tomcat-9.0.73\\webapps\\seg-soft\\SQLite.db";
 
     private static Connection theconnection = null;
 
@@ -36,6 +36,7 @@ public class SN {
     static SN theapp = null;
 
     public SN() throws Exception {
+		Class.forName("org.sqlite.JDBC");
 		connect();
 		stmt=theconnection.createStatement();
     }
@@ -237,7 +238,7 @@ public class SN {
      public List<PageObject> getAllPages() throws SQLException {
 		 List<PageObject> lpages = new ArrayList<PageObject>();
 		 Statement stmtl = theconnection.createStatement();
-		 ResultSet rs    = stmtl.executeQuery("select page_id from page");
+		 ResultSet rs    = stmtl.executeQuery("select page_id from page order by page_id ASC");
 		 while (rs.next()) {
 			 PageObject p = getPage(rs.getInt("page_id"));
 			 lpages.add(p);
