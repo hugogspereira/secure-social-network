@@ -11,6 +11,7 @@ import auth.Auth;
 import auth.Authenticator;
 import exc.AccessControlError;
 import exc.AuthenticationError;
+import io.jsonwebtoken.ExpiredJwtException;
 import socialNetwork.SN;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -49,6 +50,12 @@ public class CreatePageServlet extends HttpServlet {
             request.setAttribute("errorMessage", "Invalid username and/or password");
             request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
         }
+        catch (ExpiredJwtException e){
+            logger.log(Level.WARNING, "JWT has expired");
+            request.setAttribute("errorMessage", "Session has expired and/or is invalid");
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
+        }
+
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -74,6 +81,10 @@ public class CreatePageServlet extends HttpServlet {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
             request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
+        } catch (ExpiredJwtException e){
+            logger.log(Level.WARNING, "JWT has expired");
+            request.setAttribute("errorMessage", "Session has expired and/or is invalid");
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         } catch (SQLException e) {
             logger.log(Level.WARNING, "SQL Exception on creating page");
             request.setAttribute("errorMessage", "Problems regarding the creation of the page. Please try again later.");

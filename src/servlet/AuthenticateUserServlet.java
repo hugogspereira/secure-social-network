@@ -61,7 +61,7 @@ public class AuthenticateUserServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/ManageUsers");
             logger.log(Level.INFO, "User '" + username + "' has been authenticated");
         }
-        catch (AuthenticationError e) {
+        catch (AuthenticationError | AccountDoesNotExist e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
             request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
@@ -74,11 +74,6 @@ public class AuthenticateUserServlet extends HttpServlet {
         catch (EncryptionDontWork e) {
             logger.log(Level.SEVERE, "Problems with encryption");
             request.setAttribute("errorMessage", "Something went wrong, please try again");
-            request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
-        }
-        catch (AccountDoesNotExist e) {
-            logger.log(Level.WARNING, "Invalid username or password");
-            request.setAttribute("errorMessage", "Invalid username and/or password");
             request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
         }
     }
