@@ -35,8 +35,6 @@
 <body>
 <h1>Page ${pageContext.request.getParameter("id")}</h1>
 
-
-
 <p style="color:red;"> ${pageContext.request.getAttribute("errorMessage")} </p>
 </body>
 </html>

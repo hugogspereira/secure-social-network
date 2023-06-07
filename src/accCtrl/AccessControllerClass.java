@@ -66,10 +66,10 @@ public class AccessControllerClass implements AccessController {
         for (Capability capability: capabilities) {
             if(!capability.hasPermission(res, op)) {
                 if(DbAccount.getInstance().hasPermission(capability.getRoleId(), res, op))
-                    break;
+                    return;
             }
             else
-                break;
+                return;
         }
         throw new AccessControlError("User does not have permission to perform this operation on this resource");
     }
