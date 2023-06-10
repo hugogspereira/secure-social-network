@@ -17,7 +17,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Page</title>
+    <title>Post</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -52,8 +52,18 @@
 
 <ul>
     <%
+    String pathInfo =  request.getPathInfo();
+    String postIdValue = null;
+    if (pathInfo != null && pathInfo.length() > 1) {
+        postIdValue = pathInfo.substring(1).split("-")[1];
 
+        PostObject post = sn.getPost(Integer.parseInt(postIdValue));
     %>
+    <h1>Post</h1>
+    <li></li>
+    <li>Post ID: <%= post.getPostId() %></li>
+    <li>Post Date: <%= post.getPostDate() %></li>
+    <li>Post Content: <%= post.getPostText() %></li>
 </ul>
 </body>
 </html>

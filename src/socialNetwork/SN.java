@@ -303,7 +303,18 @@ public class SN {
 		 }
 		 return lpages;
      }
-    
+
+	public List<PageObject> getPages(String username) throws SQLException {
+		List<PageObject> lpages = new ArrayList<PageObject>();
+		Statement stmtl = theconnection.createStatement();
+		ResultSet rs    = stmtl.executeQuery("select page_id from page where user_id="+username);
+		while (rs.next()) {
+			PageObject p = getPage(rs.getInt(0));
+			lpages.add(p);
+		}
+		return lpages;
+	}
+
     public List<PageObject> getfollowed(int page_id) throws SQLException {
 		 List<PageObject> lpages = new ArrayList<PageObject>();
 		 Statement stmtl = theconnection.createStatement();
@@ -315,6 +326,16 @@ public class SN {
 		 return lpages;
      }
 
+	public List<PageObject> getrequests(int page_id) throws SQLException {
+		List<PageObject> lpages = new ArrayList<PageObject>();
+		Statement stmtl = theconnection.createStatement();
+		ResultSet rs    = stmtl.executeQuery("select page_idd from follower where status=\"PENDING\" "+" and page_ids="+page_id);
+		while (rs.next()) {
+			PageObject p = getPage(rs.getInt("page_idd"));
+			lpages.add(p);
+		}
+		return lpages;
+	}
     
 }
 

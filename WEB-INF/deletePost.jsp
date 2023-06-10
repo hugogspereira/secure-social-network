@@ -1,23 +1,8 @@
-<%@ page import="socialNetwork.PageObject" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Iterator" %>
-<%@ page import="socialNetwork.SN" %>
-<%@ page import="socialNetwork.PostObject" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
-<%
-    SN sn;
-    try {
-        sn = SN.getInstance();
-    } catch (Exception e) {
-        throw new RuntimeException(e);
-    }
-%>
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Page</title>
+    <title>Delete Post</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -38,22 +23,22 @@
             display: inline-block;
             width: 150px;
         }
-        .flex-parent {
-            display: flex;
-        }
-        .flex-child {
-            flex: 1;
-        }
     </style>
 </head>
 <body>
+    <h1>Delete Post</h1>
 
-<p style="color:red;"> ${pageContext.request.getAttribute("errorMessage")} </p>
-
-<ul>
-    <%
-
-    %>
-</ul>
+        <%
+            if(request.getAttribute("errorMessage") == null) {
+        %>
+            <p>Successful Post Elimination<p>
+        <%
+            } else {
+        %>
+            <p style="color:red;">${pageContext.request.getAttribute("errorMessage")}<p>
+        <%
+            }
+        %>
+    <p><a href="${pageContext.request.contextPath}/ManageUsers">Home</a></p>
 </body>
 </html>

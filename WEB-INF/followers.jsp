@@ -17,7 +17,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Page</title>
+    <title>Followers</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -47,12 +47,27 @@
     </style>
 </head>
 <body>
+<h1>Pages</h1>
 
 <p style="color:red;"> ${pageContext.request.getAttribute("errorMessage")} </p>
 
 <ul>
     <%
+        String pathInfo = request.getPathInfo();
+        String pageIdValue;
+        if (pathInfo != null && pathInfo.length() > 1) {
+            pageIdValue = pathInfo.substring(1).split("-")[1];
+            PageObject pageObject = sn.getPage(Integer.parseInt(pageIdValue));
 
+            for (PageObject curObject: sn.getfollowers(pageObject.getPageId())) {
+
+    %>
+    <li>
+        <a href="<%= request.getContextPath() %>/Page-<%= curObject.getPageId() %>">Page <%= curObject.getPageId() %></a>
+    </li>
+    <%
+        }
+    }
     %>
 </ul>
 </body>

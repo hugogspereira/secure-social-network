@@ -33,10 +33,12 @@ public class ManageUsersServlet extends HttpServlet {
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
             logger.log(Level.INFO, "User '" + authUser.getAccountName() + "' is trying to manage users");
 
-            if (authUser.getAccountName().equals("root"))
+            if (authUser.getAccountName().equals("root")) {
                 request.getRequestDispatcher("/WEB-INF/manageUsersRoot.jsp").forward(request, response);
-            else
+            }
+            else {
                 request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
+            }
         }
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username and/or password");

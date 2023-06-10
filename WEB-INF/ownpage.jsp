@@ -17,7 +17,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Page</title>
+    <title>Own Page</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -47,12 +47,45 @@
     </style>
 </head>
 <body>
+<h1>Page ${pageContext.request.getParameter("id")}</h1>
 
 <p style="color:red;"> ${pageContext.request.getAttribute("errorMessage")} </p>
 
 <ul>
     <%
+        String pathInfo = request.getPathInfo();
+        String pageIdValue;
+        if (pathInfo != null && pathInfo.length() > 1) {
+            pageIdValue = pathInfo.substring(1).split("-")[1];
 
+    %>
+    <li></li>
+    <li><a href="<%=request.getContextPath()%>/CreatePost-<%=pageIdValue%>">Create Post</a></li>
+    <li></li>
+    <%
+        int i = 0;
+        for (PostObject postObject: sn.getPagePosts(Integer.parseInt(pageIdValue))) {
+
+    %>
+    <li>
+        <a href="<%= request.getContextPath() %>/Post-<%= postObject.getPostId() %>">Post <%= i %></a>
+        |
+        LIKES - <%= sn.getLikes(postObject.getPostId()) %>
+        |
+        <a href="<%= request.getContextPath() %>/Delete-<%= postObject.getPostId() %>">DELETE</a>
+    </li>
+    <%
+            i++;
+        }
+        %>
+    <li></li>
+    <li><a href="<%=request.getContextPath()%>/Followers-<%=pageIdValue%>">Followers</a></li>
+    <li></li>
+    <li></li>
+    <li><a href="<%=request.getContextPath()%>/FollowersRequests-<%=pageIdValue%>">Follow Requests</a></li>
+    <li></li>
+    <%
+    }
     %>
 </ul>
 </body>

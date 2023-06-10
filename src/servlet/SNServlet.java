@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "Social Network", urlPatterns = {"/SN"})
+@WebServlet(name = "Social Network", urlPatterns = {"/SocialNetwork-*"})
 public class SNServlet extends HttpServlet {
 
     private Auth auth;
@@ -32,9 +32,8 @@ public class SNServlet extends HttpServlet {
 
         try {
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
-
+            //checkpermission
             request.getRequestDispatcher("/WEB-INF/sn.jsp").forward(request, response);
-
             logger.log(Level.INFO, authUser.getAccountName() + " is viewing the social network.");
         }
         catch (AuthenticationError e) {

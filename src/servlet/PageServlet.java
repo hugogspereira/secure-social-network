@@ -12,6 +12,7 @@ import auth.Authenticator;
 import exc.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
+import socialNetwork.SN;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +24,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "Page", urlPatterns = {"/Page"})
+@WebServlet(name = "Page", urlPatterns = {"/Page-*"})
 public class PageServlet extends HttpServlet {
 
     private Auth auth;
@@ -45,13 +46,21 @@ public class PageServlet extends HttpServlet {
 
             List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
 
-            String pageId = request.getParameter("id");
-
             accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.ACCESS_PAGE.getOperation()));
 
-            request.getRequestDispatcher("/WEB-INF/page.jsp").forward(request, response);
+            String pathInfo = request.getPathInfo();
+            String pageIdValue;
+            if (pathInfo != null && pathInfo.length() > 1) {
+                pageIdValue = pathInfo.substring(1).split("-")[1];
 
-            logger.log(Level.INFO, authUser.getAccountName() + " is accessing page: " + pageId + " ." );
+                if(SN.getInstance().getPage(Integer.parseInt(pageIdValue)).getUserId().equals(authUser.getAccountName())){
+                    request.getRequestDispatcher("/WEB-INF/ownpage.jsp").forward(request, response);
+                }
+                else {
+                    request.getRequestDispatcher("/WEB-INF/page.jsp").forward(request, response);
+                }
+                logger.log(Level.INFO, authUser.getAccountName() + " is accessing page: " + pageIdValue + " ." );
+            }
         }
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
