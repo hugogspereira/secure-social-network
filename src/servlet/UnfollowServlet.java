@@ -61,6 +61,9 @@ public class UnfollowServlet extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/sn.jsp").forward(request, response);
                 logger.log(Level.INFO, authUser.getAccountName() + " is viewing the social network.");
             }
+            else {
+                // TODO: REDIRECT
+            }
         }
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");

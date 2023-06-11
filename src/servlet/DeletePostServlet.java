@@ -9,9 +9,10 @@ import accCtrl.operations.OperationValues;
 import accCtrl.resources.ResourceClass;
 import auth.Auth;
 import auth.Authenticator;
-import exc.*;
+import exc.AccessControlError;
+import exc.AuthenticationError;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.SignatureException;
+import socialNetwork.PageObject;
 import socialNetwork.SN;
 
 import javax.servlet.ServletException;
@@ -20,12 +21,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "Page", urlPatterns = {"/Page"})
-public class PageServlet extends HttpServlet {
+@WebServlet(name = "DeletePost", urlPatterns = {"/DeletePost"})
+public class DeletePostServlet extends HttpServlet {
 
     private Auth auth;
     private AccessController accessController;
@@ -34,35 +36,30 @@ public class PageServlet extends HttpServlet {
     @Override
     public void init() {
         auth = Authenticator.getInstance();
-        accessController = AccessControllerClass.getInstance();;
+        accessController = AccessControllerClass.getInstance();
+
         logger = Logger.getLogger(CreateAccServlet.class.getName());
         logger.setLevel(Level.FINE);
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         try {
-            Acc authUser = auth.checkAuthenticatedRequest(request, response);
+            auth.checkAuthenticatedRequest(request, response);
 
             String pageId = request.getParameter("pageId");
 
-            /*
-             * TODO
-             *  - I think there is no problem with this permission because they can access all pages in the social network
-             */
+            // TODO - ver este com atencao, n sei se esta bem - olhar par o onwpage servlet
+            // Lembrar que as pessoas podem n usar o jsp e fazer diretamente o pedido estilo postman, n serao quebradas as regras de seguranca????
 
-            if(pageId != null) {
-                if(SN.getInstance().getPage(Integer.parseInt(pageId)).getUserId().equals(authUser.getAccountName())){
-                    request.getRequestDispatcher("/WEB-INF/ownpage.jsp").forward(request, response);
-                }
-                else {
-                    request.getRequestDispatcher("/WEB-INF/page.jsp").forward(request, response);
-                }
-                logger.log(Level.INFO, authUser.getAccountName() + " is accessing page: " + pageId + " ." );
-            }
-            else {
-                // TODO: REDIRECT
-            }
+            List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
+            // TODO check permission para ver se este role tem a permissao de dar delete de posts
+            accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.DELETE_POST));
+            // TODO Check permission se o user pode eliminar posts nesta pagina
+            // ???
+
+
+            request.getRequestDispatcher("/WEB-INF/deletePost.jsp").forward(request, response);
+            logger.log(Level.INFO, "INFO");
         }
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
@@ -70,24 +67,14 @@ public class PageServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
         }
         catch (ExpiredJwtException e){
-            logger.log(Level.WARNING, "Session has expired");
-            request.setAttribute("errorMessage", "Session has expired and/or is invalid");
-            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
-        }
-        catch (SignatureException e){
-            logger.log(Level.WARNING, "JWT has been tampered with or is invalid");
+            logger.log(Level.WARNING, "JWT has expired");
             request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (AccessControlError e) {
             logger.log(Level.WARNING, "Invalid permissions for this operation");
             request.setAttribute("errorMessage", "Invalid permissions for this operation");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
-        }
-        catch (Exception e) {
-            logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
-            request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
+            // TODO: Redirect to home page
         }
     }
 
@@ -96,24 +83,39 @@ public class PageServlet extends HttpServlet {
             Acc userAcc = auth.checkAuthenticatedRequest(request, response);
 
             List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
+            accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.DELETE_PAGE));
 
-            accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.CREATE_PAGE.getOperation()));
+            int pageId = Integer.parseInt(request.getParameter("pageid"));
+            SN socialNetwork = SN.getInstance();
+            PageObject page = socialNetwork.getPage(pageId);
+            socialNetwork.deletePage(page);
 
-            //TODO gostava que a partir da pagina de um user dava para fazer tudo tipo ver os posts/likes/followers
+            logger.log(Level.INFO, "Deleted successfully the page of user: "+page.getUserId()+", by the user: "+userAcc.getAccountName()+".");
 
-        } catch (AuthenticationError e) {
+            // Redirect to home page after successful page deletion
+            response.sendRedirect(request.getContextPath() + "/ManageUsers");
+        }
+        catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
             request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
-        } catch (ExpiredJwtException e){
+        }
+        catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
             request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
-        } catch (AccessControlError e) {
+        }
+        catch (SQLException e) {
+            logger.log(Level.WARNING, "SQL Exception on creating page");
+            request.setAttribute("errorMessage", "Problems regarding the creation of the page. Please try again later.");
+            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
+        }
+        catch (AccessControlError e) {
             logger.log(Level.WARNING, "Invalid permissions for this operation");
             request.setAttribute("errorMessage", "Invalid permissions for this operation");
             request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
             request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);

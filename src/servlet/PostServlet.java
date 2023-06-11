@@ -9,7 +9,8 @@ import accCtrl.operations.OperationValues;
 import accCtrl.resources.ResourceClass;
 import auth.Auth;
 import auth.Authenticator;
-import exc.*;
+import exc.AccessControlError;
+import exc.AuthenticationError;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import socialNetwork.SN;
@@ -24,8 +25,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "Page", urlPatterns = {"/Page"})
-public class PageServlet extends HttpServlet {
+@WebServlet(name = "Post", urlPatterns = {"/Post"})
+public class PostServlet extends HttpServlet {
 
     private Auth auth;
     private AccessController accessController;
@@ -45,19 +46,16 @@ public class PageServlet extends HttpServlet {
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
 
             String pageId = request.getParameter("pageId");
+            String visiterPageId = request.getParameter("visiterPageId");
 
-            /*
-             * TODO
-             *  - I think there is no problem with this permission because they can access all pages in the social network
-             */
+            List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
+            // TODO check permission para ver se este role tem a permissao de aceder
+            accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.ACCESS_POST));
+            // TODO Check permission se visiterPageId pode ver o post !! Ou seja se essa pagina segue a pagina do post (pageID) e o user tem de ser o dono da visitedPageId
+            // ???
 
-            if(pageId != null) {
-                if(SN.getInstance().getPage(Integer.parseInt(pageId)).getUserId().equals(authUser.getAccountName())){
-                    request.getRequestDispatcher("/WEB-INF/ownpage.jsp").forward(request, response);
-                }
-                else {
-                    request.getRequestDispatcher("/WEB-INF/page.jsp").forward(request, response);
-                }
+            if(pageId != null && visiterPageId != null) {
+                request.getRequestDispatcher("/WEB-INF/post.jsp").forward(request, response);
                 logger.log(Level.INFO, authUser.getAccountName() + " is accessing page: " + pageId + " ." );
             }
             else {
