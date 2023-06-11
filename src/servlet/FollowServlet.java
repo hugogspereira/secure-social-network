@@ -13,7 +13,6 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import socialNetwork.FState;
 import socialNetwork.SN;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -65,7 +64,7 @@ public class FollowServlet extends HttpServlet {
                     throw new AlreadyRequestedFollow();
                 }
                 request.getRequestDispatcher("/WEB-INF/sn.jsp").forward(request, response);
-                logger.log(Level.INFO, authUser.getAccountName() + " is viewing the social network.");
+                logger.log(Level.INFO, authUser.getAccountName() + " requested a follow in  the social network.");
             }
             else {
                 // TODO: REDIRECT

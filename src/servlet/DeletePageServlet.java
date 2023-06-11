@@ -54,7 +54,7 @@ public class DeletePageServlet extends HttpServlet {
 
 
             request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
-            logger.log(Level.INFO, "INFO");
+            logger.log(Level.INFO, "Deleting a page");
         }
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");

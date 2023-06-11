@@ -55,7 +55,7 @@ public class CreatePostServlet extends HttpServlet {
 
 
             request.getRequestDispatcher("/WEB-INF/createPost.jsp").forward(request, response);
-            logger.log(Level.INFO, userAcc.getAccountName() + " is creating a page.");
+            logger.log(Level.INFO, userAcc.getAccountName() + " is creating a post.");
         }
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
@@ -90,7 +90,7 @@ public class CreatePostServlet extends HttpServlet {
             SN socialNetwork = SN.getInstance();
             socialNetwork.newPage(username, email, pageTitle, pagePic);
 
-            logger.log(Level.INFO, "Page for user "+username+" was created successfully. By user "+userAcc.getAccountName()+".");
+            logger.log(Level.INFO, "Post for user "+username+" was created successfully. By user "+userAcc.getAccountName()+".");
             // Redirect to home page after successful page creation
             response.sendRedirect(request.getContextPath() + "/ManageUsers");
         }

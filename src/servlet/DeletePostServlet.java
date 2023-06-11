@@ -59,7 +59,7 @@ public class DeletePostServlet extends HttpServlet {
 
 
             request.getRequestDispatcher("/WEB-INF/deletePost.jsp").forward(request, response);
-            logger.log(Level.INFO, "INFO");
+            logger.log(Level.INFO, "Deleting a post.");
         }
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
