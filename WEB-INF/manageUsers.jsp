@@ -1,18 +1,5 @@
-<%@ page import="acc.Acc" %>
-<%@ page import="auth.Authenticator" %>
-<%@ page import="socialNetwork.SN" %>
-<%@ page import="socialNetwork.PageObject" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%
-    Acc authUser = Authenticator.getInstance().checkAuthenticatedRequest(request, response);
-    SN sn;
-    try {
-        sn = SN.getInstance();
-    } catch (Exception e) {
-        throw new RuntimeException(e);
-    }
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,15 +21,27 @@
 <body>
 <h1>Manage Users</h1>
 <ul>
+    <%
+        socialNetwork.SN sn;
+        try {
+            sn = socialNetwork.SN.getInstance();
+
+    %>
     <li><a href="<%=request.getContextPath()%>/ChangePassword">Change Password</a></li>
     <li><a href="<%=request.getContextPath()%>/Logout">Logout</a></li>
     <%
-        for (PageObject curPage: sn.getPages(authUser.getAccountName())) {
+        for (socialNetwork.PageObject curPage: sn.getPages(request.getParameter("username"))) {
     %>
     <li></li>
-    <li><a href="<%=request.getContextPath()%>/SocialNetwork-<%=curPage.getPageId()%>">Feed (Social Network)</a></li>
-    <li><a href="<%=request.getContextPath()%>/Page-<%=curPage.getPageId()%>">Page <%=curPage.getPageId()%></a></li>
+    <li><a href="<%=request.getContextPath()%>/SocialNetwork?pageId=<%=curPage.getPageId()%>">Feed (Social Network)</a></li>
+    <li><a href="<%=request.getContextPath()%>/Page?pageId=<%=curPage.getPageId()%>">Page <%=curPage.getPageId()%></a></li>
     <%
+        }
+    %>
+
+    <%
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     %>
 </ul>

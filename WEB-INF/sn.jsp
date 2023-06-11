@@ -50,28 +50,25 @@
 <ul>
     <%
         PageObject current;
-        String pathInfo =  request.getPathInfo();
-        String pageIdValue = null;
-        if (pathInfo != null && pathInfo.length() > 1) {
-            pageIdValue = pathInfo.substring(1).split("-")[1];
-
+        String pageId =  request.getParameter("pageId");
+        if (pageId != null) {
             int i = 1;
             while(pages.hasNext()){
                 current = pages.next();
 
-                if(sn.getfollow(Integer.parseInt(pageIdValue), current.getPageId()).equals(FState.NONE)) {
+                if(sn.getfollow(Integer.parseInt(pageId), current.getPageId()).equals(FState.NONE)) {
     %>
-    <li><a href="<%=request.getContextPath()%>/Page-=<%=current.getPageId()%>"> Page <%=i%> (<%=current.getUserId()%>'s page)         |           FOLLOW</a></li>
+    <li><a href="<%=request.getContextPath()%>/Page?pageId=<%=current.getPageId()%>>?visiterPageId=<%=pageId%>"> Page <%=i%> (<%=current.getUserId()%>'s page)         |           FOLLOW</a></li>
     <%
     }
-    else if(sn.getfollow(Integer.parseInt(pageIdValue), current.getPageId()).equals(FState.PENDING)) {
+    else if(sn.getfollow(Integer.parseInt(pageId), current.getPageId()).equals(FState.PENDING)) {
     %>
-    <li><a href="<%=request.getContextPath()%>/Page-=<%=current.getPageId()%>"> Page <%=i%> (<%=current.getUserId()%>'s page)         |           PENDING</a></li>
+    <li><a href="<%=request.getContextPath()%>/Page?pageId=<%=current.getPageId()%>>?visiterPageId=<%=pageId%>"> Page <%=i%> (<%=current.getUserId()%>'s page)         |           PENDING</a></li>
     <%
     }
     else {
     %>
-    <li><a href="<%=request.getContextPath()%>/Page-=<%=current.getPageId()%>"> Page <%=i%> (<%=current.getUserId()%>'s page)         |           UNFOLLOW</a></li>
+    <li><a href="<%=request.getContextPath()%>/Page?pageId=<%=current.getPageId()%>>?visiterPageId=<%=pageId%>"> Page <%=i%> (<%=current.getUserId()%>'s page)         |           UNFOLLOW</a></li>
     <%
                 }
                 i++;

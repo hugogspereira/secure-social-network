@@ -9,8 +9,6 @@ import java.util.*;
 
 public class SN {
     
-    private String dburl = "jdbc:sqlite:C:\\Program Files\\apache-tomcat-9.0.73\\webapps\\seg-soft\\SQLite.db";
-
     private static Connection theconnection = null;
 
     Statement stmt;
@@ -29,7 +27,9 @@ public class SN {
 	
     void connect() throws Exception {
 		if(theconnection==null) {
-			theconnection = DriverManager.getConnection(dburl);
+			Class.forName("org.sqlite.JDBC");
+			String sqliteConn = "jdbc:sqlite:../webapps/seg-soft/SQLite.db";
+			theconnection = DriverManager.getConnection(sqliteConn);
 		}
     }
 
@@ -266,6 +266,16 @@ public class SN {
 		 }
 		 return lpages;
      }
+
+	public boolean isLiked(int post_id, int visitor_pag_id) throws SQLException {
+		List<PageObject> lpages = new ArrayList<PageObject>();
+		Statement stmtl = theconnection.createStatement();
+		ResultSet rs    = stmtl.executeQuery("select count(*) from likes where post_id="+post_id+" and page_id ="+visitor_pag_id);
+		while (rs.next()) {
+			return true;
+		}
+		return false;
+	}
 
     // Follow
     

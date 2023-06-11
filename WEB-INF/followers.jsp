@@ -53,17 +53,15 @@
 
 <ul>
     <%
-        String pathInfo = request.getPathInfo();
-        String pageIdValue;
-        if (pathInfo != null && pathInfo.length() > 1) {
-            pageIdValue = pathInfo.substring(1).split("-")[1];
-            PageObject pageObject = sn.getPage(Integer.parseInt(pageIdValue));
+        String pageId = request.getParameter("pageId");
+        if (pageId != null) {
+            PageObject pageObject = sn.getPage(Integer.parseInt(pageId));
 
             for (PageObject curObject: sn.getfollowers(pageObject.getPageId())) {
 
     %>
     <li>
-        <a href="<%= request.getContextPath() %>/Page-<%= curObject.getPageId() %>">Page <%= curObject.getPageId() %></a>
+        <a href="<%= request.getContextPath() %>/Page?pageId=<%= curObject.getPageId() %>?visiterPageId=<%=pageId%>">Page <%= curObject.getPageId() %></a>
     </li>
     <%
         }

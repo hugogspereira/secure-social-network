@@ -53,21 +53,18 @@
 
 <ul>
     <%
-        String pathInfo = request.getPathInfo();
-        String pageIdValue;
-        if (pathInfo != null && pathInfo.length() > 1) {
-            pageIdValue = pathInfo.substring(1).split("-")[1];
-            PageObject pageObject = sn.getPage(Integer.parseInt(pageIdValue));
+        String pageId = request.getParameter("pageId");
+        if (pageId != null) {
+            PageObject pageObject = sn.getPage(Integer.parseInt(pageId));
 
-            for (PageObject curObject: sn.getrequests(Integer.parseInt(pageIdValue))) {
-
+            for (PageObject curObject: sn.getrequests(Integer.parseInt(pageId))) {
     %>
     <li>
-        <a href="<%= request.getContextPath() %>/Page-<%= curObject.getPageId() %>">Page <%= curObject.getPageId() %></a>
+        <a href="<%= request.getContextPath() %>/Page?pageId=<%= curObject.getPageId() %>?visiterPageId=<%=pageId%>">Page <%= curObject.getPageId() %></a>
         |
-        <a href="<%= request.getContextPath() %>/AcceptFollow-<%= pageObject.getPageId() %>-<%= curObject.getPageId() %>">ACCEPT</a>
+        <a href="<%= request.getContextPath() %>/AcceptFollow?pageId=<%= pageObject.getPageId() %>?pageRequestId=<%= curObject.getPageId() %>">ACCEPT</a>
         |
-        <a href="<%= request.getContextPath() %>/DeclineFollow-<%= pageObject.getPageId() %>-<%= curObject.getPageId() %>">DECLINE</a>
+        <a href="<%= request.getContextPath() %>/DeclineFollow?pageId=<%= pageObject.getPageId() %>?pageRequestId=<%= curObject.getPageId() %>">DECLINE</a>
     </li>
     <%
         }

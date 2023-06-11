@@ -52,18 +52,18 @@
 
 <ul>
     <%
-    String pathInfo =  request.getPathInfo();
-    String postIdValue = null;
-    if (pathInfo != null && pathInfo.length() > 1) {
-        postIdValue = pathInfo.substring(1).split("-")[1];
-
-        PostObject post = sn.getPost(Integer.parseInt(postIdValue));
+    String postId = request.getParameter("postId");
+    if (postId != null) {
+        PostObject post = sn.getPost(Integer.parseInt(postId));
     %>
     <h1>Post</h1>
     <li></li>
     <li>Post ID: <%= post.getPostId() %></li>
     <li>Post Date: <%= post.getPostDate() %></li>
     <li>Post Content: <%= post.getPostText() %></li>
+    <%
+        }
+    %>
 </ul>
 </body>
 </html>

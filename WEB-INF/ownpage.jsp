@@ -1,6 +1,3 @@
-<%@ page import="socialNetwork.PageObject" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Iterator" %>
 <%@ page import="socialNetwork.SN" %>
 <%@ page import="socialNetwork.PostObject" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -53,36 +50,33 @@
 
 <ul>
     <%
-        String pathInfo = request.getPathInfo();
-        String pageIdValue;
-        if (pathInfo != null && pathInfo.length() > 1) {
-            pageIdValue = pathInfo.substring(1).split("-")[1];
-
+        String pageId = request.getParameter("pageId");
+        if (pageId != null) {
     %>
     <li></li>
-    <li><a href="<%=request.getContextPath()%>/CreatePost-<%=pageIdValue%>">Create Post</a></li>
+    <li><a href="<%=request.getContextPath()%>/CreatePost?pageId=<%=pageId%>">Create Post</a></li>
     <li></li>
     <%
         int i = 0;
-        for (PostObject postObject: sn.getPagePosts(Integer.parseInt(pageIdValue))) {
+        for (PostObject postObject: sn.getPagePosts(Integer.parseInt(pageId))) {
 
     %>
     <li>
-        <a href="<%= request.getContextPath() %>/Post-<%= postObject.getPostId() %>">Post <%= i %></a>
+        <a href="<%= request.getContextPath() %>/Post?postId=<%= postObject.getPostId() %>?visiterPageId=<%=pageId%>">Post <%= i %></a>
         |
-        LIKES - <%= sn.getLikes(postObject.getPostId()) %>
+        LIKES - <%= sn.getLikes(postObject.getPostId()).size() %>
         |
-        <a href="<%= request.getContextPath() %>/Delete-<%= postObject.getPostId() %>">DELETE</a>
+        <a href="<%= request.getContextPath() %>/DeletePost?postId=<%= postObject.getPostId() %>">DELETE</a>
     </li>
     <%
             i++;
         }
         %>
     <li></li>
-    <li><a href="<%=request.getContextPath()%>/Followers-<%=pageIdValue%>">Followers</a></li>
+    <li><a href="<%=request.getContextPath()%>/Followers?pageId=<%=pageId%>">Followers</a></li>
     <li></li>
     <li></li>
-    <li><a href="<%=request.getContextPath()%>/FollowersRequests-<%=pageIdValue%>">Follow Requests</a></li>
+    <li><a href="<%=request.getContextPath()%>/FollowersRequests?pageId=<%=pageId%>">Follow Requests</a></li>
     <li></li>
     <%
     }

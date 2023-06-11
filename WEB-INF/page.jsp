@@ -1,6 +1,3 @@
-<%@ page import="socialNetwork.PageObject" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Iterator" %>
 <%@ page import="socialNetwork.SN" %>
 <%@ page import="socialNetwork.PostObject" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -52,7 +49,32 @@
 
 <ul>
     <%
+    String pageId = request.getParameter("pageId");
+    String visiterPageId = request.getParameter("visiterPageId");
+    if (pageId != null) {
+         int i = 0;
+         for (PostObject postObject: sn.getPagePosts(Integer.parseInt(pageId))) {
 
+    %>
+    <li>
+        <a href="<%= request.getContextPath() %>/Post?postId=<%= postObject.getPostId() %>?visiterPageId=<%=visiterPageId%>">Post <%= i %></a>
+        |
+        <%
+            if(sn.isLiked(postObject.getPostId(), Integer.parseInt(visiterPageId))) {
+        %>
+        <a href="<%= request.getContextPath() %>/Unlike?postId=<%= postObject.getPostId() %>?visiterPageId=<%=visiterPageId%>">UNLIKE</a>
+    </li>
+    <%
+            }
+            else {
+    %>
+    <a href="<%= request.getContextPath() %>/Like?postId=<%= postObject.getPostId() %>?visiterPageId=<%=visiterPageId%>">LIKE</a>
+    </li>
+    <%
+            }
+            i++;
+        }
+    }
     %>
 </ul>
 </body>
