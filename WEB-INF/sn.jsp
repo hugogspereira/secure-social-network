@@ -58,17 +58,29 @@
 
                 if(sn.getfollow(Integer.parseInt(pageId), current.getPageId()).equals(FState.NONE)) {
     %>
-    <li><a href="<%=request.getContextPath()%>/Page?pageId=<%=current.getPageId()%>>?visiterPageId=<%=pageId%>"> Page <%=i%> (<%=current.getUserId()%>'s page)         |           FOLLOW</a></li>
+    <li>
+        <a href="<%=request.getContextPath()%>/Page?pageId=<%=current.getPageId()%>>?visiterPageId=<%=pageId%>"> Page <%=i%> (<%=current.getUserId()%>'s page)</>a>
+        |
+        <a href="<%= request.getContextPath() %>/Follow?pageId=<%=current.getPageId()%>?visiterPageId=<%=pageId%>">FOLLOW</a>
+    </li>
     <%
     }
     else if(sn.getfollow(Integer.parseInt(pageId), current.getPageId()).equals(FState.PENDING)) {
     %>
-    <li><a href="<%=request.getContextPath()%>/Page?pageId=<%=current.getPageId()%>>?visiterPageId=<%=pageId%>"> Page <%=i%> (<%=current.getUserId()%>'s page)         |           PENDING</a></li>
+    <li>
+        <a href="<%=request.getContextPath()%>/Page?pageId=<%=current.getPageId()%>>?visiterPageId=<%=pageId%>"> Page <%=i%> (<%=current.getUserId()%>'s page)</>a>
+        |
+        <a href="<%= request.getContextPath() %>/Unfollow?pageId=<%=current.getPageId()%>?visiterPageId=<%=pageId%>">PENDING</a>
+    </li>
     <%
     }
     else {
     %>
-    <li><a href="<%=request.getContextPath()%>/Page?pageId=<%=current.getPageId()%>>?visiterPageId=<%=pageId%>"> Page <%=i%> (<%=current.getUserId()%>'s page)         |           UNFOLLOW</a></li>
+    <li>
+        <a href="<%=request.getContextPath()%>/Page?pageId=<%=current.getPageId()%>>?visiterPageId=<%=pageId%>"> Page <%=i%> (<%=current.getUserId()%>'s page)</>a>
+        |
+        <a href="<%= request.getContextPath() %>/Unfollow?pageId=<%=current.getPageId()%>?visiterPageId=<%=pageId%>">UNFOLLOW</a>
+    </li>
     <%
                 }
                 i++;
