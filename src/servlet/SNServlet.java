@@ -1,6 +1,10 @@
 package servlet;
 
 import acc.Acc;
+import accCtrl.Capability;
+import accCtrl.operations.OperationClass;
+import accCtrl.operations.OperationValues;
+import accCtrl.resources.ResourceClass;
 import auth.Auth;
 import auth.Authenticator;
 import exc.*;
@@ -13,10 +17,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "Social Network", urlPatterns = {"/SocialNetwork-*"})
+@WebServlet(name = "Social Network", urlPatterns = {"/SocialNetwork"})
 public class SNServlet extends HttpServlet {
 
     private Auth auth;
@@ -32,9 +37,18 @@ public class SNServlet extends HttpServlet {
 
         try {
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
-            //checkpermission
-            request.getRequestDispatcher("/WEB-INF/sn.jsp").forward(request, response);
-            logger.log(Level.INFO, authUser.getAccountName() + " is viewing the social network.");
+
+            /*
+             * TODO
+             *  - No need to check permissions/capabilities because users can access all pages in the social network
+             *  - Right??
+             */
+
+            String pageId = request.getParameter("pageId");
+            if(pageId != null) {
+                request.getRequestDispatcher("/WEB-INF/sn.jsp").forward(request, response);
+                logger.log(Level.INFO, authUser.getAccountName() + " is viewing the social network.");
+            }
         }
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
