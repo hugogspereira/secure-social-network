@@ -7,9 +7,12 @@ import accCtrl.operations.OperationValues;
 import accCtrl.resources.ResourceClass;
 import auth.Auth;
 import auth.Authenticator;
-import exc.*;
+import exc.AlreadyRequestedFollow;
+import exc.AuthenticationError;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
+import socialNetwork.FState;
+import socialNetwork.SN;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,12 +20,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "Social Network", urlPatterns = {"/SocialNetwork"})
-public class SNServlet extends HttpServlet {
+@WebServlet(name = "Follow", urlPatterns = {"/Follow"})
+public class FollowServlet extends HttpServlet {
 
     private Auth auth;
     private Logger logger;
@@ -38,14 +40,30 @@ public class SNServlet extends HttpServlet {
         try {
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
 
+            String pageId = request.getParameter("pageId");
+            String visiterPageId = request.getParameter("visiterPageId");
+
             /*
              * TODO
              *  - No need to check permissions/capabilities because users can access all pages in the social network
-             *  - Right?? (I think so)
+             *  - Right??
+             *
+             *  ! We might need to check if they are already following the page OR if it is pending !
              */
 
-            String pageId = request.getParameter("pageId");
-            if(pageId != null) {
+            if(pageId != null && visiterPageId != null) {
+                SN sn = SN.getInstance();
+                FState state = sn.getfollow(Integer.parseInt(visiterPageId), Integer.parseInt(pageId));
+
+                if(state == null) { // if it is not following
+                    SN.getInstance().follows(Integer.parseInt(visiterPageId), Integer.parseInt(pageId), FState.PENDING);
+                }
+                else if(state.equals(FState.NONE)) { // if the following state is none
+                    SN.getInstance().updatefollowsstatus(Integer.parseInt(visiterPageId), Integer.parseInt(pageId), FState.PENDING);
+                }
+                else { // if the following state is pending or accepted
+                    throw new AlreadyRequestedFollow();
+                }
                 request.getRequestDispatcher("/WEB-INF/sn.jsp").forward(request, response);
                 logger.log(Level.INFO, authUser.getAccountName() + " is viewing the social network.");
             }

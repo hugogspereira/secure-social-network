@@ -7,6 +7,10 @@ public class RoleClass implements Role {
     public RoleClass(String roleId) {
         this.roleId = roleId;
     }
+    public RoleClass(RoleValues role) {
+        this.roleId = role.getRoleName();
+    }
+
     @Override
     public String getRoleId() {
         return roleId;

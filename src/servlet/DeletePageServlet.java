@@ -44,9 +44,19 @@ public class DeletePageServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             auth.checkAuthenticatedRequest(request, response);
+
+            /*
+             *  Checkpermission - see if is admin or not
+             *  Note that, we will only check for the role capability because it is a general thing
+             */
+            List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
+            accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.DELETE_PAGE));
+
+
             request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
             logger.log(Level.INFO, "INFO");
-        } catch (AuthenticationError e) {
+        }
+        catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
             request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
@@ -56,6 +66,11 @@ public class DeletePageServlet extends HttpServlet {
             request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
+        catch (AccessControlError e) {
+            logger.log(Level.WARNING, "Invalid permissions for this operation");
+            request.setAttribute("errorMessage", "Invalid permissions for this operation");
+            // TODO: Redirect to home page
+        }
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -63,12 +78,10 @@ public class DeletePageServlet extends HttpServlet {
             Acc userAcc = auth.checkAuthenticatedRequest(request, response);
 
             List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
-
-            SN socialNetwork = SN.getInstance();
-            accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.DELETE_PAGE.getOperation()));
+            accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.DELETE_PAGE));
 
             int pageId = Integer.parseInt(request.getParameter("pageid"));
-
+            SN socialNetwork = SN.getInstance();
             PageObject page = socialNetwork.getPage(pageId);
             socialNetwork.deletePage(page);
 
@@ -76,23 +89,28 @@ public class DeletePageServlet extends HttpServlet {
 
             // Redirect to home page after successful page deletion
             response.sendRedirect(request.getContextPath() + "/ManageUsers");
-        } catch (AuthenticationError e) {
+        }
+        catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
             request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
-        } catch (ExpiredJwtException e){
+        }
+        catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
             request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             logger.log(Level.WARNING, "SQL Exception on creating page");
             request.setAttribute("errorMessage", "Problems regarding the creation of the page. Please try again later.");
             request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
-        } catch (AccessControlError e) {
+        }
+        catch (AccessControlError e) {
             logger.log(Level.WARNING, "Invalid permissions for this operation");
             request.setAttribute("errorMessage", "Invalid permissions for this operation");
             request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
             request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);

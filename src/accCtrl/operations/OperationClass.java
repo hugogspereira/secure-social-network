@@ -8,6 +8,10 @@ public class OperationClass implements Operation {
         this.id = id;
     }
 
+    public OperationClass(OperationValues operationValue) {
+        this.id = operationValue.getOperation();
+    }
+
     @Override
     public String getOperationId() {
         return id;

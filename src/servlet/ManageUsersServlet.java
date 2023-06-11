@@ -1,11 +1,14 @@
 package servlet;
 
 import acc.Acc;
+import accCtrl.RoleClass;
+import accCtrl.RoleValues;
 import auth.Auth;
 import auth.Authenticator;
 import exc.AuthenticationError;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
+import storage.DbAccount;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,7 +39,12 @@ public class ManageUsersServlet extends HttpServlet {
             if (authUser.getAccountName().equals("root")) {
                 request.getRequestDispatcher("/WEB-INF/manageUsersRoot.jsp").forward(request, response);
             }
+            else if(DbAccount.getInstance().getRoles(authUser.getAccountName()).contains(new RoleClass(RoleValues.ADMIN))) {
+                request.setAttribute("username", authUser.getAccountName());
+                request.getRequestDispatcher("/WEB-INF/manageUsersAdmin.jsp").forward(request, response);
+            }
             else {
+                request.setAttribute("username", authUser.getAccountName());
                 request.getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
             }
         }

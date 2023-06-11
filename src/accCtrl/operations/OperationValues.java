@@ -1,7 +1,7 @@
 package accCtrl.operations;
 
 public enum OperationValues {
-    ACCESS_PAGE("access page"),
+    ACCESS_POST("access post"),
     CREATE_POST("create post"),
     DELETE_POST("delete post"),
     LIKE_POST("like post"),
