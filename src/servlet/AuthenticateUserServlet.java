@@ -55,7 +55,6 @@ public class AuthenticateUserServlet extends HttpServlet {
             for (Role role: DbAccount.getInstance().getRoles(username)) {
                 capabilities.add(accessController.makeKey(role));
             }
-            // TODO: Encrypt !!!!!!
             session.setAttribute("Capability", capabilities);
 
             response.sendRedirect(request.getContextPath() + "/ManageUsers");

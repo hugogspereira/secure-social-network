@@ -47,7 +47,7 @@
     </style>
 </head>
 <body>
-<h1>Pages</h1>
+<h1>Followers:</h1>
 
 <p style="color:red;"> ${pageContext.request.getAttribute("errorMessage")} </p>
 
@@ -61,12 +61,13 @@
 
     %>
     <li>
-        <a href="<%= request.getContextPath() %>/Page?pageId=<%= curObject.getPageId() %>?visiterPageId=<%=pageId%>">Page <%= curObject.getPageId() %></a>
+        <a href="<%= request.getContextPath() %>/Page?pageId=<%= curObject.getPageId() %>&visiterPageId=<%=pageId%>">Page <%= curObject.getPageId() %></a>
     </li>
     <%
         }
     }
     %>
 </ul>
+<p><a href="${pageContext.request.contextPath}/ManageUsers">Home</a></p>
 </body>
 </html>

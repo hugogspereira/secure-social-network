@@ -50,7 +50,7 @@ public class UnfollowServlet extends HttpServlet {
 
             if(pageId != null && visiterPageId != null) {
                 SN sn = SN.getInstance();
-                FState state = sn.getfollow(Integer.parseInt(visiterPageId), Integer.parseInt(pageId));
+                FState state = sn.getfollowState(Integer.parseInt(visiterPageId), Integer.parseInt(pageId));
 
                 if(state != null) { // if it is following
                     SN.getInstance().updatefollowsstatus(Integer.parseInt(visiterPageId), Integer.parseInt(pageId), FState.NONE);
@@ -58,8 +58,8 @@ public class UnfollowServlet extends HttpServlet {
                 else { // if the following state is not following
                     throw new NotFollowing();
                 }
-                request.getRequestDispatcher("/WEB-INF/sn.jsp").forward(request, response);
-                logger.log(Level.INFO, authUser.getAccountName() + " is viewing the social network.");
+                response.sendRedirect(request.getContextPath() + "/SocialNetwork?pageId=" + visiterPageId);
+                logger.log(Level.INFO, authUser.getAccountName() + " unfollowed "+ pageId + " in  the social network.");
             }
             else {
                 // TODO: REDIRECT

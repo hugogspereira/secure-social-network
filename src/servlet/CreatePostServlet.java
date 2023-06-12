@@ -68,7 +68,7 @@ public class CreatePostServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (AccessControlError e) {
-            logger.log(Level.WARNING, "Invalid permissions for this operation");
+            logger.log(Level.WARNING, "Invalid permissions for this operation - GET");
             request.setAttribute("errorMessage", "Invalid permissions for this operation");
             // TODO: Redirect to home page
         }
@@ -79,18 +79,17 @@ public class CreatePostServlet extends HttpServlet {
         try {
             Acc userAcc = auth.checkAuthenticatedRequest(request, response);
 
-            List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
-            accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.CREATE_PAGE));
+            //List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
+            //accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.CREATE_POST));
 
-            String username = request.getParameter("username");
-            String email = request.getParameter("email");
-            String pageTitle = request.getParameter("pageTitle");
-            String pagePic = request.getParameter("pagePic");
+            int pageId = Integer.parseInt(request.getParameter("pageId"));
+            String postDate = request.getParameter("postDate");
+            String postText = request.getParameter("postText");
 
             SN socialNetwork = SN.getInstance();
-            socialNetwork.newPage(username, email, pageTitle, pagePic);
+            socialNetwork.newPost(pageId, postDate, postText);
 
-            logger.log(Level.INFO, "Post for user "+username+" was created successfully. By user "+userAcc.getAccountName()+".");
+            logger.log(Level.INFO, "Post for page "+pageId+" was created successfully. By user "+userAcc.getAccountName()+".");
             // Redirect to home page after successful page creation
             response.sendRedirect(request.getContextPath() + "/ManageUsers");
         }

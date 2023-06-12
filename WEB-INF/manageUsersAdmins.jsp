@@ -1,3 +1,5 @@
+<%@ page import="socialNetwork.PageObject" %>
+<%@ page import="java.util.List" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -30,7 +32,8 @@
     <li><a href="<%=request.getContextPath()%>/ChangePassword">Change Password</a></li>
     <li><a href="<%=request.getContextPath()%>/Logout">Logout</a></li>
     <%
-        for (socialNetwork.PageObject curPage: sn.getPages(request.getParameter("username"))) {
+        List<PageObject> pages = sn.getPages((String) request.getAttribute("username"));
+        for (socialNetwork.PageObject curPage: pages) {
     %>
     <li></li>
     <li><a href="<%=request.getContextPath()%>/SocialNetwork?pageId=<%=curPage.getPageId()%>">Feed (Social Network)</a></li>

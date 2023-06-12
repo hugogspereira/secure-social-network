@@ -44,10 +44,6 @@ public class CreatePageServlet extends HttpServlet {
         try {
             Acc userAcc = auth.checkAuthenticatedRequest(request, response);
 
-            /*
-             *  Checkpermission - see if is admin or not
-             *  Note that, we will only check for the role capability because it is a general thing
-             */
             List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
             accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.CREATE_PAGE));
 

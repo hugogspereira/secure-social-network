@@ -45,7 +45,7 @@ public class PostServlet extends HttpServlet {
         try {
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
 
-            String pageId = request.getParameter("pageId");
+            String postId = request.getParameter("postId");
             String visiterPageId = request.getParameter("visiterPageId");
 
             List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
@@ -54,12 +54,13 @@ public class PostServlet extends HttpServlet {
             // TODO Check permission se visiterPageId pode ver o post !! Ou seja se essa pagina segue a pagina do post (pageID) e o user tem de ser o dono da visitedPageId
             // ???
 
-            if(pageId != null && visiterPageId != null) {
+            if(postId != null && visiterPageId != null) {
                 request.getRequestDispatcher("/WEB-INF/post.jsp").forward(request, response);
-                logger.log(Level.INFO, authUser.getAccountName() + " is accessing page: " + pageId + " ." );
+                logger.log(Level.INFO, authUser.getAccountName() + " is accessing post: " + postId + " ." );
             }
             else {
-                // TODO: REDIRECT
+                request.setAttribute("errorMessage", "Invalid username and/or password");
+                request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
             }
         }
         catch (AuthenticationError e) {

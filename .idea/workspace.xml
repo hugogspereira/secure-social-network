@@ -4,12 +4,46 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddcdfb2e-c3b4-4c7a-9f85-933d86f6f63c" name="Changes" comment="remove password from jwt token">
+    <list default="true" id="ddcdfb2e-c3b4-4c7a-9f85-933d86f6f63c" name="Changes" comment="update the servlets">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SQLite.db" beforeDir="false" afterPath="$PROJECT_DIR$/SQLite.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WEB-INF/classes/crypto/EncryptDecryptUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/crypto/EncryptDecryptUtils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/AuthenticateUserServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/AuthenticateUserServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/ChangePwdServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/ChangePwdServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/CreateAccServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/CreateAccServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/DeleteAccServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/DeleteAccServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/servlet/ManageUsersServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/servlet/ManageUsersServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/classes/storage/DbAccount.class" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/classes/storage/DbAccount.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/createPage.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/createPage.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/createPost.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/createPost.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/followers.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/followers.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/followrequests.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/followrequests.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/manageUsers.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/manageUsers.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/manageUsersAdmins.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/manageUsersAdmins.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/ownpage.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/ownpage.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/page.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/page.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/post.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/post.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/sn.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/sn.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/accCtrl/RoleClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/accCtrl/RoleClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/AcceptFollowServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/AcceptFollowServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/AuthenticateUserServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/AuthenticateUserServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/CreatePageServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/CreatePageServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/CreatePostServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/CreatePostServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/DeclineFollowServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/DeclineFollowServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/DeletePageServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/DeletePageServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/DeletePostServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/DeletePostServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/FollowServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/FollowServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/LikeServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/LikeServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/ManageUsersServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/ManageUsersServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/PostServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/PostServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/SNServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/SNServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/UnfollowServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/UnfollowServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlet/UnlikeServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlet/UnlikeServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/socialNetwork/SN.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/socialNetwork/SN.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/storage/DbAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/storage/DbAccount.java" afterDir="false" />
     </list>
     <list id="4839196d-805e-481f-a4ae-656c93f32157" name="WeirdChanges" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/610276dd-42f2-4597-a7f2-6684b1b83a27.xml" beforeDir="false" />
@@ -22,6 +56,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -33,49 +69,59 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2ONaN9H6Ey6bO0D7EPnKyVdKUwg" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/hugog/Downloads/apache-tomcat-9.0.73-windows-x64/apache-tomcat-9.0.73/webapps/seg-soft/WEB-INF",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.keymap",
-    "spring.configuration.checksum": "46f86faa6bbf9ac94a7e459509a20ed0",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;ToolWindowCommit.ShowToolbar&quot;: &quot;false&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/hugog/Downloads/apache-tomcat-9.0.73-windows-x64/apache-tomcat-9.0.73/webapps/seg-soft/WEB-INF&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2997602&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;build.tools&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;46f86faa6bbf9ac94a7e459509a20ed0&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
+    ],
+    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/SQL Dialect&quot;: [
+      &quot;MySQL&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\hugog\Downloads\apache-tomcat-9.0.73-windows-x64\apache-tomcat-9.0.73\webapps\seg-soft\WEB-INF" />
+      <recent name="C:\Users\hugog\Downloads\apache-tomcat-9.0.73-windows-x64\apache-tomcat-9.0.73\webapps\seg-soft\target" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\hugog\Downloads\apache-tomcat-9.0.73-windows-x64\apache-tomcat-9.0.73\webapps\seg-soft\WEB-INF" />
       <recent name="C:\Program Files\apache-tomcat-9.0.73\webapps\seg-soft\WEB-INF" />
       <recent name="C:\Users\hugog\Downloads\apache-tomcat-9.0.73-windows-x64\apache-tomcat-9.0.73\webapps\seg-soft" />
-      <recent name="C:\Users\hugog\Downloads\apache-tomcat-9.0.73-windows-x64\apache-tomcat-9.0.73\webapps\seg-soft\WEB-INF" />
       <recent name="C:\Users\hugog\Downloads\apache-tomcat-9.0.73-windows-x64\apache-tomcat-9.0.73\webapps\seg-soft\WEB-INF\lib" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="exc" />
+      <recent name="servlet" />
+      <recent name="accCtrl" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -83,6 +129,7 @@
       <command value="mvn compile" />
       <command value="mvn clean" />
       <command value="/AuthenticateUser" />
+      <command value="getfollowState(Integer.parseInt(pageId), current.getPageId())" />
       <command value="mvn clean compile" />
     </option>
   </component>
@@ -129,7 +176,31 @@
       <workItem from="1682703052790" duration="4580000" />
       <workItem from="1682868842644" duration="1197000" />
       <workItem from="1683065704102" duration="157000" />
-      <workItem from="1683217849922" duration="5420000" />
+      <workItem from="1683217849922" duration="5674000" />
+      <workItem from="1683816529429" duration="5733000" />
+      <workItem from="1683835829325" duration="5137000" />
+      <workItem from="1684245008296" duration="2026000" />
+      <workItem from="1684258644244" duration="32000" />
+      <workItem from="1684267621995" duration="518000" />
+      <workItem from="1684273255598" duration="17000" />
+      <workItem from="1684340504821" duration="2162000" />
+      <workItem from="1684349042448" duration="25000" />
+      <workItem from="1684357568109" duration="288000" />
+      <workItem from="1684419533961" duration="3862000" />
+      <workItem from="1685028534667" duration="5467000" />
+      <workItem from="1685038413611" duration="3930000" />
+      <workItem from="1685107275769" duration="4920000" />
+      <workItem from="1685113316703" duration="2506000" />
+      <workItem from="1685121957804" duration="2003000" />
+      <workItem from="1686131274819" duration="3086000" />
+      <workItem from="1686166684475" duration="529000" />
+      <workItem from="1686168238672" duration="325000" />
+      <workItem from="1686169462337" duration="1252000" />
+      <workItem from="1686422169131" duration="179000" />
+      <workItem from="1686423586349" duration="7957000" />
+      <workItem from="1686486198996" duration="561000" />
+      <workItem from="1686489573802" duration="11985000" />
+      <workItem from="1686513381592" duration="20366000" />
     </task>
     <task id="LOCAL-00001" summary="changes due to configuring sqlite">
       <created>1681423077247</created>
@@ -341,7 +412,119 @@
       <option name="project" value="LOCAL" />
       <updated>1683222803950</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="add readMe information for Professor">
+      <created>1683223480185</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1683223480185</updated>
+    </task>
+    <task id="LOCAL-00032" summary="started 2nd handout - access control">
+      <created>1683824412802</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1683824412802</updated>
+    </task>
+    <task id="LOCAL-00033" summary="quick changes on access controller">
+      <created>1684343124020</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1684343124020</updated>
+    </task>
+    <task id="LOCAL-00034" summary="changes to the DB and creation of the logic regarding Resources and Operations">
+      <created>1685039166064</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1685039166064</updated>
+    </task>
+    <task id="LOCAL-00035" summary="changes to project regarding the capabilities">
+      <created>1685042315373</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1685042315373</updated>
+    </task>
+    <task id="LOCAL-00036" summary="add the SN code">
+      <created>1685108507219</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1685108507219</updated>
+    </task>
+    <task id="LOCAL-00037" summary="add jsp's to create and delete pages">
+      <created>1685115801775</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1685115801775</updated>
+    </task>
+    <task id="LOCAL-00038" summary="quick changes">
+      <created>1685123369471</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1685123369471</updated>
+    </task>
+    <task id="LOCAL-00039" summary="create most of jsp's and changed servlets">
+      <created>1686431280489</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1686431280489</updated>
+    </task>
+    <task id="LOCAL-00040" summary="update jsp's">
+      <created>1686494301048</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1686494301048</updated>
+    </task>
+    <task id="LOCAL-00041" summary="update jsp's">
+      <created>1686494778078</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1686494778078</updated>
+    </task>
+    <task id="LOCAL-00042" summary="update jsp's">
+      <created>1686494812999</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1686494812999</updated>
+    </task>
+    <task id="LOCAL-00043" summary="sn servlet">
+      <created>1686498035112</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1686498035112</updated>
+    </task>
+    <task id="LOCAL-00044" summary="create and update servlets">
+      <created>1686498153656</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1686498153656</updated>
+    </task>
+    <task id="LOCAL-00045" summary="create all servlets">
+      <created>1686501523838</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1686501523838</updated>
+    </task>
+    <task id="LOCAL-00046" summary="update the servlets">
+      <created>1686518066456</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1686518066456</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -359,20 +542,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changes in jwt (singleton)" />
-    <MESSAGE value="logout (jsp and servlet)" />
-    <MESSAGE value="changePwd (jsp and servlet)" />
-    <MESSAGE value="manageUsers (jsp and servlet)" />
-    <MESSAGE value="changes servlet (some logic from doPost went to doGet)" />
-    <MESSAGE value="prevent exception" />
-    <MESSAGE value="remove comments" />
-    <MESSAGE value="quick fix" />
-    <MESSAGE value="added root to db" />
-    <MESSAGE value="changes to db" />
-    <MESSAGE value="quick fix on db" />
-    <MESSAGE value="added logger to AuthenticateUserServlet" />
-    <MESSAGE value="added logger to remaining classes" />
-    <MESSAGE value="fixed urls" />
     <MESSAGE value="Root and normal users now have different Manage Users page" />
     <MESSAGE value="fixed logger typo" />
     <MESSAGE value="Changed Authenticator to singleton" />
@@ -384,6 +553,20 @@
     <MESSAGE value="change redirect servlet" />
     <MESSAGE value="integrate the count app" />
     <MESSAGE value="remove password from jwt token" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove password from jwt token" />
+    <MESSAGE value="add readMe information for Professor" />
+    <MESSAGE value="started 2nd handout - access control" />
+    <MESSAGE value="quick changes on access controller" />
+    <MESSAGE value="changes to the DB and creation of the logic regarding Resources and Operations" />
+    <MESSAGE value="changes to project regarding the capabilities" />
+    <MESSAGE value="add the SN code" />
+    <MESSAGE value="add jsp's to create and delete pages" />
+    <MESSAGE value="quick changes" />
+    <MESSAGE value="create most of jsp's and changed servlets" />
+    <MESSAGE value="update jsp's" />
+    <MESSAGE value="sn servlet" />
+    <MESSAGE value="create and update servlets" />
+    <MESSAGE value="create all servlets" />
+    <MESSAGE value="update the servlets" />
+    <option name="LAST_COMMIT_MESSAGE" value="update the servlets" />
   </component>
 </project>

@@ -34,7 +34,6 @@ public class SNServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         try {
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
 
@@ -65,13 +64,15 @@ public class SNServlet extends HttpServlet {
         }
         catch (SignatureException e){
             logger.log(Level.WARNING, "JWT has been tampered with or is invalid");
+            logger.log(Level.WARNING, e.getMessage());
             request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (Exception e) {
-            logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
-            request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
+            logger.log(Level.WARNING, "Something went wrong");
+            logger.log(Level.WARNING, e.getMessage());
+            request.setAttribute("errorMessage", "Something went wrong");
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
     }
 

@@ -44,6 +44,7 @@
     </style>
 </head>
 <body>
+<h1>Page Posts:</h1>
 
 <p style="color:red;"> ${pageContext.request.getAttribute("errorMessage")} </p>
 
@@ -52,30 +53,29 @@
     String pageId = request.getParameter("pageId");
     String visiterPageId = request.getParameter("visiterPageId");
     if (pageId != null) {
-         int i = 0;
          for (PostObject postObject: sn.getPagePosts(Integer.parseInt(pageId))) {
 
     %>
     <li>
-        <a href="<%= request.getContextPath() %>/Post?postId=<%= postObject.getPostId() %>?visiterPageId=<%=visiterPageId%>">Post <%= i %></a>
+        <a href="<%= request.getContextPath() %>/Post?postId=<%= postObject.getPostId() %>&visiterPageId=<%=visiterPageId%>">Post <%=postObject.getPostId()%></a>
         |
         <%
-            if(sn.isLiked(postObject.getPostId(), Integer.parseInt(visiterPageId))) {
+            if( sn.isLiked(postObject.getPostId(), Integer.parseInt(visiterPageId)) ) {
         %>
-        <a href="<%= request.getContextPath() %>/Unlike?postId=<%= postObject.getPostId() %>?visiterPageId=<%=visiterPageId%>">UNLIKE</a>
-    </li>
-    <%
+        <a href="<%= request.getContextPath() %>/Unlike?postId=<%= postObject.getPostId() %>&visiterPageId=<%=visiterPageId%>">UNLIKE</a>
+        <%
             }
             else {
-    %>
-    <a href="<%= request.getContextPath() %>/Like?postId=<%= postObject.getPostId() %>?visiterPageId=<%=visiterPageId%>">LIKE</a>
-    </li>
-    <%
+        %>
+        <a href="<%= request.getContextPath() %>/Like?postId=<%= postObject.getPostId() %>&visiterPageId=<%=visiterPageId%>">LIKE</a>
+        <%
             }
-            i++;
         }
     }
     %>
+    </li>
 </ul>
+<p><a href="${pageContext.request.contextPath}/ManageUsers">Home</a></p>
+
 </body>
 </html>

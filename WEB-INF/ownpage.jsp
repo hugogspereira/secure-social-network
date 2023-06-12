@@ -53,34 +53,33 @@
         String pageId = request.getParameter("pageId");
         if (pageId != null) {
     %>
-    <li></li>
+    <br>
     <li><a href="<%=request.getContextPath()%>/CreatePost?pageId=<%=pageId%>">Create Post</a></li>
-    <li></li>
+    <br>
+    <br>
     <%
-        int i = 0;
         for (PostObject postObject: sn.getPagePosts(Integer.parseInt(pageId))) {
 
     %>
     <li>
-        <a href="<%= request.getContextPath() %>/Post?postId=<%= postObject.getPostId() %>?visiterPageId=<%=pageId%>">Post <%= i %></a>
-        |
-        LIKES - <%= sn.getLikes(postObject.getPostId()).size() %>
-        |
+        <a href="<%= request.getContextPath() %>/Post?postId=<%= postObject.getPostId() %>&visiterPageId=<%=pageId%>">Post <%=postObject.getPostId()%></a>
+        &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+        <%= sn.getLikes(postObject.getPostId()).size() %> (Likes)
+        &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="<%= request.getContextPath() %>/DeletePost?postId=<%= postObject.getPostId() %>">DELETE</a>
     </li>
     <%
-            i++;
         }
         %>
-    <li></li>
+    <br>
+    <br>
     <li><a href="<%=request.getContextPath()%>/Followers?pageId=<%=pageId%>">Followers</a></li>
-    <li></li>
-    <li></li>
+    <br>
     <li><a href="<%=request.getContextPath()%>/FollowersRequests?pageId=<%=pageId%>">Follow Requests</a></li>
-    <li></li>
     <%
     }
     %>
 </ul>
+<p><a href="${pageContext.request.contextPath}/ManageUsers">Home</a></p>
 </body>
 </html>

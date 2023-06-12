@@ -47,6 +47,7 @@
     </style>
 </head>
 <body>
+<h1>Post:</h1>
 
 <p style="color:red;"> ${pageContext.request.getAttribute("errorMessage")} </p>
 
@@ -56,14 +57,17 @@
     if (postId != null) {
         PostObject post = sn.getPost(Integer.parseInt(postId));
     %>
-    <h1>Post</h1>
-    <li></li>
-    <li>Post ID: <%= post.getPostId() %></li>
-    <li>Post Date: <%= post.getPostDate() %></li>
-    <li>Post Content: <%= post.getPostText() %></li>
+    <br>
+    <li>Post ID:<br>&nbsp;&nbsp;&nbsp;&nbsp; <%= post.getPostId() %></li>
+    <br>
+    <li>Post Date:<br>&nbsp;&nbsp;&nbsp;&nbsp; <%= post.getPostDate() %></li>
+    <br>
+    <li>Post Content:<br>&nbsp;&nbsp;&nbsp;&nbsp; <%= post.getPostText() %></li>
     <%
         }
     %>
 </ul>
+<p><a href="${pageContext.request.contextPath}/ManageUsers">Home</a></p>
+
 </body>
 </html>

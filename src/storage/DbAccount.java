@@ -306,7 +306,7 @@ public class DbAccount {
 
             List<Role> roles = new LinkedList<>();
             if(rs.next()) {
-                Role role = new RoleClass(rs.getString(0));
+                Role role = new RoleClass(rs.getString("roleId"));
                 roles.add(role);
             }
             return roles;

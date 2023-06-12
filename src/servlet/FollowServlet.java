@@ -52,7 +52,7 @@ public class FollowServlet extends HttpServlet {
 
             if(pageId != null && visiterPageId != null) {
                 SN sn = SN.getInstance();
-                FState state = sn.getfollow(Integer.parseInt(visiterPageId), Integer.parseInt(pageId));
+                FState state = sn.getfollowState(Integer.parseInt(visiterPageId), Integer.parseInt(pageId));
 
                 if(state == null) { // if it is not following
                     SN.getInstance().follows(Integer.parseInt(visiterPageId), Integer.parseInt(pageId), FState.PENDING);
@@ -63,7 +63,7 @@ public class FollowServlet extends HttpServlet {
                 else { // if the following state is pending or accepted
                     throw new AlreadyRequestedFollow();
                 }
-                request.getRequestDispatcher("/WEB-INF/sn.jsp").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/SocialNetwork?pageId=" + visiterPageId);
                 logger.log(Level.INFO, authUser.getAccountName() + " requested a follow in  the social network.");
             }
             else {

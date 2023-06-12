@@ -15,7 +15,7 @@
             text-align: right;
             margin-right: 10px;
         }
-        input[type=text], input[type=password] {
+        input[type=text], input[type=email] {
             display: inline-block;
             width: 200px;
         }
@@ -46,7 +46,7 @@
         </div>
         <div>
             <br>
-            <input type="submit" value="Create Account">
+            <input type="submit" value="Create Page">
         </div>
     </form>
     <p style="color:red;"> ${pageContext.request.getAttribute("errorMessage")} </p>

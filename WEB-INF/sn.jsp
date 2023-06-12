@@ -52,42 +52,53 @@
         PageObject current;
         String pageId =  request.getParameter("pageId");
         if (pageId != null) {
-            int i = 1;
             while(pages.hasNext()){
                 current = pages.next();
 
-                if(sn.getfollow(Integer.parseInt(pageId), current.getPageId()).equals(FState.NONE)) {
+                if(!sn.getPage(Integer.parseInt(pageId)).getUserId().equals(current.getUserId())) {
+                    FState state = sn.getfollowState(Integer.parseInt(pageId), current.getPageId());
+                    if(state == null || state.equals(FState.NONE)) {
     %>
     <li>
-        <a href="<%=request.getContextPath()%>/Page?pageId=<%=current.getPageId()%>>?visiterPageId=<%=pageId%>"> Page <%=i%> (<%=current.getUserId()%>'s page)</>a>
-        |
-        <a href="<%= request.getContextPath() %>/Follow?pageId=<%=current.getPageId()%>?visiterPageId=<%=pageId%>">FOLLOW</a>
+        <a href="<%=request.getContextPath()%>/Page?pageId=<%=current.getPageId()%>&visiterPageId=<%=pageId%>"> Page <%=current.getPageId()%> (<%=current.getUserId()%>'s page)</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="<%= request.getContextPath() %>/Follow?pageId=<%=current.getPageId()%>&visiterPageId=<%=pageId%>">FOLLOW</a>
     </li>
     <%
     }
-    else if(sn.getfollow(Integer.parseInt(pageId), current.getPageId()).equals(FState.PENDING)) {
+    else if(state.equals(FState.PENDING)) {
     %>
     <li>
-        <a href="<%=request.getContextPath()%>/Page?pageId=<%=current.getPageId()%>>?visiterPageId=<%=pageId%>"> Page <%=i%> (<%=current.getUserId()%>'s page)</>a>
-        |
-        <a href="<%= request.getContextPath() %>/Unfollow?pageId=<%=current.getPageId()%>?visiterPageId=<%=pageId%>">PENDING</a>
+        <a href="<%=request.getContextPath()%>/Page?pageId=<%=current.getPageId()%>&visiterPageId=<%=pageId%>"> Page <%=current.getPageId()%> (<%=current.getUserId()%>'s page)</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="<%= request.getContextPath() %>/Unfollow?pageId=<%=current.getPageId()%>&visiterPageId=<%=pageId%>">PENDING</a>
     </li>
     <%
     }
     else {
     %>
     <li>
-        <a href="<%=request.getContextPath()%>/Page?pageId=<%=current.getPageId()%>>?visiterPageId=<%=pageId%>"> Page <%=i%> (<%=current.getUserId()%>'s page)</>a>
-        |
-        <a href="<%= request.getContextPath() %>/Unfollow?pageId=<%=current.getPageId()%>?visiterPageId=<%=pageId%>">UNFOLLOW</a>
+        <a href="<%=request.getContextPath()%>/Page?pageId=<%=current.getPageId()%>&visiterPageId=<%=pageId%>"> Page <%=current.getPageId()%> (<%=current.getUserId()%>'s page)</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="<%= request.getContextPath() %>/Unfollow?pageId=<%=current.getPageId()%>&visiterPageId=<%=pageId%>">UNFOLLOW</a>
+    </li>
+    <%
+        }
+    }
+    else {
+    %>
+    <li>
+        <a href="<%=request.getContextPath()%>/Page?pageId=<%=current.getPageId()%>&visiterPageId=<%=pageId%>"> Page <%=current.getPageId()%> (<%=current.getUserId()%>'s page)</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+        OWNER
     </li>
     <%
                 }
-                i++;
             }
         }
     %>
 </ul>
+<p><a href="${pageContext.request.contextPath}/ManageUsers">Home</a></p>
 
 </body>
 </html>

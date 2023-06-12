@@ -53,7 +53,7 @@ public class DeletePageServlet extends HttpServlet {
             accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.DELETE_PAGE));
 
 
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/deletePage.jsp").forward(request, response);
             logger.log(Level.INFO, "Deleting a page");
         }
         catch (AuthenticationError e) {

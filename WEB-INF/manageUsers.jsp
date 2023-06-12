@@ -30,9 +30,9 @@
     <li><a href="<%=request.getContextPath()%>/ChangePassword">Change Password</a></li>
     <li><a href="<%=request.getContextPath()%>/Logout">Logout</a></li>
     <%
-        for (socialNetwork.PageObject curPage: sn.getPages(request.getParameter("username"))) {
+        for (socialNetwork.PageObject curPage: sn.getPages((String)request.getAttribute("username"))) {
     %>
-    <li></li>
+    <br>
     <li><a href="<%=request.getContextPath()%>/SocialNetwork?pageId=<%=curPage.getPageId()%>">Feed (Social Network)</a></li>
     <li><a href="<%=request.getContextPath()%>/Page?pageId=<%=curPage.getPageId()%>">Page <%=curPage.getPageId()%></a></li>
     <%

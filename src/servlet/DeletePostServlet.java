@@ -13,6 +13,7 @@ import exc.AccessControlError;
 import exc.AuthenticationError;
 import io.jsonwebtoken.ExpiredJwtException;
 import socialNetwork.PageObject;
+import socialNetwork.PostObject;
 import socialNetwork.SN;
 
 import javax.servlet.ServletException;
@@ -46,8 +47,6 @@ public class DeletePostServlet extends HttpServlet {
         try {
             auth.checkAuthenticatedRequest(request, response);
 
-            String pageId = request.getParameter("pageId");
-
             // TODO - ver este com atencao, n sei se esta bem - olhar par o onwpage servlet
             // Lembrar que as pessoas podem n usar o jsp e fazer diretamente o pedido estilo postman, n serao quebradas as regras de seguranca????
 
@@ -57,6 +56,10 @@ public class DeletePostServlet extends HttpServlet {
             // TODO Check permission se o user pode eliminar posts nesta pagina
             // ???
 
+            int postId = Integer.parseInt(request.getParameter("postId"));
+            SN socialNetwork = SN.getInstance();
+            PostObject post = socialNetwork.getPost(postId);
+            socialNetwork.deletePost(post);
 
             request.getRequestDispatcher("/WEB-INF/deletePost.jsp").forward(request, response);
             logger.log(Level.INFO, "Deleting a post.");
@@ -75,50 +78,11 @@ public class DeletePostServlet extends HttpServlet {
             logger.log(Level.WARNING, "Invalid permissions for this operation");
             request.setAttribute("errorMessage", "Invalid permissions for this operation");
             // TODO: Redirect to home page
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            Acc userAcc = auth.checkAuthenticatedRequest(request, response);
-
-            List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
-            accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.DELETE_PAGE));
-
-            int pageId = Integer.parseInt(request.getParameter("pageid"));
-            SN socialNetwork = SN.getInstance();
-            PageObject page = socialNetwork.getPage(pageId);
-            socialNetwork.deletePage(page);
-
-            logger.log(Level.INFO, "Deleted successfully the page of user: "+page.getUserId()+", by the user: "+userAcc.getAccountName()+".");
-
-            // Redirect to home page after successful page deletion
-            response.sendRedirect(request.getContextPath() + "/ManageUsers");
-        }
-        catch (AuthenticationError e) {
-            logger.log(Level.WARNING, "Invalid username or password");
-            request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
-        }
-        catch (ExpiredJwtException e){
-            logger.log(Level.WARNING, "JWT has expired");
-            request.setAttribute("errorMessage", "Session has expired and/or is invalid");
-            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
-        }
-        catch (SQLException e) {
-            logger.log(Level.WARNING, "SQL Exception on creating page");
-            request.setAttribute("errorMessage", "Problems regarding the creation of the page. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
-        }
-        catch (AccessControlError e) {
-            logger.log(Level.WARNING, "Invalid permissions for this operation");
-            request.setAttribute("errorMessage", "Invalid permissions for this operation");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
-        }
-        catch (Exception e) {
-            logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
-            request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
-        }
-    }
 }

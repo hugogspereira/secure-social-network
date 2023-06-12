@@ -45,7 +45,7 @@ public class LikeServlet extends HttpServlet {
             if(postId != null && visiterPageId != null) {
                 SN.getInstance().like(Integer.parseInt(postId), Integer.parseInt(visiterPageId));
 
-                request.getRequestDispatcher("/WEB-INF/sn.jsp").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/SocialNetwork?pageId=" + visiterPageId);
                 logger.log(Level.INFO, authUser.getAccountName() + " sent a like in the social network.");
             }
             else {

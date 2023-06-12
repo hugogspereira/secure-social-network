@@ -47,10 +47,9 @@ public class AcceptFollowServlet extends HttpServlet {
 
             if(pageId != null && pageRequestId != null) {
                 SN sn = SN.getInstance();
-                FState state = sn.getfollow(Integer.parseInt(pageRequestId), Integer.parseInt(pageId));
-
+                FState state = sn.getfollowState(Integer.parseInt(pageRequestId), Integer.parseInt(pageId));
                 if(state != null && state.equals(FState.PENDING)) {
-                    SN.getInstance().follows(Integer.parseInt(pageRequestId), Integer.parseInt(pageId), FState.OK);
+                    SN.getInstance().updatefollowsstatus(Integer.parseInt(pageRequestId), Integer.parseInt(pageId), FState.OK);
                 }
                 else { // if the following state is already accepted or none
                     throw new NotAbleToAccept();

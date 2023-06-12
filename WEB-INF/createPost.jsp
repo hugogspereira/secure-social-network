@@ -15,7 +15,7 @@
             text-align: right;
             margin-right: 10px;
         }
-        input[type=text], input[type=password] {
+        input[type=text], input[type=date], input[type=number] {
             display: inline-block;
             width: 200px;
         }
@@ -27,24 +27,24 @@
 </head>
 <body>
 <h1>Create Post</h1>
-    <form action="/seg-soft/CreatePost" method="post">
-        <div>
-            <%--@declare id="pageid"--%>
-            <label for="pageId">PageId:</label>
-            <input type="text" id="PageId" name="PageId" required>
-        </div>
-        <%-- VALERA A PENA CRIAR ESTE FIELD OU METE-SE O CURR TIME ???????????????????????????????????????????????????????????????????? --%>
-        <div>
-            <%--@declare id="postdate"--%>
-            <label for="postDate">Post Date:</label>
-            <input type="email" id="postDate" name="postDate" required>
-        </div>
-        <div>
-            <%--@declare id="posttext"--%>
-            <label for="postText">Post Text:</label>
-            <input type="text" id="postText" name="postText" required>
-        </div>
-    </form>
+<form action="/seg-soft/CreatePost" method="post">
+    <div>
+        <label for="pageId">PageId:</label>
+        <input type="number" id="pageId" name="pageId" required>
+    </div>
+    <div>
+        <label for="postDate">Post Date:</label>
+        <input type="date" id="postDate" name="postDate" required>
+    </div>
+    <div>
+        <label for="postText">Post Text:</label>
+        <input type="text" id="postText" name="postText" required>
+    </div>
+    <div>
+        <br>
+        <input type="submit" value="Create Post">
+    </div>
+</form>
     <p style="color:red;"> ${pageContext.request.getAttribute("errorMessage")} </p>
 <p><a href="${pageContext.request.contextPath}/ManageUsers">Cancel</a></p>
 </body>
