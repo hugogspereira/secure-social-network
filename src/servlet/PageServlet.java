@@ -112,7 +112,7 @@ public class PageServlet extends HttpServlet {
         } catch (AccessControlError e) {
             logger.log(Level.WARNING, "Invalid permissions for this operation");
             request.setAttribute("errorMessage", "Invalid permissions for this operation");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
         } catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");

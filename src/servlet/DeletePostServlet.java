@@ -77,7 +77,7 @@ public class DeletePostServlet extends HttpServlet {
         catch (AccessControlError e) {
             logger.log(Level.WARNING, "Invalid permissions for this operation");
             request.setAttribute("errorMessage", "Invalid permissions for this operation");
-            // TODO: Redirect to home page
+            request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (Exception e) {

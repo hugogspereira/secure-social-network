@@ -1,6 +1,12 @@
 package servlet;
 
 import acc.Acc;
+import accCtrl.AccessController;
+import accCtrl.AccessControllerClass;
+import accCtrl.Capability;
+import accCtrl.operations.OperationClass;
+import accCtrl.operations.OperationValues;
+import accCtrl.resources.ResourceClass;
 import auth.Auth;
 import auth.Authenticator;
 import exc.AuthenticationError;
@@ -12,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,10 +26,13 @@ import java.util.logging.Logger;
 public class FollowersRequestsServlet extends HttpServlet {
 
     private Auth auth;
+    private AccessController accessController;
+
     private Logger logger;
     @Override
     public void init() {
         auth = Authenticator.getInstance();
+        accessController = AccessControllerClass.getInstance();
         logger = Logger.getLogger(CreateAccServlet.class.getName());
         logger.setLevel(Level.FINE);
     }

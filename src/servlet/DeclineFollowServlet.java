@@ -3,6 +3,7 @@ package servlet;
 import acc.Acc;
 import auth.Auth;
 import auth.Authenticator;
+import exc.AccessControlError;
 import exc.AuthenticationError;
 import exc.NotAbleToAccept;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -74,6 +75,11 @@ public class DeclineFollowServlet extends HttpServlet {
             logger.log(Level.WARNING, "JWT has been tampered with or is invalid");
             request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
+        }
+        catch (AccessControlError e) {
+            logger.log(Level.WARNING, "Invalid permissions for this operation");
+            request.setAttribute("errorMessage", "Invalid permissions for this operation");
+            request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
         }
         catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");

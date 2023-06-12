@@ -97,9 +97,9 @@ public static void main(String[] args) throws Exception
 	    System.out.println(po3.getPostText()+" liked by " + x.getUserId());
 	};
 	
-	app.deletePage(p);
-	app.deletePage(q);
-	app.deletePage(r);
+	//app.deletePage(p);
+	//app.deletePage(q);
+	//app.deletePage(r);
     }
 
 }
