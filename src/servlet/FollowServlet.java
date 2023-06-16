@@ -1,10 +1,6 @@
 package servlet;
 
 import acc.Acc;
-import accCtrl.Capability;
-import accCtrl.operations.OperationClass;
-import accCtrl.operations.OperationValues;
-import accCtrl.resources.ResourceClass;
 import auth.Auth;
 import auth.Authenticator;
 import exc.AlreadyRequestedFollow;
@@ -43,11 +39,12 @@ public class FollowServlet extends HttpServlet {
             String visiterPageId = request.getParameter("visiterPageId");
 
             /*
-             * TODO
+             *
              *  - No need to check permissions/capabilities because users can access all pages in the social network
              *  - Right??
              *
              *  ! We might need to check if they are already following the page OR if it is pending !
+             *
              */
 
             if(pageId != null && visiterPageId != null) {
@@ -67,7 +64,9 @@ public class FollowServlet extends HttpServlet {
                 logger.log(Level.INFO, authUser.getAccountName() + " requested a follow in  the social network.");
             }
             else {
-                // TODO: REDIRECT
+                logger.log(Level.WARNING, authUser.getAccountName() + " did not provide a pageId or pageRequestId");
+                response.sendRedirect(request.getHeader("referer"));
+                request.setAttribute("errorMessage", "No a pageId or pageRequestId was provided.");
             }
         }
         catch (AuthenticationError e) {

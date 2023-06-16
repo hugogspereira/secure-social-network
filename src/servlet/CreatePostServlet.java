@@ -4,6 +4,7 @@ import acc.Acc;
 import accCtrl.AccessController;
 import accCtrl.AccessControllerClass;
 import accCtrl.Capability;
+import accCtrl.DBcheck;
 import accCtrl.operations.OperationClass;
 import accCtrl.operations.OperationValues;
 import accCtrl.resources.ResourceClass;
@@ -12,6 +13,7 @@ import auth.Authenticator;
 import exc.AccessControlError;
 import exc.AuthenticationError;
 import io.jsonwebtoken.ExpiredJwtException;
+import socialNetwork.PageObject;
 import socialNetwork.SN;
 
 import javax.servlet.ServletException;
@@ -19,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -31,6 +34,8 @@ public class CreatePostServlet extends HttpServlet {
     private Auth auth;
     private AccessController accessController;
     private Logger logger;
+
+
 
     @Override
     public void init() {
@@ -47,12 +52,10 @@ public class CreatePostServlet extends HttpServlet {
 
             String pageId = request.getParameter("pageId");
 
-            List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
-            // TODO check permission para ver se este role tem a permissao de criar posts
-            accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.CREATE_POST));
-            // TODO Check permission se o user pode criar posts nesta pagina
-            // ???
-
+            HttpSession session = request.getSession();
+            List<String> capabilities = (List<String>) session.getAttribute("Capability");
+            DBcheck c = createDBchecker(userAcc.getAccountName(), pageId, session, capabilities);
+            accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.CREATE_POST), c);
 
             request.getRequestDispatcher("/WEB-INF/createPost.jsp").forward(request, response);
             logger.log(Level.INFO, userAcc.getAccountName() + " is creating a post.");
@@ -71,6 +74,10 @@ public class CreatePostServlet extends HttpServlet {
             logger.log(Level.WARNING, "Invalid permissions for this operation - GET");
             request.setAttribute("errorMessage", "Invalid permissions for this operation");
             request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
+        } catch (Exception e) {
+            logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
+            request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
+            request.getRequestDispatcher("/WEB-INF/createPost.jsp").forward(request, response);
         }
 
     }
@@ -79,10 +86,12 @@ public class CreatePostServlet extends HttpServlet {
         try {
             Acc userAcc = auth.checkAuthenticatedRequest(request, response);
 
-            //List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
-            //accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.CREATE_POST));
-
             int pageId = Integer.parseInt(request.getParameter("pageId"));
+            HttpSession session = request.getSession();
+            List<String> capabilities = (List<String>) session.getAttribute("Capability");
+            DBcheck c = createDBchecker(userAcc.getAccountName(), String.valueOf(pageId), session, capabilities);
+            accessController.checkPermission(capabilities,  new ResourceClass("page", String.valueOf(pageId)), new OperationClass(OperationValues.CREATE_POST), c);
+
             String postDate = request.getParameter("postDate");
             String postText = request.getParameter("postText");
 
@@ -116,7 +125,22 @@ public class CreatePostServlet extends HttpServlet {
         catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createPost.jsp").forward(request, response);
         }
+    }
+
+    private DBcheck createDBchecker(String userId, String pageId, HttpSession session, List<String> capabilities){
+        return (cap) -> {
+            SN sn = SN.getInstance();
+            List<PageObject> pages = sn.getPages(userId);
+            pages.forEach(p -> System.out.println(p.getPageId()));
+            boolean res = pages.stream().anyMatch(p -> p.getPageId() == Integer.parseInt(pageId));
+
+            if (res) {
+                capabilities.add(cap);
+                session.setAttribute("Capability", cap);
+            }
+            return res;
+        };
     }
 }

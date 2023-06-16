@@ -41,11 +41,7 @@ public class UnfollowServlet extends HttpServlet {
             String visiterPageId = request.getParameter("visiterPageId");
 
             /*
-             * TODO
              *  - No need to check permissions/capabilities because users can access all pages in the social network
-             *  - Right??
-             *
-             *  ! We might need to check if they are not following the page
              */
 
             if(pageId != null && visiterPageId != null) {
@@ -62,7 +58,9 @@ public class UnfollowServlet extends HttpServlet {
                 logger.log(Level.INFO, authUser.getAccountName() + " unfollowed "+ pageId + " in  the social network.");
             }
             else {
-                // TODO: REDIRECT
+                logger.log(Level.WARNING, authUser.getAccountName() + " did not provide a pageId or visiterPageId.");
+                response.sendRedirect(request.getHeader("referer"));
+                request.setAttribute("errorMessage", "No a pageId or or visiterPageId. was provided.");
             }
         }
         catch (AuthenticationError e) {

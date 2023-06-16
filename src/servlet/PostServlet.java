@@ -4,6 +4,7 @@ import acc.Acc;
 import accCtrl.AccessController;
 import accCtrl.AccessControllerClass;
 import accCtrl.Capability;
+import accCtrl.DBcheck;
 import accCtrl.operations.OperationClass;
 import accCtrl.operations.OperationValues;
 import accCtrl.resources.ResourceClass;
@@ -20,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -46,15 +48,25 @@ public class PostServlet extends HttpServlet {
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
 
             String postId = request.getParameter("postId");
+            String pageId = request.getParameter("pageId");
             String visiterPageId = request.getParameter("visiterPageId");
 
-            List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
-            // TODO check permission para ver se este role tem a permissao de aceder
-            accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.ACCESS_POST));
-            // TODO Check permission se visiterPageId pode ver o post !! Ou seja se essa pagina segue a pagina do post (pageID) e o user tem de ser o dono da visitedPageId
-            // ???
 
-            if(postId != null && visiterPageId != null) {
+            if(postId != null && visiterPageId != null && pageId != null) {
+                HttpSession session = request.getSession();
+                List<String> capabilities = (List<String>) session.getAttribute("Capability");
+
+                DBcheck c = (cap) -> {
+                    if(!pageId.equals(visiterPageId)) {
+                        if(SN.getInstance().getfollowers(Integer.parseInt(pageId)).stream().noneMatch(p -> p.getPageId() == Integer.parseInt(visiterPageId)))
+                            return false;
+                    }
+                    capabilities.add(cap);
+                    session.setAttribute("Capability",capabilities);
+                    return true;
+                };
+
+                accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.ACCESS_POST), c);
                 request.getRequestDispatcher("/WEB-INF/post.jsp").forward(request, response);
                 logger.log(Level.INFO, authUser.getAccountName() + " is accessing post: " + postId + " ." );
             }
@@ -84,35 +96,6 @@ public class PostServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
         }
         catch (Exception e) {
-            logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
-            request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
-        }
-    }
-
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            Acc userAcc = auth.checkAuthenticatedRequest(request, response);
-
-            List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
-
-            accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.CREATE_PAGE.getOperation()));
-
-            //TODO gostava que a partir da pagina de um user dava para fazer tudo tipo ver os posts/likes/followers
-
-        } catch (AuthenticationError e) {
-            logger.log(Level.WARNING, "Invalid username or password");
-            request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
-        } catch (ExpiredJwtException e){
-            logger.log(Level.WARNING, "JWT has expired");
-            request.setAttribute("errorMessage", "Session has expired and/or is invalid");
-            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
-        } catch (AccessControlError e) {
-            logger.log(Level.WARNING, "Invalid permissions for this operation");
-            request.setAttribute("errorMessage", "Invalid permissions for this operation");
-            request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
-        } catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
             request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);

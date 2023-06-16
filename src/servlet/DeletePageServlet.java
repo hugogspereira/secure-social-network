@@ -4,6 +4,7 @@ import acc.Acc;
 import accCtrl.AccessController;
 import accCtrl.AccessControllerClass;
 import accCtrl.Capability;
+import accCtrl.DBcheck;
 import accCtrl.operations.OperationClass;
 import accCtrl.operations.OperationValues;
 import accCtrl.resources.ResourceClass;
@@ -19,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -49,8 +51,11 @@ public class DeletePageServlet extends HttpServlet {
              *  Checkpermission - see if is admin or not
              *  Note that, we will only check for the role capability because it is a general thing
              */
-            List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
-            accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.DELETE_PAGE));
+            HttpSession session = request.getSession();
+            List<String> capabilities = (List<String>) session.getAttribute("Capability");
+
+            DBcheck c = createDBchecker(session, capabilities);
+            accessController.checkPermission(capabilities,  new ResourceClass("page", ""), new OperationClass(OperationValues.DELETE_PAGE), c);
 
 
             request.getRequestDispatcher("/WEB-INF/deletePage.jsp").forward(request, response);
@@ -71,14 +76,22 @@ public class DeletePageServlet extends HttpServlet {
             request.setAttribute("errorMessage", "Invalid permissions for this operation");
             request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
         }
+        catch (Exception e) {
+            logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
+            request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
+            request.getRequestDispatcher("/WEB-INF/deletePage.jsp").forward(request, response);
+        }
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Acc userAcc = auth.checkAuthenticatedRequest(request, response);
 
-            List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
-            accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.DELETE_PAGE));
+            HttpSession session = request.getSession();
+            List<String> capabilities = (List<String>) session.getAttribute("Capability");
+
+            DBcheck c = createDBchecker(session, capabilities);
+            accessController.checkPermission(capabilities,  new ResourceClass("page", ""), new OperationClass(OperationValues.DELETE_PAGE), c);
 
             int pageId = Integer.parseInt(request.getParameter("pageid"));
             SN socialNetwork = SN.getInstance();
@@ -113,7 +126,15 @@ public class DeletePageServlet extends HttpServlet {
         catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/deletePage.jsp").forward(request, response);
         }
+    }
+
+    private DBcheck createDBchecker(HttpSession session, List<String> capabilities) {
+        return (cap) -> {
+            capabilities.add(cap);
+            session.setAttribute("Capability", capabilities);
+            return true;
+        };
     }
 }

@@ -9,6 +9,8 @@ import auth.Auth;
 import auth.Authenticator;
 import exc.*;
 import storage.DbAccount;
+import util.Util;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -51,9 +53,9 @@ public class AuthenticateUserServlet extends HttpServlet {
             HttpSession session = request.getSession(true);
             session.setAttribute("JWT", authUser.getJWT());
 
-            List<Capability> capabilities = new LinkedList<>();
+            List<String> capabilities = new LinkedList<>();
             for (Role role: DbAccount.getInstance().getRoles(username)) {
-                capabilities.add(accessController.makeKey(role));
+                capabilities.addAll(accessController.makeKey(role));
             }
             session.setAttribute("Capability", capabilities);
 

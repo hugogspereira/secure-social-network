@@ -6,11 +6,10 @@ import accCtrl.Role;
 import accCtrl.RoleClass;
 import accCtrl.operations.Operation;
 import accCtrl.resources.Resource;
+import util.Util;
+
 import java.sql.*;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DbAccount {
 
@@ -267,7 +266,7 @@ public class DbAccount {
     }
 
     /**
-     * Set a role into a account in the database
+     * Set a role into an account in the database
      * @param accountName the account name
      * @param roleId the role identifier
      */
@@ -337,7 +336,7 @@ public class DbAccount {
         try {
             PreparedStatement ps = conn.prepareStatement("INSERT INTO rolePermissions (roleId, resource, operation) VALUES (?, ?, ?)");
             ps.setString(1, role.getRoleId());
-            ps.setString(2, res.getResourceId());
+            ps.setString(2, res.getResourceType());
             ps.setString(3, op.getOperationId());
             ps.executeUpdate();
         }
@@ -366,7 +365,7 @@ public class DbAccount {
         try {
             PreparedStatement ps = conn.prepareStatement("DELETE FROM rolePermissions WHERE roleId = ? AND resource = ? AND operation = ?");
             ps.setString(1, role.getRoleId());
-            ps.setString(2, res.getResourceId());
+            ps.setString(2, res.getResourceType());
             ps.setString(3, op.getOperationId());
             ps.executeUpdate();
         }
@@ -388,30 +387,21 @@ public class DbAccount {
      * Get in the database the permissions, this is the operations that a role can do on the resources
      * @param role the role
      */
-    public Map<String, List<String>> getPermissions(Role role) {
+    public List<String> getPermissions(Role role) {
         Connection conn = getConnection();
         try {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM rolePermissions WHERE roleId = ?");
             ps.setString(1, role.getRoleId());
             ResultSet rs = ps.executeQuery();
 
-            Map<String,List<String>> map = new HashMap<>();
-            if(rs.next()) {
-                String resourceId = rs.getString("resource");
+            List<String> list = new LinkedList<>();
+            while(rs.next()) {
+                String resourceType = rs.getString("resource");
                 String operationId = rs.getString("operation");
-
-                if(!map.containsKey(resourceId)){
-                    List<String> list = new LinkedList<>();
-                    list.add(operationId);
-                    map.put(resourceId, list);
-                }
-                else {
-                    List<String> list = map.get(resourceId);
-                    list.add(operationId);
-                    map.put(resourceId, list);
-                }
+                System.out.println("resourceType: " + resourceType + " operationId: " + operationId);
+                list.add(Util.getHash(Util.serializeToBytes(new String[]{resourceType, operationId})));
             }
-            return map;
+            return list;
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -438,7 +428,7 @@ public class DbAccount {
         try {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM rolePermissions WHERE roleId = ? AND resource = ? AND operation = ?");
             ps.setString(1, roleId);
-            ps.setString(2, res.getResourceId());
+            ps.setString(2, res.getResourceType());
             ps.setString(3, op.getOperationId());
 
             ResultSet rs = ps.executeQuery();

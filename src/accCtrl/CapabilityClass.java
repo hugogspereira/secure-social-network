@@ -33,7 +33,7 @@ public class CapabilityClass implements Capability {
         if(permissions == null) {
             return false;
         }
-        return permissions.get(res.getResourceId()).contains(op.getOperationId());
+        return permissions.get(res.getResourceType()).contains(op.getOperationId());
     }
 
 }

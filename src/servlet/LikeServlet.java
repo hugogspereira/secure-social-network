@@ -4,6 +4,7 @@ import acc.Acc;
 import accCtrl.AccessController;
 import accCtrl.AccessControllerClass;
 import accCtrl.Capability;
+import accCtrl.DBcheck;
 import accCtrl.operations.OperationClass;
 import accCtrl.operations.OperationValues;
 import accCtrl.resources.ResourceClass;
@@ -20,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -47,24 +49,31 @@ public class LikeServlet extends HttpServlet {
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
 
             String postId = request.getParameter("postId");
+            String pageId = request.getParameter("pageId");
             String visiterPageId = request.getParameter("visiterPageId");
 
-            /*
-             * TODO
-             *  - See permissions/capabilities
-             */
-            List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
-            accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.LIKE_POST));
+            if(postId != null && visiterPageId != null && pageId != null) {
+                HttpSession session = request.getSession();
+                List<String> capabilities = (List<String>) session.getAttribute("Capability");
 
+                DBcheck c = (cap) -> {
+                    if(SN.getInstance().getfollowers(Integer.parseInt(pageId)).stream().noneMatch(p -> p.getPageId() == Integer.parseInt(visiterPageId)))
+                        return false;
+                    capabilities.add(cap);
+                    session.setAttribute("Capability",capabilities);
+                    return true;
+                };
 
-            if(postId != null && visiterPageId != null) {
+                accessController.checkPermission(capabilities,  new ResourceClass("page", "pageId"), new OperationClass(OperationValues.LIKE_POST), c);
+
                 SN.getInstance().like(Integer.parseInt(postId), Integer.parseInt(visiterPageId));
-
                 response.sendRedirect(request.getContextPath() + "/SocialNetwork?pageId=" + visiterPageId);
                 logger.log(Level.INFO, authUser.getAccountName() + " sent a like in the social network.");
             }
             else {
-                // TODO: REDIRECT
+                logger.log(Level.WARNING, authUser.getAccountName() + " did not provide a pageId or pageRequestId.");
+                response.sendRedirect(request.getHeader("referer"));
+                request.setAttribute("errorMessage", "No a pageId or pageRequestId was provided.");
             }
         }
         catch (AuthenticationError e) {

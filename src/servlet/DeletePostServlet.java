@@ -4,6 +4,7 @@ import acc.Acc;
 import accCtrl.AccessController;
 import accCtrl.AccessControllerClass;
 import accCtrl.Capability;
+import accCtrl.DBcheck;
 import accCtrl.operations.OperationClass;
 import accCtrl.operations.OperationValues;
 import accCtrl.resources.ResourceClass;
@@ -21,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -45,16 +47,26 @@ public class DeletePostServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            auth.checkAuthenticatedRequest(request, response);
+            Acc user = auth.checkAuthenticatedRequest(request, response);
+            String pageId = request.getParameter("pageId");
 
-            // TODO - ver este com atencao, n sei se esta bem - olhar par o onwpage servlet
-            // Lembrar que as pessoas podem n usar o jsp e fazer diretamente o pedido estilo postman, n serao quebradas as regras de seguranca????
+            HttpSession session = request.getSession();
+            List<String> capabilities = (List<String>) request.getSession().getAttribute("Capability");
 
-            List<Capability> capabilities = (List<Capability>) request.getSession().getAttribute("Capability");
-            // TODO check permission para ver se este role tem a permissao de dar delete de posts
-            accessController.checkPermission(capabilities,  new ResourceClass("page"), new OperationClass(OperationValues.DELETE_POST));
-            // TODO Check permission se o user pode eliminar posts nesta pagina
-            // ???
+            DBcheck c = (cap) -> {
+                SN sn = SN.getInstance();
+                List<PageObject> pages = sn.getPages(user.getAccountName());
+                boolean res = pages.stream().anyMatch(p -> p.getPageId() == Integer.parseInt(pageId));
+
+                if (res) {
+                    capabilities.add(cap);
+                    session.setAttribute("Capability", cap);
+                }
+                return res;
+            };
+
+            accessController.checkPermission(capabilities,  new ResourceClass("page", "pageId"), new OperationClass(OperationValues.DELETE_POST), c);
+
 
             int postId = Integer.parseInt(request.getParameter("postId"));
             SN socialNetwork = SN.getInstance();

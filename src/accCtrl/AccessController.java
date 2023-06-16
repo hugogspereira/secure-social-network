@@ -19,8 +19,8 @@ public interface AccessController {
 
     void revokePermission(Role role, Resource res, Operation op);
 
-    Capability makeKey(Role role);
+    List<String> makeKey(Role role);
 
-    void checkPermission(List<Capability> key, Resource res, Operation op) throws AccessControlError;
+    void checkPermission(List<String> key, Resource res, Operation op, DBcheck check) throws Exception;
 
 }

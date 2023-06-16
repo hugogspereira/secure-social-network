@@ -38,9 +38,7 @@ public class SNServlet extends HttpServlet {
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
 
             /*
-             * TODO
              *  - No need to check permissions/capabilities because users can access all pages in the social network
-             *  - Right?? (I think so)
              */
 
             String pageId = request.getParameter("pageId");
@@ -49,7 +47,9 @@ public class SNServlet extends HttpServlet {
                 logger.log(Level.INFO, authUser.getAccountName() + " is viewing the social network.");
             }
             else {
-                // TODO: REDIRECT
+                logger.log(Level.WARNING, authUser.getAccountName() + " did not provide a pageId.");
+                response.sendRedirect(request.getHeader("referer"));
+                request.setAttribute("errorMessage", "No a pageId or pageRequestId was provided.");
             }
         }
         catch (AuthenticationError e) {
