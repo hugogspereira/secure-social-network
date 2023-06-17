@@ -28,13 +28,10 @@ import java.util.logging.Logger;
 public class FollowersServlet extends HttpServlet {
 
     private Auth auth;
-    private AccessController accessController;
-
     private Logger logger;
     @Override
     public void init() {
         auth = Authenticator.getInstance();
-        accessController = AccessControllerClass.getInstance();
         logger = Logger.getLogger(CreateAccServlet.class.getName());
         logger.setLevel(Level.FINE);
     }
@@ -47,19 +44,6 @@ public class FollowersServlet extends HttpServlet {
             String pageId = request.getParameter("pageId");
 
             if(pageId != null) {
-                HttpSession session = request.getSession();
-                List<String> capabilities = (List<String>) session.getAttribute("Capability");
-
-                DBcheck c = (cap) -> {
-                    boolean res = SN.getInstance().getPages(authUser.getAccountName()).stream().anyMatch(p -> p.getPageId() == Integer.parseInt(pageId));
-                    if(res) {
-                        capabilities.add(cap);
-                        session.setAttribute("Capability",capabilities);
-                    }
-                    return res;
-                };
-                accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.AUTHORIZE_FOLLOW), c); // TODO: Todos deveriam poder ver os followers de uma pagina?
-
                 request.getRequestDispatcher("/WEB-INF/followers.jsp").forward(request, response);
                 logger.log(Level.INFO, authUser.getAccountName() + " is viewing the followers in the social network.");
             }

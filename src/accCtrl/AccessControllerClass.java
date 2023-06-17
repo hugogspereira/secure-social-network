@@ -53,7 +53,6 @@ public class AccessControllerClass implements AccessController {
 
     @Override
     public List<String> makeKey(Role role) {
-
         return DbAccount.getInstance().getPermissions(role);
     }
 
