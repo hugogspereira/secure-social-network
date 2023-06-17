@@ -60,7 +60,7 @@ public class DeletePostServlet extends HttpServlet {
 
                 if (res) {
                     capabilities.add(cap);
-                    session.setAttribute("Capability", cap);
+                    session.setAttribute("Capability", capabilities);
                 }
                 return res;
             };
