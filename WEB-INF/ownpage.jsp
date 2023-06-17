@@ -62,11 +62,11 @@
 
     %>
     <li>
-        <a href="<%= request.getContextPath() %>/Post?postId=<%= postObject.getPostId() %>&visiterPageId=<%=pageId%>">Post <%=postObject.getPostId()%></a>
+        <a href="<%= request.getContextPath() %>/Post?pageId=<%=pageId%>&postId=<%= postObject.getPostId() %>&visiterPageId=<%=pageId%>">Post <%=postObject.getPostId()%></a>
         &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
         <%= sn.getLikes(postObject.getPostId()).size() %> (Likes)
         &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="<%= request.getContextPath() %>/DeletePost?postId=<%= postObject.getPostId() %>">DELETE</a>
+        <a href="<%= request.getContextPath() %>/DeletePost?pageId=<%=pageId%>&postId=<%= postObject.getPostId() %>">DELETE</a>
     </li>
     <%
         }

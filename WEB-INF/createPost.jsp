@@ -28,10 +28,7 @@
 <body>
 <h1>Create Post</h1>
 <form action="/seg-soft/CreatePost" method="post">
-    <div>
-        <label for="pageId">PageId:</label>
-        <input type="number" id="pageId" name="pageId" required>
-    </div>
+
     <div>
         <label for="postDate">Post Date:</label>
         <input type="date" id="postDate" name="postDate" required>

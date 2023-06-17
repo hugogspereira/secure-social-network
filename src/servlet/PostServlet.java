@@ -71,8 +71,9 @@ public class PostServlet extends HttpServlet {
                 logger.log(Level.INFO, authUser.getAccountName() + " is accessing post: " + postId + " ." );
             }
             else {
-                request.setAttribute("errorMessage", "Invalid username and/or password");
-                request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
+                logger.log(Level.WARNING, authUser.getAccountName() + "tried access null post");
+                response.sendRedirect(request.getHeader("referer"));
+                request.setAttribute("errorMessage", "No postId or visterPageId was provided!");
             }
         }
         catch (AuthenticationError e) {
