@@ -3,7 +3,6 @@ package servlet;
 import acc.Acc;
 import accCtrl.AccessController;
 import accCtrl.AccessControllerClass;
-import accCtrl.Capability;
 import accCtrl.DBcheck;
 import accCtrl.operations.OperationClass;
 import accCtrl.operations.OperationValues;
@@ -14,7 +13,6 @@ import exc.AuthenticationError;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import socialNetwork.SN;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -48,21 +46,20 @@ public class FollowersRequestsServlet extends HttpServlet {
 
             String pageId = request.getParameter("pageId");
 
-
-
             if(pageId != null) {
                 HttpSession session = request.getSession();
                 List<String> capabilities = (List<String>) session.getAttribute("Capability");
 
                 DBcheck c = (cap) -> {
-                    if(SN.getInstance().getPages(authUser.getAccountName()).stream().noneMatch(p -> p.getPageId() == Integer.parseInt(pageId)))
-                        return false;
-                    capabilities.add(cap);
-                    session.setAttribute("Capability",capabilities);
-                    return true;
+                    boolean res = SN.getInstance().getPages(authUser.getAccountName()).stream().anyMatch(p -> p.getPageId() == Integer.parseInt(pageId));
+                    if(res) {
+                        capabilities.add(cap);
+                        session.setAttribute("Capability",capabilities);
+                    }
+                    return res;
                 };
+                accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.AUTHORIZE_FOLLOW), c);
 
-                accessController.checkPermission(capabilities,  new ResourceClass("page", "pageId"), new OperationClass(OperationValues.AUTHORIZE_FOLLOW), c);
                 request.getRequestDispatcher("/WEB-INF/followrequests.jsp").forward(request, response);
                 logger.log(Level.INFO, authUser.getAccountName() + " is viewing the follow requests in the social network.");
             }
@@ -74,7 +71,7 @@ public class FollowersRequestsServlet extends HttpServlet {
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);  // TODO: ?????????????????????????????????
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "Session has expired");
@@ -89,7 +86,7 @@ public class FollowersRequestsServlet extends HttpServlet {
         catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);  // TODO: ?????????????????????????????????
         }
     }
 

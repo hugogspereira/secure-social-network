@@ -45,26 +45,25 @@ public class UnlikeServlet extends HttpServlet {
 
             String postId = request.getParameter("postId");
             String pageId = request.getParameter("pageId");
-            String visiterPageId = request.getParameter("visiterPageId");
+            String visitedPageId = request.getParameter("visitedPageId");
 
-            if(postId != null && visiterPageId != null) {
+            if(postId != null && visitedPageId != null) {
 
                 HttpSession session = request.getSession();
                 List<String> capabilities = (List<String>) session.getAttribute("Capability");
 
                 DBcheck c = (cap) -> {
-                    if(SN.getInstance().getfollowers(Integer.parseInt(pageId)).stream().noneMatch(p -> p.getPageId() == Integer.parseInt(visiterPageId)))
+                    if(SN.getInstance().getfollowers(Integer.parseInt(visitedPageId)).stream().noneMatch(p -> p.getPageId() == Integer.parseInt(pageId)))
                         return false;
                     capabilities.add(cap);
                     session.setAttribute("Capability",capabilities);
                     return true;
                 };
+                accessController.checkPermission(capabilities,  new ResourceClass("page", visitedPageId), new OperationClass(OperationValues.LIKE_UNLIKE_POST), c);
 
-                accessController.checkPermission(capabilities,  new ResourceClass("page", "pageId"), new OperationClass(OperationValues.LIKE_POST), c);
+                SN.getInstance().unlike(Integer.parseInt(postId), Integer.parseInt(pageId));
 
-                SN.getInstance().unlike(Integer.parseInt(postId), Integer.parseInt(visiterPageId));
-
-                response.sendRedirect(request.getContextPath() + "/SocialNetwork?pageId=" + visiterPageId);
+                response.sendRedirect(request.getContextPath() + "/SocialNetwork?pageId=" + pageId);
                 logger.log(Level.INFO, authUser.getAccountName() + " sent a unlike in the social network.");
             }
             else {
@@ -74,7 +73,7 @@ public class UnlikeServlet extends HttpServlet {
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);  // TODO: ?????????????????????????????????
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "Session has expired");
@@ -89,7 +88,7 @@ public class UnlikeServlet extends HttpServlet {
         catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);  // TODO: ?????????????????????????????????
         }
     }
 

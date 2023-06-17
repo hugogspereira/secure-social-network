@@ -3,7 +3,6 @@ package servlet;
 import acc.Acc;
 import accCtrl.AccessController;
 import accCtrl.AccessControllerClass;
-import accCtrl.Capability;
 import accCtrl.DBcheck;
 import accCtrl.operations.OperationClass;
 import accCtrl.operations.OperationValues;
@@ -13,10 +12,8 @@ import auth.Authenticator;
 import exc.AccessControlError;
 import exc.AuthenticationError;
 import io.jsonwebtoken.ExpiredJwtException;
-import socialNetwork.PageObject;
 import socialNetwork.PostObject;
 import socialNetwork.SN;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -54,18 +51,14 @@ public class DeletePostServlet extends HttpServlet {
             List<String> capabilities = (List<String>) request.getSession().getAttribute("Capability");
 
             DBcheck c = (cap) -> {
-                SN sn = SN.getInstance();
-                List<PageObject> pages = sn.getPages(user.getAccountName());
-                boolean res = pages.stream().anyMatch(p -> p.getPageId() == Integer.parseInt(pageId));
-
+                boolean res = SN.getInstance().getPages(user.getAccountName()).stream().anyMatch(p -> p.getPageId() == Integer.parseInt(pageId));
                 if (res) {
                     capabilities.add(cap);
                     session.setAttribute("Capability", capabilities);
                 }
                 return res;
             };
-
-            accessController.checkPermission(capabilities,  new ResourceClass("page", "pageId"), new OperationClass(OperationValues.DELETE_POST), c);
+            accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.DELETE_POST), c);
 
 
             int postId = Integer.parseInt(request.getParameter("postId"));
@@ -79,7 +72,7 @@ public class DeletePostServlet extends HttpServlet {
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);  // TODO: ?????????????????????????????????
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
@@ -91,9 +84,9 @@ public class DeletePostServlet extends HttpServlet {
             request.setAttribute("errorMessage", "Invalid permissions for this operation");
             request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e);  // TODO: ?????????????????????????????????
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e);  // TODO: ?????????????????????????????????
         }
     }
 

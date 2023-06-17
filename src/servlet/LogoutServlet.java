@@ -35,6 +35,7 @@ public class LogoutServlet extends HttpServlet {
             logger.log(Level.INFO, "User '" + authUser.getAccountName() + "' is trying to logout");
             auth.logout(authUser);
             logger.log(Level.INFO, "User '" + authUser.getAccountName() + "' has logged out");
+
             HttpSession session = request.getSession(false);
             if (session != null) {
                 session.invalidate();

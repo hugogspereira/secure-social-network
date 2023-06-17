@@ -45,7 +45,7 @@ public class DeleteAccServlet extends HttpServlet {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
             response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
-            request.getRequestDispatcher("/WEB-INF/deleteAcc.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/deleteAcc.jsp").forward(request, response); // TODO: ?????????????????????????????????
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
@@ -99,7 +99,7 @@ public class DeleteAccServlet extends HttpServlet {
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/changePwd.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/changePwd.jsp").forward(request, response); // TODO: ?????????????????????????????????
         }
     }
 }

@@ -3,7 +3,6 @@ package servlet;
 import acc.Acc;
 import accCtrl.AccessController;
 import accCtrl.AccessControllerClass;
-import accCtrl.Capability;
 import accCtrl.DBcheck;
 import accCtrl.operations.OperationClass;
 import accCtrl.operations.OperationValues;
@@ -13,9 +12,7 @@ import auth.Authenticator;
 import exc.AccessControlError;
 import exc.AuthenticationError;
 import io.jsonwebtoken.ExpiredJwtException;
-import socialNetwork.PageObject;
 import socialNetwork.SN;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,9 +50,9 @@ public class CreatePostServlet extends HttpServlet {
             Acc userAcc = auth.checkAuthenticatedRequest(request, response);
 
             String pageId = request.getParameter("pageId");
-
             HttpSession session = request.getSession();
             List<String> capabilities = (List<String>) session.getAttribute("Capability");
+
             DBcheck c = createDBchecker(userAcc.getAccountName(), pageId, session, capabilities);
             accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.CREATE_POST), c);
 
@@ -77,7 +76,7 @@ public class CreatePostServlet extends HttpServlet {
         } catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPost.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createPost.jsp").forward(request, response);  // TODO: NAO FAZ SENTIDO SE ELE N TEM A PERMISSAO VAI ACEDER AO RECURSO DE CRIAR POSTS NA MESMA?
         }
 
     }
@@ -86,13 +85,15 @@ public class CreatePostServlet extends HttpServlet {
         try {
             Acc userAcc = auth.checkAuthenticatedRequest(request, response);
 
-            int pageId = Integer.parseInt(request.getParameter("pageId"));
+            String pageIdString = request.getParameter("pageId");
+            int pageId = Integer.parseInt(pageIdString);
             HttpSession session = request.getSession();
             List<String> capabilities = (List<String>) session.getAttribute("Capability");
-            DBcheck c = createDBchecker(userAcc.getAccountName(), String.valueOf(pageId), session, capabilities);
-            accessController.checkPermission(capabilities,  new ResourceClass("page", String.valueOf(pageId)), new OperationClass(OperationValues.CREATE_POST), c);
 
-            String postDate = request.getParameter("postDate");
+            DBcheck c = createDBchecker(userAcc.getAccountName(), pageIdString, session, capabilities);
+            accessController.checkPermission(capabilities,  new ResourceClass("page", pageIdString), new OperationClass(OperationValues.CREATE_POST), c);
+
+            String postDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
             String postText = request.getParameter("postText");
 
             SN socialNetwork = SN.getInstance();
@@ -105,7 +106,7 @@ public class CreatePostServlet extends HttpServlet {
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response); // TODO: ?????????????????????????????????
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
@@ -115,7 +116,7 @@ public class CreatePostServlet extends HttpServlet {
         catch (SQLException e) {
             logger.log(Level.WARNING, "SQL Exception on creating page");
             request.setAttribute("errorMessage", "Problems regarding the creation of the page. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response); // TODO: ?????????????????????????????????
         }
         catch (AccessControlError e) {
             logger.log(Level.WARNING, "Invalid permissions for this operation");
@@ -123,6 +124,7 @@ public class CreatePostServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
         }
         catch (Exception e) {
+            logger.log(Level.WARNING, e.getMessage());
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
             request.getRequestDispatcher("/WEB-INF/createPost.jsp").forward(request, response);
@@ -131,11 +133,7 @@ public class CreatePostServlet extends HttpServlet {
 
     private DBcheck createDBchecker(String userId, String pageId, HttpSession session, List<String> capabilities){
         return (cap) -> {
-            SN sn = SN.getInstance();
-            List<PageObject> pages = sn.getPages(userId);
-            pages.forEach(p -> System.out.println(p.getPageId()));
-            boolean res = pages.stream().anyMatch(p -> p.getPageId() == Integer.parseInt(pageId));
-
+            boolean res = SN.getInstance().getPages(userId).stream().anyMatch(p -> p.getPageId() == Integer.parseInt(pageId));
             if (res) {
                 capabilities.add(cap);
                 session.setAttribute("Capability", capabilities);

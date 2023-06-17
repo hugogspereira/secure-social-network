@@ -3,7 +3,6 @@ package servlet;
 import acc.Acc;
 import accCtrl.AccessController;
 import accCtrl.AccessControllerClass;
-import accCtrl.Capability;
 import accCtrl.DBcheck;
 import accCtrl.operations.OperationClass;
 import accCtrl.operations.OperationValues;
@@ -51,6 +50,7 @@ public class DeclineFollowServlet extends HttpServlet {
             String pageRequestId = request.getParameter("pageRequestId");
             HttpSession session = request.getSession();
             List<String> capabilities = (List<String>) request.getSession().getAttribute("Capability");
+
             DBcheck check = (cap) -> {
                 if(SN.getInstance().getPages(authUser.getAccountName()).stream().noneMatch(p -> p.getPageId() == Integer.parseInt(pageId)))
                     return false;
@@ -58,7 +58,7 @@ public class DeclineFollowServlet extends HttpServlet {
                 session.setAttribute("Capability",capabilities);
                 return true;
             };
-            accessController.checkPermission(capabilities,  new ResourceClass("page", "pageId"), new OperationClass(OperationValues.AUTHORIZE_FOLLOW), check);
+            accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.AUTHORIZE_FOLLOW), check);
 
             if(pageId != null && pageRequestId != null) {
                 SN sn = SN.getInstance();
@@ -83,7 +83,7 @@ public class DeclineFollowServlet extends HttpServlet {
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response); // TODO: ?????????????????????????????????
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "Session has expired");
@@ -100,10 +100,15 @@ public class DeclineFollowServlet extends HttpServlet {
             request.setAttribute("errorMessage", "Invalid permissions for this operation");
             request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
         }
+        catch (NotAbleToAccept e) {
+            logger.log(Level.WARNING, "Problems in the state of the invite.");
+            request.setAttribute("errorMessage", "Problems regarding state of the acceptance. The user cannot accept.");
+            request.getRequestDispatcher("/WEB-INF/sn.jsp").forward(request, response);
+        }
         catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/sn.jsp").forward(request, response);
         }
     }
 

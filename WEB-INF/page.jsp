@@ -51,23 +51,23 @@
 <ul>
     <%
     String pageId = request.getParameter("pageId");
-    String visiterPageId = request.getParameter("visiterPageId");
+    String visitedPageId = request.getParameter("visitedPageId");
     if (pageId != null) {
-         for (PostObject postObject: sn.getPagePosts(Integer.parseInt(pageId))) {
+         for (PostObject postObject: sn.getPagePosts(Integer.parseInt(visitedPageId))) {
 
     %>
     <li>
-        <a href="<%= request.getContextPath() %>/Post?pageId=<%=pageId%>&postId=<%= postObject.getPostId() %>&visiterPageId=<%=visiterPageId%>">Post <%=postObject.getPostId()%></a>
+        <a href="<%= request.getContextPath() %>/Post?pageId=<%=pageId%>&postId=<%= postObject.getPostId() %>&visitedPageId=<%=visitedPageId%>">Post <%=postObject.getPostId()%></a>
         |
         <%
-            if( sn.isLiked(postObject.getPostId(), Integer.parseInt(visiterPageId)) ) {
+            if( sn.isLiked(postObject.getPostId(), Integer.parseInt(pageId)) ) {
         %>
-        <a href="<%= request.getContextPath() %>/Unlike?pageId=<%=pageId%>&postId=<%= postObject.getPostId() %>&visiterPageId=<%=visiterPageId%>">UNLIKE</a>
+        <a href="<%= request.getContextPath() %>/Unlike?pageId=<%=pageId%>&postId=<%= postObject.getPostId() %>&visitedPageId=<%=visitedPageId%>">UNLIKE</a>
         <%
             }
             else {
         %>
-        <a href="<%= request.getContextPath() %>/Like?pageId=<%=pageId%>&postId=<%= postObject.getPostId() %>&visiterPageId=<%=visiterPageId%>">LIKE</a>
+        <a href="<%= request.getContextPath() %>/Like?pageId=<%=pageId%>&postId=<%= postObject.getPostId() %>&visitedPageId=<%=visitedPageId%>">LIKE</a>
         <%
             }
         }

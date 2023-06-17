@@ -3,24 +3,18 @@ package servlet;
 import acc.Acc;
 import accCtrl.AccessController;
 import accCtrl.AccessControllerClass;
-import accCtrl.Capability;
-import accCtrl.operations.OperationClass;
-import accCtrl.operations.OperationValues;
-import accCtrl.resources.ResourceClass;
 import auth.Auth;
 import auth.Authenticator;
 import exc.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import socialNetwork.SN;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,13 +39,10 @@ public class PageServlet extends HttpServlet {
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
 
             String pageId = request.getParameter("pageId");
+            String visitedPageId = request.getParameter("visitedPageId");
 
-            /*
-             *  - I think there is no problem with this permission because they can access all pages in the social network
-             */
-
-            if(pageId != null) {
-                if(SN.getInstance().getPage(Integer.parseInt(pageId)).getUserId().equals(authUser.getAccountName())){
+            if(pageId != null && visitedPageId != null) {
+                if(SN.getInstance().getPage(Integer.parseInt(visitedPageId)).getUserId().equals(authUser.getAccountName()) && pageId.equals(visitedPageId)){
                     request.getRequestDispatcher("/WEB-INF/ownpage.jsp").forward(request, response);
                 }
                 else {
@@ -63,12 +54,13 @@ public class PageServlet extends HttpServlet {
                 logger.log(Level.WARNING, authUser.getAccountName() + "tried to access a null page");
                 response.sendRedirect(request.getHeader("referer"));
                 request.setAttribute("errorMessage", "No pageId was provided!");
+                // TODO: ?????????????????????????????????
             }
         }
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);  // TODO: ?????????????????????????????????
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "Session has expired");
@@ -88,7 +80,7 @@ public class PageServlet extends HttpServlet {
         catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);  // TODO: ?????????????????????????????????
         }
     }
 }

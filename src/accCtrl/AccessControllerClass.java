@@ -59,21 +59,14 @@ public class AccessControllerClass implements AccessController {
 
     @Override
     public void checkPermission(List<String> capabilities, Resource res, Operation op, DBcheck c) throws Exception {
-        /*
-         * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-         * TODO: Nota: Temos de ter a certeza que a capability tem sempre o valor mais atualizado
-         * Quando é q a capability é atualizada? Sempre que é feito um grant ou revoke
-         * Quando é que metemos a capability atualizada na sessão? (O possivel ramo else no inner loop deste método)
-         * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-         */
-        String especificCap = Util.getHash(Util.serializeToBytes(new Object[]{res.getResourceId(), op.getOperationId()}));
-        if(capabilities.stream().anyMatch((s) -> s.equals(especificCap))) {
+        String specificCap = Util.getHash(Util.serializeToBytes(new Object[]{res.getResourceId(), op.getOperationId()}));
+        if(capabilities.stream().anyMatch((s) -> s.equals(specificCap))) {
             return;
         }
 
         String genericCap = Util.getHash(Util.serializeToBytes(new Object[]{res.getResourceType(), op.getOperationId()}));
         if(capabilities.stream().anyMatch((s) -> s.equals(genericCap))) {
-            if(c.checkDB(especificCap)){
+            if(c.checkDB(specificCap)){
                 return;
             }
         }

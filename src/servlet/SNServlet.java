@@ -1,23 +1,17 @@
 package servlet;
 
 import acc.Acc;
-import accCtrl.Capability;
-import accCtrl.operations.OperationClass;
-import accCtrl.operations.OperationValues;
-import accCtrl.resources.ResourceClass;
 import auth.Auth;
 import auth.Authenticator;
 import exc.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,12 +31,11 @@ public class SNServlet extends HttpServlet {
         try {
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
 
-            /*
-             *  - No need to check permissions/capabilities because users can access all pages in the social network
-             */
-
             String pageId = request.getParameter("pageId");
+
             if(pageId != null) {
+                // TODO: Fazer checkpermission !!!
+
                 request.getRequestDispatcher("/WEB-INF/sn.jsp").forward(request, response);
                 logger.log(Level.INFO, authUser.getAccountName() + " is viewing the social network.");
             }
@@ -55,7 +48,7 @@ public class SNServlet extends HttpServlet {
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);  // TODO: ?????????????????????????????????
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "Session has expired");
@@ -72,7 +65,7 @@ public class SNServlet extends HttpServlet {
             logger.log(Level.WARNING, "Something went wrong");
             logger.log(Level.WARNING, e.getMessage());
             request.setAttribute("errorMessage", "Something went wrong");
-            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response); // TODO: ?????????????????????????????????
         }
     }
 

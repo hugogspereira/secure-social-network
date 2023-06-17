@@ -398,7 +398,6 @@ public class DbAccount {
             while(rs.next()) {
                 String resourceType = rs.getString("resource");
                 String operationId = rs.getString("operation");
-                System.out.println("resourceType: " + resourceType + " operationId: " + operationId);
                 list.add(Util.getHash(Util.serializeToBytes(new String[]{resourceType, operationId})));
             }
             return list;

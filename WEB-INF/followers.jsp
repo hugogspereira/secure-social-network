@@ -55,13 +55,11 @@
     <%
         String pageId = request.getParameter("pageId");
         if (pageId != null) {
-            PageObject pageObject = sn.getPage(Integer.parseInt(pageId));
-
-            for (PageObject curObject: sn.getfollowers(pageObject.getPageId())) {
+            for (PageObject curObject: sn.getfollowers(Integer.parseInt(pageId))) {
 
     %>
     <li>
-        <a href="<%= request.getContextPath() %>/Page?pageId=<%= curObject.getPageId() %>&visiterPageId=<%=pageId%>">Page <%= curObject.getPageId() %></a>
+        <a href="<%= request.getContextPath() %>/Page?pageId=<%=pageId%>&visitedPageId=<%=curObject.getPageId() %>">Page <%= curObject.getPageId() %></a>
     </li>
     <%
         }

@@ -15,9 +15,9 @@
             text-align: right;
             margin-right: 10px;
         }
-        input[type=text], input[type=date], input[type=number] {
-            display: inline-block;
-            width: 200px;
+        input[type=text] {
+            width: 500px;
+            height: 50px;
         }
         input[type=submit] {
             display: inline-block;
@@ -27,12 +27,7 @@
 </head>
 <body>
 <h1>Create Post</h1>
-<form action="/seg-soft/CreatePost" method="post">
-
-    <div>
-        <label for="postDate">Post Date:</label>
-        <input type="date" id="postDate" name="postDate" required>
-    </div>
+<form action="/seg-soft/CreatePost?pageId=<%=request.getParameter("pageId")%>" method="post">
     <div>
         <label for="postText">Post Text:</label>
         <input type="text" id="postText" name="postText" required>

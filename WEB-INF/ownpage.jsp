@@ -62,7 +62,7 @@
 
     %>
     <li>
-        <a href="<%= request.getContextPath() %>/Post?pageId=<%=pageId%>&postId=<%= postObject.getPostId() %>&visiterPageId=<%=pageId%>">Post <%=postObject.getPostId()%></a>
+        <a href="<%= request.getContextPath() %>/Post?pageId=<%=pageId%>&postId=<%= postObject.getPostId() %>&visitedPageId=<%=pageId%>">Post <%=postObject.getPostId()%></a>
         &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
         <%= sn.getLikes(postObject.getPostId()).size() %> (Likes)
         &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;

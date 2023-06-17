@@ -4,10 +4,10 @@ public enum OperationValues {
     ACCESS_POST("access post"),
     CREATE_POST("create post"),
     DELETE_POST("delete post"),
-    LIKE_POST("like post"),
-    UNLIKE_POST("unlike post"),
+    LIKE_UNLIKE_POST("like post"),
     CREATE_PAGE("create page"),
     AUTHORIZE_FOLLOW("authorize follow"),
+    SUBMIT_FOLLOW("authorize follow"),
     DELETE_PAGE("delete page");
 
     private final String operation;

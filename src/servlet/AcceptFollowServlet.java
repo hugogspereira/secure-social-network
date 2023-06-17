@@ -3,21 +3,18 @@ package servlet;
 import acc.Acc;
 import accCtrl.AccessController;
 import accCtrl.AccessControllerClass;
-import accCtrl.Capability;
 import accCtrl.DBcheck;
 import accCtrl.operations.OperationClass;
 import accCtrl.operations.OperationValues;
 import accCtrl.resources.ResourceClass;
 import auth.Auth;
 import auth.Authenticator;
-import exc.AlreadyRequestedFollow;
 import exc.AuthenticationError;
 import exc.NotAbleToAccept;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import socialNetwork.FState;
 import socialNetwork.SN;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -85,7 +82,7 @@ public class AcceptFollowServlet extends HttpServlet {
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response); // TODO: ?????????????????????????????????
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "Session has expired");
@@ -97,10 +94,15 @@ public class AcceptFollowServlet extends HttpServlet {
             request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
+        catch (NotAbleToAccept e) {
+            logger.log(Level.WARNING, "Problems in the state of the invite.");
+            request.setAttribute("errorMessage", "Problems regarding state of the acceptance. The user cannot accept.");
+            request.getRequestDispatcher("/WEB-INF/sn.jsp").forward(request, response);
+        }
         catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response); // TODO: ?????????????????????????????????
         }
     }
 

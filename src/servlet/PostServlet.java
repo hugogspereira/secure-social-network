@@ -3,7 +3,6 @@ package servlet;
 import acc.Acc;
 import accCtrl.AccessController;
 import accCtrl.AccessControllerClass;
-import accCtrl.Capability;
 import accCtrl.DBcheck;
 import accCtrl.operations.OperationClass;
 import accCtrl.operations.OperationValues;
@@ -15,7 +14,6 @@ import exc.AuthenticationError;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import socialNetwork.SN;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -49,24 +47,24 @@ public class PostServlet extends HttpServlet {
 
             String postId = request.getParameter("postId");
             String pageId = request.getParameter("pageId");
-            String visiterPageId = request.getParameter("visiterPageId");
+            String visitedPageId = request.getParameter("visitedPageId");
 
 
-            if(postId != null && visiterPageId != null && pageId != null) {
+            if(postId != null && visitedPageId != null && pageId != null) {
                 HttpSession session = request.getSession();
                 List<String> capabilities = (List<String>) session.getAttribute("Capability");
 
                 DBcheck c = (cap) -> {
-                    if(!pageId.equals(visiterPageId)) {
-                        if(SN.getInstance().getfollowers(Integer.parseInt(pageId)).stream().noneMatch(p -> p.getPageId() == Integer.parseInt(visiterPageId)))
+                    if(!pageId.equals(visitedPageId)) {
+                        if(SN.getInstance().getfollowers(Integer.parseInt(visitedPageId)).stream().noneMatch(p -> p.getPageId() == Integer.parseInt(pageId))) // TODO: check if this is correct
                             return false;
                     }
                     capabilities.add(cap);
                     session.setAttribute("Capability",capabilities);
                     return true;
                 };
+                accessController.checkPermission(capabilities,  new ResourceClass("page", visitedPageId), new OperationClass(OperationValues.ACCESS_POST), c);
 
-                accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.ACCESS_POST), c);
                 request.getRequestDispatcher("/WEB-INF/post.jsp").forward(request, response);
                 logger.log(Level.INFO, authUser.getAccountName() + " is accessing post: " + postId + " ." );
             }
@@ -79,7 +77,7 @@ public class PostServlet extends HttpServlet {
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);  // TODO: ?????????????????????????????????
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "Session has expired");
@@ -99,7 +97,7 @@ public class PostServlet extends HttpServlet {
         catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);  // TODO: ?????????????????????????????????
         }
     }
 }

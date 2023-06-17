@@ -3,7 +3,6 @@ package servlet;
 import acc.Acc;
 import accCtrl.AccessController;
 import accCtrl.AccessControllerClass;
-import accCtrl.Capability;
 import accCtrl.DBcheck;
 import accCtrl.operations.OperationClass;
 import accCtrl.operations.OperationValues;
@@ -48,10 +47,9 @@ public class CreatePageServlet extends HttpServlet {
             Acc userAcc = auth.checkAuthenticatedRequest(request, response);
             HttpSession session = request.getSession();
             List<String> capabilities = (List<String>) session.getAttribute("Capability");
+
             DBcheck c = createDBchecker(session, capabilities);
-
             accessController.checkPermission(capabilities, new ResourceClass("page", ""), new OperationClass(OperationValues.CREATE_PAGE), c);
-
 
             request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
             logger.log(Level.INFO, userAcc.getAccountName() + " is creating a page.");
@@ -70,7 +68,7 @@ public class CreatePageServlet extends HttpServlet {
         } catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);     // TODO: NAO FAZ SENTIDO SE ELE N TEM A PERMISSAO VAI ACEDER AO RECURSO DE CRIAR PAGINAS NA MESMA?
         }
     }
 
@@ -80,6 +78,7 @@ public class CreatePageServlet extends HttpServlet {
 
             HttpSession session = request.getSession();
             List<String> capabilities = (List<String>) session.getAttribute("Capability");
+
             DBcheck c = createDBchecker(session, capabilities);
             accessController.checkPermission(capabilities, new ResourceClass("page", ""), new OperationClass(OperationValues.CREATE_PAGE), c);
 
@@ -97,7 +96,7 @@ public class CreatePageServlet extends HttpServlet {
         } catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response); // TODO: ?????????????????????????????????
         } catch (ExpiredJwtException e) {
             logger.log(Level.WARNING, "JWT has expired");
             request.setAttribute("errorMessage", "Session has expired and/or is invalid");

@@ -3,7 +3,6 @@ package servlet;
 import acc.Acc;
 import accCtrl.AccessController;
 import accCtrl.AccessControllerClass;
-import accCtrl.Capability;
 import accCtrl.DBcheck;
 import accCtrl.operations.OperationClass;
 import accCtrl.operations.OperationValues;
@@ -47,10 +46,6 @@ public class DeletePageServlet extends HttpServlet {
         try {
             auth.checkAuthenticatedRequest(request, response);
 
-            /*
-             *  Checkpermission - see if is admin or not
-             *  Note that, we will only check for the role capability because it is a general thing
-             */
             HttpSession session = request.getSession();
             List<String> capabilities = (List<String>) session.getAttribute("Capability");
 
@@ -64,7 +59,7 @@ public class DeletePageServlet extends HttpServlet {
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response); // TODO: ?????????????????????????????????
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
@@ -79,7 +74,7 @@ public class DeletePageServlet extends HttpServlet {
         catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/deletePage.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/deletePage.jsp").forward(request, response);   // TODO: ?????????????????????????????????
         }
     }
 
@@ -106,7 +101,7 @@ public class DeletePageServlet extends HttpServlet {
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response); // TODO: ?????????????????????????????????
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
