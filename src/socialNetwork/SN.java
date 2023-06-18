@@ -235,11 +235,27 @@ public class SN {
     // Like
     
     public void like(int post_id, int page_id) throws SQLException {
-		stmt.execute("insert into likes (post_id,page_id) values ("+post_id+","+ page_id+")");
+		String sql ="select * from page where page_id="+page_id;
+		ResultSet rs;
+		rs    = stmt.executeQuery(sql);
+		if (rs.next()) {
+			stmt.execute("insert into likes (post_id,page_id) values ("+post_id+","+ page_id+")");
+		}
+		else {
+			throw new SQLException();
+		}
     }
 
     public void unlike(int post_id, int page_id) throws SQLException{
-		stmt.execute("delete from likes where post_id="+post_id+" and page_id="+page_id);
+		String sql ="select * from page where page_id="+page_id;
+		ResultSet rs;
+		rs    = stmt.executeQuery(sql);
+		if (rs.next()) {
+			stmt.execute("delete from likes where post_id=" + post_id + " and page_id=" + page_id);
+		}
+		else {
+			throw new SQLException();
+		}
     }
 
 	public List<PageObject> getLikes(int post_id) throws SQLException {

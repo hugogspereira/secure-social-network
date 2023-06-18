@@ -50,19 +50,6 @@ public class FollowServlet extends HttpServlet {
             String visitedPageId = request.getParameter("visitedPageId");
 
             if(pageId != null && visitedPageId != null) {
-                HttpSession session = request.getSession();
-                List<String> capabilities = JWTAccount.getInstance().getCapabilities(authUser.getAccountName(), (String) session.getAttribute("Capability"));
-
-                DBcheck c = (cap) -> {
-                    boolean res = SN.getInstance().getPages(authUser.getAccountName()).stream().anyMatch(p -> p.getPageId() == Integer.parseInt(pageId)) && !pageId.equals(visitedPageId);
-                    if(res) {
-                        capabilities.add(cap);
-                        session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(authUser.getAccountName(), capabilities));
-                    }
-                    return res;
-                };
-                accessController.checkPermission(capabilities,  new ResourceClass("page", visitedPageId), new OperationClass(OperationValues.SUBMIT_FOLLOW), c);
-
                 SN sn = SN.getInstance();
                 FState state = sn.getfollowState(Integer.parseInt(pageId), Integer.parseInt(visitedPageId));
 
