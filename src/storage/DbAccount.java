@@ -9,6 +9,7 @@ import accCtrl.resources.Resource;
 import socialNetwork.SN;
 import util.Util;
 
+import javax.sql.rowset.spi.TransactionalWriter;
 import java.sql.*;
 import java.util.*;
 
@@ -184,6 +185,9 @@ public class DbAccount {
         Connection conn = getConnection();
         try {
             PreparedStatement ps = conn.prepareStatement("DELETE FROM accounts WHERE accountName = ?");
+            ps.setString(1, accountName);
+            ps.executeUpdate();
+            ps = conn.prepareStatement("DELETE FROM accountRoles WHERE accountName = ?");
             ps.setString(1, accountName);
             ps.executeUpdate();
             conn.close();

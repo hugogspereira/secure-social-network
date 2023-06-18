@@ -58,7 +58,7 @@
             for (PageObject curObject: sn.getrequests(Integer.parseInt(pageId))) {
     %>
     <li>
-        <a href="<%= request.getContextPath() %>/Page?pageId=<%=pageId%>&visitedPageId=<%=curObject.getPageId() %>">Page <%= curObject.getPageId() %></a>
+        <a href="<%= request.getContextPath() %>/Page?pageId=<%=pageId%>&visitedPageId=<%=curObject.getPageId() %>"><%=curObject.getPageTitle()%> - Page  <%= curObject.getPageId() %></a>
         &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="<%= request.getContextPath() %>/AcceptFollow?pageId=<%=pageId%>&pageRequestId=<%= curObject.getPageId() %>">ACCEPT</a>
         &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;

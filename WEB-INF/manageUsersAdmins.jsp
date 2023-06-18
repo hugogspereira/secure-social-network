@@ -37,7 +37,7 @@
     %>
     <br>
     <li><a href="<%=request.getContextPath()%>/SocialNetwork?pageId=<%=curPage.getPageId()%>">Feed (Social Network)</a></li>
-    <li><a href="<%=request.getContextPath()%>/Page?pageId=<%=curPage.getPageId()%>&visitedPageId=<%=curPage.getPageId()%>">Page <%=curPage.getPageId()%></a></li>
+    <li><a href="<%=request.getContextPath()%>/Page?pageId=<%=curPage.getPageId()%>&visitedPageId=<%=curPage.getPageId()%>"><%=curPage.getPageTitle()%> - Page <%=curPage.getPageId()%></a></li>
     <%
         }
     %>

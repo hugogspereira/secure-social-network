@@ -58,7 +58,7 @@
                     if(state == null || state.equals(FState.NONE)) {
     %>
     <li>
-        <a href="<%=request.getContextPath()%>/Page?pageId=<%=pageId%>&visitedPageId=<%=current.getPageId()%>"> Page <%=current.getPageId()%> (<%=current.getUserId()%>'s page)</a>
+        <a href="<%=request.getContextPath()%>/Page?pageId=<%=pageId%>&visitedPageId=<%=current.getPageId()%>"> <%=current.getPageTitle()%> - Page  <%=current.getPageId()%> (<%=current.getUserId()%>'s page)</a>
         &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="<%= request.getContextPath() %>/Follow?pageId=<%=pageId%>&visitedPageId=<%=current.getPageId()%>">FOLLOW</a>
     </li>
@@ -67,7 +67,7 @@
     else if(state.equals(FState.PENDING)) {
     %>
     <li>
-        <a href="<%=request.getContextPath()%>/Page?pageId=<%=pageId%>&visitedPageId=<%=current.getPageId()%>"> Page <%=current.getPageId()%> (<%=current.getUserId()%>'s page)</a>
+        <a href="<%=request.getContextPath()%>/Page?pageId=<%=pageId%>&visitedPageId=<%=current.getPageId()%>"> <%=current.getPageTitle()%> - Page <%=current.getPageId()%> (<%=current.getUserId()%>'s page)</a>
         &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="<%= request.getContextPath() %>/Unfollow?pageId=<%=pageId%>&visitedPageId=<%=current.getPageId()%>">PENDING</a>
     </li>
@@ -76,7 +76,7 @@
     else {
     %>
     <li>
-        <a href="<%=request.getContextPath()%>/Page?pageId=<%=pageId%>&visitedPageId=<%=current.getPageId()%>"> Page <%=current.getPageId()%> (<%=current.getUserId()%>'s page)</a>
+        <a href="<%=request.getContextPath()%>/Page?pageId=<%=pageId%>&visitedPageId=<%=current.getPageId()%>"> <%=current.getPageTitle()%> - Page <%=current.getPageId()%> (<%=current.getUserId()%>'s page)</a>
         &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="<%= request.getContextPath() %>/Unfollow?pageId=<%=pageId%>&visitedPageId=<%=current.getPageId()%>">UNFOLLOW</a>
     </li>
@@ -86,7 +86,7 @@
     else {
     %>
     <li>
-        <a href="<%=request.getContextPath()%>/Page?pageId=<%=pageId%>&visitedPageId=<%=current.getPageId()%>"> Page <%=current.getPageId()%> (<%=current.getUserId()%>'s page)</a>
+        <a href="<%=request.getContextPath()%>/Page?pageId=<%=pageId%>&visitedPageId=<%=current.getPageId()%>"> <%=current.getPageTitle()%> - Page <%=current.getPageId()%> (<%=current.getUserId()%>'s page)</a>
         &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
         OWNER
     </li>
