@@ -46,7 +46,7 @@ public class DeleteAccServlet extends HttpServlet {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
             response.sendRedirect(request.getContextPath() + "/AuthenticateUser");
-            request.getRequestDispatcher("/WEB-INF/deleteAcc.jsp").forward(request, response); // TODO: ?????????????????????????????????
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
@@ -57,6 +57,11 @@ public class DeleteAccServlet extends HttpServlet {
             logger.log(Level.WARNING, "JWT has been tampered with or is invalid");
             request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
+        }
+        catch (Exception e) {
+            logger.log(Level.WARNING, "Problems regarding authentication.");
+            request.setAttribute("errorMessage", "Problems regarding authentication. Please try again later.");
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
     }
 
@@ -101,7 +106,12 @@ public class DeleteAccServlet extends HttpServlet {
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/changePwd.jsp").forward(request, response); // TODO: ?????????????????????????????????
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
+        }
+        catch (Exception e) {
+            logger.log(Level.WARNING, "Problems regarding authentication.");
+            request.setAttribute("errorMessage", "Problems regarding authentication. Please try again later.");
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
     }
 }

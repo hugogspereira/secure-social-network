@@ -535,10 +535,11 @@ public class DbAccount {
     }
 
     public void lockAccDb(String accountName) {
-        if(!DbAccount.getInstance().checkIfLoggedInAccount(accountName)) { // if the account is not logged in
-            DbAccount.getInstance().lockAccount(accountName); // lock the account
-            if(DbAccount.getInstance().checkIfLoggedInAccount(accountName)) { // check again to see if someone logged in
-                DbAccount.getInstance().rollbackLock(accountName); // rollback the lock
+        DbAccount db = DbAccount.getInstance();
+        if(!db.checkIfLoggedInAccount(accountName)) { // if the account is not logged in
+            db.lockAccount(accountName); // lock the account
+            if(db.checkIfLoggedInAccount(accountName)) { // check again to see if someone logged in
+                db.rollbackLock(accountName); // rollback the lock
             }
         }
     }

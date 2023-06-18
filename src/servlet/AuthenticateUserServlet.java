@@ -74,6 +74,11 @@ public class AuthenticateUserServlet extends HttpServlet {
             request.setAttribute("errorMessage", "Something went wrong, please try again");
             request.getRequestDispatcher("/WEB-INF/authenticateUser.jsp").forward(request, response);
         }
+        catch (Exception e) {
+            logger.log(Level.WARNING, "Problems regarding authentication.");
+            request.setAttribute("errorMessage", "Problems regarding authentication. Please try again later.");
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
+        }
     }
 
 }
