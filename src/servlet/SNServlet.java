@@ -1,7 +1,6 @@
 package servlet;
 
 import acc.Acc;
-import accCtrl.AccessController;
 import accCtrl.AccessControllerClass;
 import accCtrl.DBcheck;
 import accCtrl.operations.OperationClass;
@@ -14,7 +13,6 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import jwt.JWTAccount;
 import socialNetwork.SN;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

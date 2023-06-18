@@ -23,7 +23,7 @@ public class JWTAccount {
     /**
      * The secret bytes used to sign the token
      */
-    private String base64SecretBytes;
+    private final String base64SecretBytes;
 
     /**
      * The singleton instance

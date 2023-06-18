@@ -2,7 +2,7 @@ package accCtrl.operations;
 
 public class OperationClass implements Operation {
 
-    private String id;
+    private final String id;
 
     public OperationClass(String id) {
         this.id = id;

@@ -19,7 +19,7 @@ public class AccessControllerClass implements AccessController {
      * and other to store the capabilities that were granted while the system is running
      * It is only stored the generic capabilities - the set does not become big
      */
-    private static Set<String> revokedCapabilities, grantedCapabiltiies;
+    private static Set<String> revokedCapabilities, grantedCapabilities;
 
     /**
      * Access Controller constructor
@@ -29,7 +29,7 @@ public class AccessControllerClass implements AccessController {
     public static AccessController getInstance() {
         if(accCtrl == null) {
             revokedCapabilities = new HashSet<>();
-            grantedCapabiltiies = new HashSet<>();
+            grantedCapabilities = new HashSet<>();
 
             accCtrl = new AccessControllerClass();
         }
@@ -59,7 +59,7 @@ public class AccessControllerClass implements AccessController {
         // Run time storing capabilities
         try {
             String cap = Util.getHash(Util.serializeToBytes(new String[]{res.getResourceType(), op.getOperationId()}));
-            grantedCapabiltiies.add(cap);
+            grantedCapabilities.add(cap);
             revokedCapabilities.remove(cap);
         }
         catch (NoSuchAlgorithmException e) {
@@ -75,7 +75,7 @@ public class AccessControllerClass implements AccessController {
         try {
             String cap = Util.getHash(Util.serializeToBytes(new String[]{res.getResourceType(), op.getOperationId()}));
             revokedCapabilities.add(cap);
-            grantedCapabiltiies.remove(cap);
+            grantedCapabilities.remove(cap);
         }
         catch (NoSuchAlgorithmException e) {
             throw new Exception(e);
@@ -98,7 +98,7 @@ public class AccessControllerClass implements AccessController {
             }
 
             // If the session as the capability or if it was granted in the running time
-            if(capabilities.stream().anyMatch((s) -> s.equals(genericCap)) || grantedCapabiltiies.contains(genericCap)) {
+            if(capabilities.stream().anyMatch((s) -> s.equals(genericCap)) || grantedCapabilities.contains(genericCap)) {
                 if(c.checkDB(specificCap)){
                     return;
                 }

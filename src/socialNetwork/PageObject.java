@@ -2,7 +2,7 @@ package socialNetwork;
 
 public class PageObject {
 
-    private int page_id;
+    private final int page_id;
     private String user_id;
     private String email;
     private String page_title;

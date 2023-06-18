@@ -30,13 +30,13 @@ public static void main(String[] args) throws Exception
 	
 	System.out.println("\ngetfollowed:");
 	List<PageObject> pl = app.getfollowed(p.getPageId()) ;
-	for (PageObject  x : pl) { System.out.println(p.getUserId()+" follows "+x.getUserId()); };
+	for (PageObject  x : pl) { System.out.println(p.getUserId()+" follows "+x.getUserId()); }
 
 	app.updatefollowsstatus(p.getPageId(),r.getPageId(),FState.OK);
 	
 	System.out.println("\ngetfollowed:");
 	pl = app.getfollowed(p.getPageId()) ;
-	for (PageObject  x : pl) { System.out.println(p.getUserId()+" follows "+x.getUserId()); };
+	for (PageObject  x : pl) { System.out.println(p.getUserId()+" follows "+x.getUserId()); }
 
 	
 	PostObject po1 = app.newPost(p.getPageId(), "11.2.2023", "hello there");
@@ -48,7 +48,7 @@ public static void main(String[] args) throws Exception
 	List<PageObject> lpages = app.getAllPages();
 	for (PageObject  x : lpages) {
 	    System.out.println(x.getUserId()+" : "+x.getEmail());
-	};
+	}
 
 	System.out.println("\nupdatePage");
 
@@ -61,14 +61,14 @@ public static void main(String[] args) throws Exception
 	lpages = app.getAllPages();
 	for (PageObject  x : lpages) {
 	    System.out.println(x.getUserId()+" : "+x.getEmail());
-	};
+	}
 	
 	System.out.println("\ngetPosts()");
 
 	List<PostObject> lposts = app.getAllPosts();
 	for (PostObject  x : lposts) {
 	    System.out.println(x.getPostText() + " " + x.getPostDate());
-	};
+	}
 
 	po2.setPostText("post text changed!");
 	app.updatePost(po2);
@@ -78,7 +78,7 @@ public static void main(String[] args) throws Exception
 	lposts = app.getPagePosts(p.getPageId());
 	for (PostObject  x : lposts) {
 	    System.out.println(x.getPostText() + " " + x.getPostDate());
-	};
+	}
 
 	app.like(po1.getPostId(),r.getPageId());
 	app.like(po3.getPostId(),p.getPageId());
@@ -88,14 +88,14 @@ public static void main(String[] args) throws Exception
 	lpages = app.getLikes(po3.getPostId());
 	for (PageObject  x : lpages) {
 	    System.out.println(po3.getPostText()+" liked by " + x.getUserId());
-	};
+	}
 
 	System.out.println("\ngetLikess(post_id)");
 	app.unlike(po3.getPostId(),p.getPageId());
 	lpages = app.getLikes(po3.getPostId());
 	for (PageObject  x : lpages) {
 	    System.out.println(po3.getPostText()+" liked by " + x.getUserId());
-	};
+	}
 	
 	//app.deletePage(p);
 	//app.deletePage(q);

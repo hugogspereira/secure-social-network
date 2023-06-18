@@ -37,7 +37,7 @@ public class PostServlet extends HttpServlet {
     @Override
     public void init() {
         auth = Authenticator.getInstance();
-        accessController = AccessControllerClass.getInstance();;
+        accessController = AccessControllerClass.getInstance();
         logger = Logger.getLogger(CreateAccServlet.class.getName());
         logger.setLevel(Level.FINE);
     }
@@ -72,7 +72,7 @@ public class PostServlet extends HttpServlet {
             }
             else {
                 logger.log(Level.WARNING, authUser.getAccountName() + "tried access null post");
-                request.setAttribute("errorMessage", "No postId or visterPageId was provided!");
+                request.setAttribute("errorMessage", "No postId or visitorPageId was provided!");
                 request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
             }
         }

@@ -1,17 +1,12 @@
 package servlet;
 
 import acc.Acc;
-import accCtrl.AccessController;
-import accCtrl.AccessControllerClass;
-import accCtrl.RoleClass;
-import accCtrl.RoleValues;
 import auth.Auth;
 import auth.Authenticator;
 import exc.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import storage.DbAccount;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -86,7 +81,7 @@ public class CreateAccServlet extends HttpServlet {
                     DbAccount.getInstance().setRole(username, role);
                 }
 
-                logger.log(Level.INFO, "Account created");
+                logger.log(Level.INFO, acc.getAccountName() + " created an account for " + username);
 
                 // Redirect to home page after successful account creation
                 response.sendRedirect(request.getContextPath() + "/ManageUsers");

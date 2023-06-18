@@ -1,8 +1,6 @@
 package servlet;
 
 import acc.Acc;
-import accCtrl.AccessController;
-import accCtrl.AccessControllerClass;
 import auth.Auth;
 import auth.Authenticator;
 import exc.*;
@@ -22,13 +20,11 @@ import java.util.logging.Logger;
 public class PageServlet extends HttpServlet {
 
     private Auth auth;
-    private AccessController accessController;
     private Logger logger;
 
     @Override
     public void init() {
         auth = Authenticator.getInstance();
-        accessController = AccessControllerClass.getInstance();;
         logger = Logger.getLogger(CreateAccServlet.class.getName());
         logger.setLevel(Level.FINE);
     }

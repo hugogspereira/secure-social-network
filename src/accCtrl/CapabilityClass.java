@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class CapabilityClass implements Capability {
 
-    private Role role;
-    private Map<String, List<String>> permissions;
+    private final Role role;
+    private final Map<String, List<String>> permissions;
 
     public CapabilityClass(Role role, Map<String, List<String>> permissions) {
         this.role = role;

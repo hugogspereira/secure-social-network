@@ -119,7 +119,7 @@ public class Authenticator implements Auth {
         String jwt = req.getSession().getAttribute("JWT").toString();
 
         // Get the accountName and password from the JWT
-        // If JWT token has expired a exception is raised - 100s time range
+        // If JWT token has expired an exception is raised - 100s time range
         String accountName = (String) JWTAccount.getInstance().getSubject(jwt);
 
         Acc account = DbAccount.getInstance().getAccount(accountName);

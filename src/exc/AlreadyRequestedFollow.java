@@ -3,7 +3,7 @@ package exc;
 public class AlreadyRequestedFollow extends Exception {
 
     public AlreadyRequestedFollow() {
-        super("Already tryied to follow this user");
+        super("Already tried to follow this user");
     }
 
     public AlreadyRequestedFollow(String message) {

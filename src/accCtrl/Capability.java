@@ -5,7 +5,7 @@ import accCtrl.resources.Resource;
 
 public interface Capability {
 
-    public String getRoleId();
-    public boolean hasPermission(Resource res, Operation op);
+     String getRoleId();
+     boolean hasPermission(Resource res, Operation op);
 
 }

@@ -23,7 +23,7 @@ public class EncryptDecryptUtils {
     /**
      * key - Key used to encrypt and decrypt data.
      */
-    private Key key;
+    private final Key key;
 
     /**
      * instance - Singleton instance.

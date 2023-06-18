@@ -1,12 +1,7 @@
 package servlet;
 
 import acc.Acc;
-import accCtrl.AccessController;
-import accCtrl.AccessControllerClass;
-import accCtrl.DBcheck;
-import accCtrl.operations.OperationClass;
 import accCtrl.operations.OperationValues;
-import accCtrl.resources.ResourceClass;
 import auth.Auth;
 import auth.Authenticator;
 import exc.AuthenticationError;
@@ -34,11 +29,9 @@ public class UnfollowServlet extends HttpServlet {
 
     private Auth auth;
     private Logger logger;
-    private AccessController accessController;
     @Override
     public void init() {
         auth = Authenticator.getInstance();
-        accessController = AccessControllerClass.getInstance();
         logger = Logger.getLogger(CreateAccServlet.class.getName());
         logger.setLevel(Level.FINE);
     }
@@ -70,9 +63,9 @@ public class UnfollowServlet extends HttpServlet {
                 logger.log(Level.INFO, authUser.getAccountName() + " unfollowed "+ pageId + " in  the social network.");
             }
             else {
-                logger.log(Level.WARNING, authUser.getAccountName() + " did not provide a pageId or visiterPageId.");
+                logger.log(Level.WARNING, authUser.getAccountName() + " did not provide a pageId or visitorPageId.");
                 response.sendRedirect(request.getHeader("referer"));
-                request.setAttribute("errorMessage", "No a pageId or or visiterPageId. was provided.");
+                request.setAttribute("errorMessage", "No a pageId or or visitorPageId. was provided.");
             }
         }
         catch (AuthenticationError e) {

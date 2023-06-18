@@ -2,7 +2,7 @@ package socialNetwork;
 
 public class PostObject {
 
-    private int post_id;
+    private final int post_id;
     private int page_id;
     private String post_date;
     private String post_text;

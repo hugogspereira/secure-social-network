@@ -2,7 +2,7 @@ package accCtrl;
 
 public class RoleClass implements Role {
 
-    private String roleId;
+    private final String roleId;
 
     public RoleClass(String roleId) {
         this.roleId = roleId;

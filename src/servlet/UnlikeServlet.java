@@ -34,7 +34,7 @@ public class UnlikeServlet extends HttpServlet {
     @Override
     public void init() {
         auth = Authenticator.getInstance();
-        accessController = AccessControllerClass.getInstance();;
+        accessController = AccessControllerClass.getInstance();
         logger = Logger.getLogger(CreateAccServlet.class.getName());
         logger.setLevel(Level.FINE);
     }

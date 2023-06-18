@@ -1,8 +1,6 @@
 package servlet;
 
 import acc.Acc;
-import accCtrl.AccessController;
-import accCtrl.AccessControllerClass;
 import auth.Auth;
 import auth.Authenticator;
 import exc.AccessControlError;
@@ -26,11 +24,9 @@ public class FollowServlet extends HttpServlet {
 
     private Auth auth;
     private Logger logger;
-    private AccessController accessController;
     @Override
     public void init() {
         auth = Authenticator.getInstance();
-        accessController = AccessControllerClass.getInstance();
         logger = Logger.getLogger(CreateAccServlet.class.getName());
         logger.setLevel(Level.FINE);
     }

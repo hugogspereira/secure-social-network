@@ -51,7 +51,7 @@ public interface Auth {
 
     /**
      * Logout an account
-     * PRE: name must identify an created account
+     * PRE: name must identify a created account
      * PRE: pwd1 == pwd2
      * @param acc the account
      */
@@ -59,8 +59,7 @@ public interface Auth {
 
     /**
      * Authenticates the caller, given name and password
-     *
-     * • checks if name is defined as a account name
+     * • checks if name is defined as an account name
      * • if not, raise exception (UndefinedAccount)
      * • checks if account is locked
      * • if locked, raise exception (LockedAccount)
