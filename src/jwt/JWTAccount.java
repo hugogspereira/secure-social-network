@@ -5,7 +5,10 @@ import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+
+import exc.AuthenticationError;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Claims;
@@ -71,6 +74,29 @@ public class JWTAccount {
         return builder.compact();
     }
 
+    public String createJWTCapability(String subject, List<String> capabilities) {
+        //The JWT signature algorithm used to sign the token
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+
+        //sign JWT with ApiKey secret
+        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(base64SecretBytes);
+        Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
+
+        // Generate a random UUID
+        String id = UUID.randomUUID().toString();
+
+        //Set the JWT Claims
+        JwtBuilder builder = Jwts.builder()
+                .setId(id) // is an optional claim that provides a unique identifier, UUID has very low probability of collision
+                .setSubject(subject)
+                .claim("capabilities", capabilities)   // Capabilities
+                .setIssuer(ISSUER)
+                .signWith(signatureAlgorithm, signingKey);
+
+        //Builds the JWT and serializes it to a compact, URL-safe string
+        return builder.compact();
+    }
+
     /**
      * Parse a JWT
      * @param jwt the JWT
@@ -96,5 +122,15 @@ public class JWTAccount {
     public Object getSubject(String jwt) throws ExpiredJwtException {
         return Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(base64SecretBytes))
                 .parseClaimsJws(jwt).getBody().getSubject();
+    }
+
+    public List<String> getCapabilities(String owner, String jwt) throws AuthenticationError {
+        Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(base64SecretBytes))
+                .parseClaimsJws(jwt).getBody();
+        if(claims.getSubject().equals(owner)) {
+            return (List<String>) Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(base64SecretBytes))
+                    .parseClaimsJws(jwt).getBody().get("capabilities");
+        }
+        throw new AuthenticationError("This capabilities were stolen");
     }
 }

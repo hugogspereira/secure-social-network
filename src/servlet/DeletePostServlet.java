@@ -12,6 +12,7 @@ import auth.Authenticator;
 import exc.AccessControlError;
 import exc.AuthenticationError;
 import io.jsonwebtoken.ExpiredJwtException;
+import jwt.JWTAccount;
 import socialNetwork.PostObject;
 import socialNetwork.SN;
 import javax.servlet.ServletException;
@@ -48,13 +49,13 @@ public class DeletePostServlet extends HttpServlet {
             String pageId = request.getParameter("pageId");
 
             HttpSession session = request.getSession();
-            List<String> capabilities = (List<String>) request.getSession().getAttribute("Capability");
+            List<String> capabilities = JWTAccount.getInstance().getCapabilities(user.getAccountName(), (String) session.getAttribute("Capability"));
 
             DBcheck c = (cap) -> {
                 boolean res = SN.getInstance().getPages(user.getAccountName()).stream().anyMatch(p -> p.getPageId() == Integer.parseInt(pageId));
                 if (res) {
                     capabilities.add(cap);
-                    session.setAttribute("Capability", capabilities);
+                    session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(user.getAccountName(), capabilities));
                 }
                 return res;
             };

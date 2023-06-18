@@ -12,6 +12,7 @@ import auth.Authenticator;
 import exc.AccessControlError;
 import exc.AuthenticationError;
 import io.jsonwebtoken.ExpiredJwtException;
+import jwt.JWTAccount;
 import socialNetwork.SN;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -46,9 +47,9 @@ public class CreatePageServlet extends HttpServlet {
         try {
             Acc userAcc = auth.checkAuthenticatedRequest(request, response);
             HttpSession session = request.getSession();
-            List<String> capabilities = (List<String>) session.getAttribute("Capability");
+            List<String> capabilities = JWTAccount.getInstance().getCapabilities(userAcc.getAccountName(), (String) session.getAttribute("Capability"));
 
-            DBcheck c = createDBchecker(session, capabilities);
+            DBcheck c = createDBchecker(session, capabilities, userAcc.getAccountName());
             accessController.checkPermission(capabilities, new ResourceClass("page", ""), new OperationClass(OperationValues.CREATE_PAGE), c);
 
             request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
@@ -77,9 +78,9 @@ public class CreatePageServlet extends HttpServlet {
             Acc userAcc = auth.checkAuthenticatedRequest(request, response);
 
             HttpSession session = request.getSession();
-            List<String> capabilities = (List<String>) session.getAttribute("Capability");
+            List<String> capabilities = JWTAccount.getInstance().getCapabilities(userAcc.getAccountName(), (String) session.getAttribute("Capability"));
 
-            DBcheck c = createDBchecker(session, capabilities);
+            DBcheck c = createDBchecker(session, capabilities, userAcc.getAccountName());
             accessController.checkPermission(capabilities, new ResourceClass("page", ""), new OperationClass(OperationValues.CREATE_PAGE), c);
 
             String username = request.getParameter("username");
@@ -116,10 +117,10 @@ public class CreatePageServlet extends HttpServlet {
         }
     }
 
-    private DBcheck createDBchecker(HttpSession session, List<String> capabilities) {
+    private DBcheck createDBchecker(HttpSession session, List<String> capabilities, String accountName) {
         return (cap) -> {
             capabilities.add(cap);
-            session.setAttribute("Capability", capabilities);
+            session.setAttribute("Capability",  JWTAccount.getInstance().createJWTCapability(accountName, capabilities));
             return true;
         };
     }

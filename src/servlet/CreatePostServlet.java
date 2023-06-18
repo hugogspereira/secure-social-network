@@ -12,6 +12,7 @@ import auth.Authenticator;
 import exc.AccessControlError;
 import exc.AuthenticationError;
 import io.jsonwebtoken.ExpiredJwtException;
+import jwt.JWTAccount;
 import socialNetwork.SN;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -51,7 +52,7 @@ public class CreatePostServlet extends HttpServlet {
 
             String pageId = request.getParameter("pageId");
             HttpSession session = request.getSession();
-            List<String> capabilities = (List<String>) session.getAttribute("Capability");
+            List<String> capabilities = JWTAccount.getInstance().getCapabilities(userAcc.getAccountName(), (String) session.getAttribute("Capability"));
 
             DBcheck c = createDBchecker(userAcc.getAccountName(), pageId, session, capabilities);
             accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.CREATE_POST), c);
@@ -88,7 +89,7 @@ public class CreatePostServlet extends HttpServlet {
             String pageIdString = request.getParameter("pageId");
             int pageId = Integer.parseInt(pageIdString);
             HttpSession session = request.getSession();
-            List<String> capabilities = (List<String>) session.getAttribute("Capability");
+            List<String> capabilities = JWTAccount.getInstance().getCapabilities(userAcc.getAccountName(), (String) session.getAttribute("Capability"));
 
             DBcheck c = createDBchecker(userAcc.getAccountName(), pageIdString, session, capabilities);
             accessController.checkPermission(capabilities,  new ResourceClass("page", pageIdString), new OperationClass(OperationValues.CREATE_POST), c);
@@ -136,7 +137,7 @@ public class CreatePostServlet extends HttpServlet {
             boolean res = SN.getInstance().getPages(userId).stream().anyMatch(p -> p.getPageId() == Integer.parseInt(pageId));
             if (res) {
                 capabilities.add(cap);
-                session.setAttribute("Capability", capabilities);
+                session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(userId, capabilities));
             }
             return res;
         };

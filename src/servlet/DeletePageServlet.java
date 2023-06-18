@@ -12,6 +12,7 @@ import auth.Authenticator;
 import exc.AccessControlError;
 import exc.AuthenticationError;
 import io.jsonwebtoken.ExpiredJwtException;
+import jwt.JWTAccount;
 import socialNetwork.PageObject;
 import socialNetwork.SN;
 import javax.servlet.ServletException;
@@ -44,12 +45,12 @@ public class DeletePageServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            auth.checkAuthenticatedRequest(request, response);
+            Acc userAcc = auth.checkAuthenticatedRequest(request, response);
 
             HttpSession session = request.getSession();
-            List<String> capabilities = (List<String>) session.getAttribute("Capability");
+            List<String> capabilities = JWTAccount.getInstance().getCapabilities(userAcc.getAccountName(), (String) session.getAttribute("Capability"));
 
-            DBcheck c = createDBchecker(session, capabilities);
+            DBcheck c = createDBchecker(session, capabilities, userAcc.getAccountName());
             accessController.checkPermission(capabilities,  new ResourceClass("page", ""), new OperationClass(OperationValues.DELETE_PAGE), c);
 
 
@@ -83,9 +84,9 @@ public class DeletePageServlet extends HttpServlet {
             Acc userAcc = auth.checkAuthenticatedRequest(request, response);
 
             HttpSession session = request.getSession();
-            List<String> capabilities = (List<String>) session.getAttribute("Capability");
+            List<String> capabilities = JWTAccount.getInstance().getCapabilities(userAcc.getAccountName(), (String) session.getAttribute("Capability"));
 
-            DBcheck c = createDBchecker(session, capabilities);
+            DBcheck c = createDBchecker(session, capabilities, userAcc.getAccountName());
             accessController.checkPermission(capabilities,  new ResourceClass("page", ""), new OperationClass(OperationValues.DELETE_PAGE), c);
 
             int pageId = Integer.parseInt(request.getParameter("pageid"));
@@ -125,10 +126,10 @@ public class DeletePageServlet extends HttpServlet {
         }
     }
 
-    private DBcheck createDBchecker(HttpSession session, List<String> capabilities) {
+    private DBcheck createDBchecker(HttpSession session, List<String> capabilities, String accountName) {
         return (cap) -> {
             capabilities.add(cap);
-            session.setAttribute("Capability", capabilities);
+            session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(accountName, capabilities));
             return true;
         };
     }

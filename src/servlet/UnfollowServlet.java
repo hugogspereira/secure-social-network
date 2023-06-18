@@ -13,6 +13,7 @@ import exc.AuthenticationError;
 import exc.NotFollowing;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
+import jwt.JWTAccount;
 import socialNetwork.FState;
 import socialNetwork.SN;
 import javax.servlet.ServletException;
@@ -50,14 +51,14 @@ public class UnfollowServlet extends HttpServlet {
 
             if(pageId != null && visitedPageId != null) {
                 HttpSession session = request.getSession();
-                List<String> capabilities = (List<String>) session.getAttribute("Capability");
+                List<String> capabilities = JWTAccount.getInstance().getCapabilities(authUser.getAccountName(), (String) session.getAttribute("Capability"));
 
                 // TODO: Isto faz sentido ???
                 DBcheck c = (cap) -> {
                     boolean res = SN.getInstance().getPages(authUser.getAccountName()).stream().anyMatch(p -> p.getPageId() == Integer.parseInt(pageId)) && !pageId.equals(visitedPageId);
                     if(res) {
                         capabilities.add(cap);
-                        session.setAttribute("Capability",capabilities);
+                        session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(authUser.getAccountName(), capabilities));
                     }
                     return res;
                 };

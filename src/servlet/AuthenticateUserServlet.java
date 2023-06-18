@@ -7,6 +7,7 @@ import accCtrl.Role;
 import auth.Auth;
 import auth.Authenticator;
 import exc.*;
+import jwt.JWTAccount;
 import storage.DbAccount;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -54,7 +55,7 @@ public class AuthenticateUserServlet extends HttpServlet {
             for (Role role: DbAccount.getInstance().getRoles(username)) {
                 capabilities.addAll(accessController.makeKey(role));
             }
-            session.setAttribute("Capability", capabilities);
+            session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(authUser.getAccountName(), capabilities));
 
             response.sendRedirect(request.getContextPath() + "/ManageUsers");
             logger.log(Level.INFO, "User '" + username + "' has been authenticated");

@@ -13,6 +13,7 @@ import exc.AccessControlError;
 import exc.AuthenticationError;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
+import jwt.JWTAccount;
 import socialNetwork.SN;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -52,7 +53,7 @@ public class PostServlet extends HttpServlet {
 
             if(postId != null && visitedPageId != null && pageId != null) {
                 HttpSession session = request.getSession();
-                List<String> capabilities = (List<String>) session.getAttribute("Capability");
+                List<String> capabilities = JWTAccount.getInstance().getCapabilities(authUser.getAccountName(), (String) session.getAttribute("Capability"));
 
                 DBcheck c = (cap) -> {
                     if(!pageId.equals(visitedPageId)) {
@@ -60,7 +61,7 @@ public class PostServlet extends HttpServlet {
                             return false;
                     }
                     capabilities.add(cap);
-                    session.setAttribute("Capability",capabilities);
+                    session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(authUser.getAccountName(), capabilities));
                     return true;
                 };
                 accessController.checkPermission(capabilities,  new ResourceClass("page", visitedPageId), new OperationClass(OperationValues.ACCESS_POST), c);

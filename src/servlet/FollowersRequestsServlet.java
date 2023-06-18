@@ -12,6 +12,7 @@ import auth.Authenticator;
 import exc.AuthenticationError;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
+import jwt.JWTAccount;
 import socialNetwork.SN;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -48,13 +49,13 @@ public class FollowersRequestsServlet extends HttpServlet {
 
             if(pageId != null) {
                 HttpSession session = request.getSession();
-                List<String> capabilities = (List<String>) session.getAttribute("Capability");
+                List<String> capabilities = JWTAccount.getInstance().getCapabilities(authUser.getAccountName(), (String) session.getAttribute("Capability"));
 
                 DBcheck c = (cap) -> {
                     boolean res = SN.getInstance().getPages(authUser.getAccountName()).stream().anyMatch(p -> p.getPageId() == Integer.parseInt(pageId));
                     if(res) {
                         capabilities.add(cap);
-                        session.setAttribute("Capability",capabilities);
+                        session.setAttribute("Capability",JWTAccount.getInstance().createJWTCapability(authUser.getAccountName(), capabilities));
                     }
                     return res;
                 };
