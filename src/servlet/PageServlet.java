@@ -52,15 +52,14 @@ public class PageServlet extends HttpServlet {
             }
             else {
                 logger.log(Level.WARNING, authUser.getAccountName() + "tried to access a null page");
-                response.sendRedirect(request.getHeader("referer"));
                 request.setAttribute("errorMessage", "No pageId was provided!");
-                // TODO: ?????????????????????????????????
+                request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
             }
         }
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);  // TODO: ?????????????????????????????????
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "Session has expired");
@@ -74,13 +73,13 @@ public class PageServlet extends HttpServlet {
         }
         catch (AccessControlError e) {
             logger.log(Level.WARNING, "Invalid permissions for this operation");
-            request.setAttribute("errorMessage", "Invalid permissions for this operation");
+            request.setAttribute("errorMessage", "Invalid permissions for this operation - Access page");
             request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
         }
         catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);  // TODO: ?????????????????????????????????
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
     }
 }

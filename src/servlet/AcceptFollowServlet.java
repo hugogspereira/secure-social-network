@@ -75,8 +75,8 @@ public class AcceptFollowServlet extends HttpServlet {
             }
             else {
                 logger.log(Level.WARNING, authUser.getAccountName() + "had an error accepting follow.");
-                response.sendRedirect(request.getHeader("referer"));
                 request.setAttribute("errorMessage", "No pageId or pageRequestId was provided!");
+                request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
             }
         }
         catch (AuthenticationError e) {

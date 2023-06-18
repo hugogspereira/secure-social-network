@@ -110,9 +110,9 @@ public class DeletePageServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (SQLException e) {
-            logger.log(Level.WARNING, "SQL Exception on creating page");
-            request.setAttribute("errorMessage", "Problems regarding the creation of the page. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
+            logger.log(Level.WARNING, "PageId does not exist cannot delete page");
+            request.setAttribute("errorMessage", "PageId does not exist cannot delete page");
+            request.getRequestDispatcher("/WEB-INF/deletePage.jsp").forward(request, response);
         }
         catch (AccessControlError e) {
             logger.log(Level.WARNING, "Invalid permissions for this operation");

@@ -84,11 +84,16 @@ public class DeletePostServlet extends HttpServlet {
             logger.log(Level.WARNING, "Invalid permissions for this operation");
             request.setAttribute("errorMessage", "Invalid permissions for this operation");
             request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
-        } catch (SQLException e) {
-            logger.log(Level.WARNING, "Post does not exist");
-            throw new RuntimeException(e);  // TODO: ?????????????????????????????????
-        } catch (Exception e) {
-            throw new RuntimeException(e);  // TODO: ?????????????????????????????????
+        }
+        catch (SQLException e) {
+            logger.log(Level.WARNING, "Post does not exist or is invalid");
+            request.setAttribute("errorMessage", "Post does not exist or is invalid");
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
+        }
+        catch (Exception e) {
+            logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
+            request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
+            request.getRequestDispatcher("/WEB-INF/deletePage.jsp").forward(request, response);
         }
     }
 

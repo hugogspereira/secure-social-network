@@ -77,8 +77,8 @@ public class DeclineFollowServlet extends HttpServlet {
             }
             else {
                 logger.log(Level.WARNING, authUser.getAccountName() + "had an error declining follow");
-                response.sendRedirect(request.getHeader("referer"));
                 request.setAttribute("errorMessage", "No pageId or pageRequestId was provided!");
+                request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
             }
         }
         catch (AuthenticationError e) {

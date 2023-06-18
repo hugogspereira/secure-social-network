@@ -56,8 +56,11 @@ public class LogoutServlet extends HttpServlet {
             logger.log(Level.WARNING, "JWT has been tampered with or is invalid");
             request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
-        } catch (Exception e) {
-            throw new RuntimeException(e);  // TODO: handle this better
+        }
+        catch (Exception e) {
+            logger.log(Level.WARNING, "Problems regarding authentication.");
+            request.setAttribute("errorMessage", "Problems regarding authentication. Please try again later.");
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
     }
 }

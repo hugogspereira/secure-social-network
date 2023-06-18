@@ -9,6 +9,7 @@ import accCtrl.operations.OperationValues;
 import accCtrl.resources.ResourceClass;
 import auth.Auth;
 import auth.Authenticator;
+import exc.AccessControlError;
 import exc.AuthenticationError;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
@@ -66,20 +67,26 @@ public class FollowersRequestsServlet extends HttpServlet {
             }
             else {
                 logger.log(Level.WARNING, authUser.getAccountName() + "tried to follow a null page");
-                response.sendRedirect(request.getHeader("referer"));
-                request.setAttribute("errorMessage", "No pageId or pageRequestId was provided!");            }
+                request.setAttribute("errorMessage", "No pageId or pageRequestId was provided!");
+                request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
+            }
         }
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);  // TODO: ?????????????????????????????????
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "Session has expired");
             request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
-        catch (SignatureException e){
+        catch (AccessControlError e) {
+            logger.log(Level.WARNING, "Invalid permissions for this operation");
+            request.setAttribute("errorMessage", "Invalid permissions for this operation - Access follower requests");
+            request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
+        }
+        catch (SignatureException e) {
             logger.log(Level.WARNING, "JWT has been tampered with or is invalid");
             request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
@@ -87,7 +94,7 @@ public class FollowersRequestsServlet extends HttpServlet {
         catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);  // TODO: ?????????????????????????????????
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
     }
 

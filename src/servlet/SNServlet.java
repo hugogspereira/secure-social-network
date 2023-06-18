@@ -48,7 +48,7 @@ public class SNServlet extends HttpServlet {
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);  // TODO: ?????????????????????????????????
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "Session has expired");
@@ -65,7 +65,7 @@ public class SNServlet extends HttpServlet {
             logger.log(Level.WARNING, "Something went wrong");
             logger.log(Level.WARNING, e.getMessage());
             request.setAttribute("errorMessage", "Something went wrong");
-            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response); // TODO: ?????????????????????????????????
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
     }
 
