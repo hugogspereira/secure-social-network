@@ -6,6 +6,8 @@ import auth.Authenticator;
 import exc.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
+import socialNetwork.PageObject;
+import socialNetwork.SN;
 import storage.DbAccount;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -74,6 +76,10 @@ public class DeleteAccServlet extends HttpServlet {
             auth.deleteAccount(username);
             logger.log(Level.INFO, "Account deleted: '" + username + "'");
 
+            // Delete all pages associated with the account
+            for(PageObject p : SN.getInstance().getPages(username)){
+                SN.getInstance().deletePage(p);
+            }
             // Redirect to home page after successful account deletion
             response.sendRedirect(request.getContextPath() + "/ManageUsers");
 

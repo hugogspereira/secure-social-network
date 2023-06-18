@@ -1,11 +1,17 @@
 package servlet;
 
 import acc.Acc;
+import accCtrl.AccessController;
+import accCtrl.AccessControllerClass;
+import accCtrl.RoleClass;
+import accCtrl.RoleValues;
 import auth.Auth;
 import auth.Authenticator;
 import exc.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
+import storage.DbAccount;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +25,7 @@ import java.util.logging.Logger;
 public class CreateAccServlet extends HttpServlet {
 
     private Auth auth;
+
     private Logger logger;
 
     @Override
@@ -67,18 +74,27 @@ public class CreateAccServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            auth.checkAuthenticatedRequest(request, response);
+            Acc acc = auth.checkAuthenticatedRequest(request, response);
 
             String username = request.getParameter("username");
             String password1 = request.getParameter("password1");
             String password2 = request.getParameter("password2");
+            String[] selectedRoles = request.getParameterValues("roles");
+            if (selectedRoles != null) {
+                auth.createAccount(username, password1, password2);
+                for (String role : selectedRoles) {
+                    DbAccount.getInstance().setRole(username, role);
+                }
 
-            auth.createAccount(username, password1, password2);
+                logger.log(Level.INFO, "Account created");
 
-            logger.log(Level.INFO, "Account created");
+                // Redirect to home page after successful account creation
+                response.sendRedirect(request.getContextPath() + "/ManageUsers");
+            }
+            else {
+                throw new NoRoleError();
+            }
 
-            // Redirect to home page after successful account creation
-            response.sendRedirect(request.getContextPath() + "/ManageUsers");
         }
         catch (EncryptionDontWork e) {
             logger.log(Level.SEVERE, "Problems with encryption");
@@ -111,9 +127,14 @@ public class CreateAccServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (AuthenticationError e) {
-            logger.log(Level.WARNING, "Invalid username or password");
+            logger.log(Level.WARNING, "No role was selected when creating user");
             request.setAttribute("errorMessage", "Invalid username and/or password");
             request.getRequestDispatcher("/WEB-INF/changePwd.jsp").forward(request, response);
+        }
+        catch (NoRoleError e) {
+            logger.log(Level.WARNING, "No role selected");
+            request.setAttribute("errorMessage", "Please select at least one role");
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
         catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding authentication.");

@@ -317,6 +317,34 @@ public class DbAccount {
         }
     }
 
+    public List<Role> getRoles(){
+        Connection conn = getConnection();
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT roleId FROM roles");
+            ResultSet rs = ps.executeQuery();
+
+            List<Role> roles = new LinkedList<>();
+            while(rs.next()) {
+                Role role = new RoleClass(rs.getString("roleId"));
+                roles.add(role);
+            }
+            return roles;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if(conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
     /**
      * Get roles of a given account in the database
      * @param accountName the account name
