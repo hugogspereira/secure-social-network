@@ -9,7 +9,6 @@ import accCtrl.operations.OperationValues;
 import accCtrl.resources.ResourceClass;
 import auth.Auth;
 import auth.Authenticator;
-import exc.AccessControlError;
 import exc.AuthenticationError;
 import exc.NotFollowing;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -51,19 +50,6 @@ public class UnfollowServlet extends HttpServlet {
             String visitedPageId = request.getParameter("visitedPageId");
 
             if(pageId != null && visitedPageId != null) {
-                HttpSession session = request.getSession();
-                List<String> capabilities = JWTAccount.getInstance().getCapabilities(authUser.getAccountName(), (String) session.getAttribute("Capability"));
-
-                DBcheck c = (cap) -> {
-                    boolean res = SN.getInstance().getPages(authUser.getAccountName()).stream().anyMatch(p -> p.getPageId() == Integer.parseInt(pageId)) && !pageId.equals(visitedPageId);
-                    if(res) {
-                        capabilities.add(cap);
-                        session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(authUser.getAccountName(), capabilities));
-                    }
-                    return res;
-                };
-                accessController.checkPermission(capabilities,  new ResourceClass("page", visitedPageId), new OperationClass(OperationValues.SUBMIT_FOLLOW), c);
-
                 SN sn = SN.getInstance();
                 FState state = sn.getfollowState(Integer.parseInt(pageId), Integer.parseInt(visitedPageId));
 
@@ -78,14 +64,14 @@ public class UnfollowServlet extends HttpServlet {
             }
             else {
                 logger.log(Level.WARNING, authUser.getAccountName() + " did not provide a pageId or visiterPageId.");
+                response.sendRedirect(request.getHeader("referer"));
                 request.setAttribute("errorMessage", "No a pageId or or visiterPageId. was provided.");
-                request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
             }
         }
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);  // TODO: ?????????????????????????????????
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "Session has expired");
@@ -97,20 +83,10 @@ public class UnfollowServlet extends HttpServlet {
             request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
-        catch (AccessControlError e) {
-            logger.log(Level.WARNING, "Invalid permissions for this operation");
-            request.setAttribute("errorMessage", "Invalid permissions for this operation - follow request");
-            request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
-        }
-        catch (NotFollowing e) {
-            logger.log(Level.WARNING, "You are not following this page");
-            request.setAttribute("errorMessage", "You are not following this page");
-            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
-        }
         catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);  // TODO: ?????????????????????????????????
         }
     }
 
