@@ -59,7 +59,6 @@ public class DeclineFollowServlet extends HttpServlet {
                 session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(accountName, capabilities));
                 return true;
             };
-            accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
             accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.AUTHORIZE_FOLLOW), check);
 
             if(pageId != null && pageRequestId != null) {

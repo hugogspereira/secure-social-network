@@ -62,7 +62,6 @@ public class LikeServlet extends HttpServlet {
                     session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(accountName, capabilities));
                     return true;
                 };
-                accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
                 accessController.checkPermission(capabilities,  new ResourceClass("page", visitedPageId), new OperationClass(OperationValues.LIKE_UNLIKE_POST), c);
 
                 SN.getInstance().like(Integer.parseInt(postId), Integer.parseInt(pageId));

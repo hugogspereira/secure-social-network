@@ -59,7 +59,6 @@ public class FollowersRequestsServlet extends HttpServlet {
                     }
                     return res;
                 };
-                accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
                 accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.AUTHORIZE_FOLLOW), c);
 
                 request.getRequestDispatcher("/WEB-INF/followrequests.jsp").forward(request, response);

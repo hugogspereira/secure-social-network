@@ -65,7 +65,6 @@ public class PostServlet extends HttpServlet {
                     session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(accountName, capabilities));
                     return true;
                 };
-                accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
                 accessController.checkPermission(capabilities,  new ResourceClass("page", visitedPageId), new OperationClass(OperationValues.ACCESS_POST), c);
 
                 request.getRequestDispatcher("/WEB-INF/post.jsp").forward(request, response);
