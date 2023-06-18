@@ -63,7 +63,7 @@ public class CreatePostServlet extends HttpServlet {
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
@@ -72,12 +72,12 @@ public class CreatePostServlet extends HttpServlet {
         }
         catch (AccessControlError e) {
             logger.log(Level.WARNING, "Invalid permissions for this operation - GET");
-            request.setAttribute("errorMessage", "Invalid permissions for this operation");
+            request.setAttribute("errorMessage", "Invalid permissions for this operation - create post");
             request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
         } catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPost.jsp").forward(request, response);  // TODO: NAO FAZ SENTIDO SE ELE N TEM A PERMISSAO VAI ACEDER AO RECURSO DE CRIAR POSTS NA MESMA?
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
 
     }
@@ -107,7 +107,7 @@ public class CreatePostServlet extends HttpServlet {
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response); // TODO: ?????????????????????????????????
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
@@ -116,19 +116,19 @@ public class CreatePostServlet extends HttpServlet {
         }
         catch (SQLException e) {
             logger.log(Level.WARNING, "SQL Exception on creating page");
-            request.setAttribute("errorMessage", "Problems regarding the creation of the page. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response); // TODO: ?????????????????????????????????
+            request.setAttribute("errorMessage", "Problems regarding the creation of the post. Please try again later.");
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
         catch (AccessControlError e) {
             logger.log(Level.WARNING, "Invalid permissions for this operation");
-            request.setAttribute("errorMessage", "Invalid permissions for this operation");
+            request.setAttribute("errorMessage", "Invalid permissions for this operation - create post");
             request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
         }
         catch (Exception e) {
             logger.log(Level.WARNING, e.getMessage());
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPost.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
     }
 

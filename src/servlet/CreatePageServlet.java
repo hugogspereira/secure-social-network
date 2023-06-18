@@ -63,13 +63,13 @@ public class CreatePageServlet extends HttpServlet {
             request.setAttribute("errorMessage", "Session has expired and/or is invalid");
             request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         } catch (AccessControlError e) {
-            logger.log(Level.WARNING, "Invalid permissions for this operation");
+            logger.log(Level.WARNING, "Invalid permissions for this operation - create page.");
             request.setAttribute("errorMessage", "Invalid permissions for this operation");
             request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
         } catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);     // TODO: NAO FAZ SENTIDO SE ELE N TEM A PERMISSAO VAI ACEDER AO RECURSO DE CRIAR PAGINAS NA MESMA?
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
     }
 
@@ -97,7 +97,7 @@ public class CreatePageServlet extends HttpServlet {
         } catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response); // TODO: ?????????????????????????????????
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         } catch (ExpiredJwtException e) {
             logger.log(Level.WARNING, "JWT has expired");
             request.setAttribute("errorMessage", "Session has expired and/or is invalid");
@@ -108,12 +108,12 @@ public class CreatePageServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
         } catch (AccessControlError e) {
             logger.log(Level.WARNING, "Invalid permissions for this operation");
-            request.setAttribute("errorMessage", "Invalid permissions for this operation");
+            request.setAttribute("errorMessage", "Invalid permissions for this operation - create page");
             request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
         } catch (Exception e) {
             logger.log(Level.WARNING, "Problems regarding the social network. Please try again later.");
             request.setAttribute("errorMessage", "Problems regarding the social network. Please try again later.");
-            request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
     }
 

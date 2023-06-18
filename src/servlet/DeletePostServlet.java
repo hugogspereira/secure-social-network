@@ -73,7 +73,7 @@ public class DeletePostServlet extends HttpServlet {
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
-            request.getRequestDispatcher("/WEB-INF/createAcc.jsp").forward(request, response);  // TODO: ?????????????????????????????????
+            request.getRequestDispatcher("/WEB-INF/expired.jsp").forward(request, response);
         }
         catch (ExpiredJwtException e){
             logger.log(Level.WARNING, "JWT has expired");
@@ -85,6 +85,7 @@ public class DeletePostServlet extends HttpServlet {
             request.setAttribute("errorMessage", "Invalid permissions for this operation");
             request.getRequestDispatcher("/WEB-INF/permissionError.jsp").forward(request, response);
         } catch (SQLException e) {
+            logger.log(Level.WARNING, "Post does not exist");
             throw new RuntimeException(e);  // TODO: ?????????????????????????????????
         } catch (Exception e) {
             throw new RuntimeException(e);  // TODO: ?????????????????????????????????
