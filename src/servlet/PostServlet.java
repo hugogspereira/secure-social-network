@@ -58,7 +58,7 @@ public class PostServlet extends HttpServlet {
 
                 DBcheck c = (cap) -> {
                     if(!pageId.equals(visitedPageId)) {
-                        if(SN.getInstance().getfollowers(Integer.parseInt(visitedPageId)).stream().noneMatch(p -> p.getPageId() == Integer.parseInt(pageId))) // TODO: check if this is correct
+                        if(SN.getInstance().getfollowers(Integer.parseInt(visitedPageId)).stream().noneMatch(p -> p.getPageId() == Integer.parseInt(pageId)))
                             return false;
                     }
                     capabilities.add(cap);

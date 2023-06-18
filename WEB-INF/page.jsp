@@ -1,5 +1,6 @@
 <%@ page import="socialNetwork.SN" %>
 <%@ page import="socialNetwork.PostObject" %>
+<%@ page import="socialNetwork.PageObject" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
@@ -9,6 +10,10 @@
     } catch (Exception e) {
         throw new RuntimeException(e);
     }
+    String pageId = request.getParameter("pageId");
+    String visitedPageId = request.getParameter("visitedPageId");
+    PageObject pageObject = sn.getPage(Integer.parseInt(visitedPageId));
+
 %>
 
 <!DOCTYPE html>
@@ -44,14 +49,14 @@
     </style>
 </head>
 <body>
-<h1>Page Posts:</h1>
+<h1><%=pageObject.getPageTitle()%></h1>
+<h3> Page <%=visitedPageId%> </h3>
 
 <p style="color:red;"> ${pageContext.request.getAttribute("errorMessage")} </p>
 
 <ul>
     <%
-    String pageId = request.getParameter("pageId");
-    String visitedPageId = request.getParameter("visitedPageId");
+
     if (pageId != null) {
          for (PostObject postObject: sn.getPagePosts(Integer.parseInt(visitedPageId))) {
 
@@ -74,6 +79,8 @@
     }
     %>
     </li>
+    <br>
+    <li><a href="<%=request.getContextPath()%>/Followers?pageId=<%=visitedPageId%>">Followers</a></li>
 </ul>
 <p><a href="${pageContext.request.contextPath}/ManageUsers">Home</a></p>
 

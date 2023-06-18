@@ -35,13 +35,13 @@
         List<PageObject> pages = sn.getPages((String) request.getAttribute("username"));
         for (socialNetwork.PageObject curPage: pages) {
     %>
-    <li></li>
+    <br>
     <li><a href="<%=request.getContextPath()%>/SocialNetwork?pageId=<%=curPage.getPageId()%>">Feed (Social Network)</a></li>
-    <li><a href="<%=request.getContextPath()%>/Page?pageId=<%=curPage.getPageId()%>">Page <%=curPage.getPageId()%></a></li>
+    <li><a href="<%=request.getContextPath()%>/Page?pageId=<%=curPage.getPageId()%>&visitedPageId=<%=curPage.getPageId()%>">Page <%=curPage.getPageId()%></a></li>
     <%
         }
     %>
-    <li></li>
+    <br>
     <li><a href="<%=request.getContextPath()%>/CreatePage">Create Page</a></li>
     <li><a href="<%=request.getContextPath()%>/DeletePage">Delete Page</a></li>
     <%

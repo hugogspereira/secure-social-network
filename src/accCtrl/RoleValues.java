@@ -1,7 +1,7 @@
 package accCtrl;
 
 public enum RoleValues {
-    NORMAL("normal"),
+    AUTHOR("author"),
     ADMIN("admin");
 
     private final String roleName;

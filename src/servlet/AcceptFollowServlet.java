@@ -13,6 +13,7 @@ import exc.AuthenticationError;
 import exc.NotAbleToAccept;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
+import jwt.JWTAccount;
 import socialNetwork.FState;
 import socialNetwork.SN;
 import javax.servlet.ServletException;
@@ -51,12 +52,12 @@ public class AcceptFollowServlet extends HttpServlet {
 
 
             HttpSession session = request.getSession();
-            List<String> capabilities = (List<String>) request.getSession().getAttribute("Capability");
+            List<String> capabilities = JWTAccount.getInstance().getCapabilities(accountName, (String) session.getAttribute("Capability"));
             DBcheck check = (cap) -> {
                 if(SN.getInstance().getPages(accountName).stream().noneMatch(p -> p.getPageId() == Integer.parseInt(pageId)))
                     return false;
                 capabilities.add(cap);
-                session.setAttribute("Capability",capabilities);
+                session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(authUser.getAccountName(), capabilities));
                 return true;
             };
             accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.AUTHORIZE_FOLLOW), check);

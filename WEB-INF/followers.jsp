@@ -62,7 +62,7 @@
         <a href="<%= request.getContextPath() %>/Page?pageId=<%=pageId%>&visitedPageId=<%=curObject.getPageId() %>">Page <%= curObject.getPageId() %></a>
     </li>
     <%
-        }
+            }
     }
     %>
 </ul>

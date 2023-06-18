@@ -1,5 +1,6 @@
 <%@ page import="socialNetwork.SN" %>
 <%@ page import="socialNetwork.PostObject" %>
+<%@ page import="socialNetwork.PageObject" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
@@ -9,6 +10,9 @@
     } catch (Exception e) {
         throw new RuntimeException(e);
     }
+
+    String pageId = request.getParameter("pageId");
+    PageObject pageObject = sn.getPage(Integer.parseInt(pageId));
 %>
 
 <!DOCTYPE html>
@@ -44,13 +48,13 @@
     </style>
 </head>
 <body>
-<h1>Page ${pageContext.request.getParameter("id")}</h1>
+<h1><%=pageObject.getPageTitle()%></h1>
+<h3> Page <%=pageId%> </h3>
 
 <p style="color:red;"> ${pageContext.request.getAttribute("errorMessage")} </p>
 
 <ul>
     <%
-        String pageId = request.getParameter("pageId");
         if (pageId != null) {
     %>
     <br>

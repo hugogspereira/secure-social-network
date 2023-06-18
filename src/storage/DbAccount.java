@@ -357,7 +357,7 @@ public class DbAccount {
             ResultSet rs = ps.executeQuery();
 
             List<Role> roles = new LinkedList<>();
-            if(rs.next()) {
+            while(rs.next()) {
                 Role role = new RoleClass(rs.getString("roleId"));
                 roles.add(role);
             }

@@ -16,6 +16,8 @@ import io.jsonwebtoken.SignatureException;
 import jwt.JWTAccount;
 import socialNetwork.FState;
 import socialNetwork.SN;
+import util.Util;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -55,6 +57,11 @@ public class UnfollowServlet extends HttpServlet {
 
                 if(state != null) { // if it is following
                     SN.getInstance().updatefollowsstatus(Integer.parseInt(pageId), Integer.parseInt(visitedPageId), FState.NONE);
+                    HttpSession session = request.getSession();
+                    List<String> capabilities = JWTAccount.getInstance().getCapabilities(authUser.getAccountName(), (String) session.getAttribute("Capability"));
+                    String cap = Util.getHash(Util.serializeToBytes(new String[]{visitedPageId, OperationValues.ACCESS_POST.getOperation()}));
+                    capabilities.remove(cap);
+                    session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(authUser.getAccountName(), capabilities));
                 }
                 else { // if the following state is not following
                     throw new NotFollowing();

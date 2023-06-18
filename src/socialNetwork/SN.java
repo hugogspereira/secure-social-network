@@ -219,6 +219,8 @@ public class SN {
 		stmt.execute("delete from page where page_id="+p.getPageId());
 		stmt.execute("delete from post where page_id="+p.getPageId());
 		stmt.execute("delete from likes where page_id="+p.getPageId());
+		stmt.execute("delete from follower where page_ids="+p.getPageId());
+		stmt.execute("delete from follower where page_idd="+p.getPageId());
 	}
 
      public List<PageObject> getAllPages() throws SQLException {
