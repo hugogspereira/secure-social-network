@@ -46,19 +46,21 @@ public class DeletePostServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Acc user = auth.checkAuthenticatedRequest(request, response);
+            String accountName = user.getAccountName();
             String pageId = request.getParameter("pageId");
 
             HttpSession session = request.getSession();
-            List<String> capabilities = JWTAccount.getInstance().getCapabilities(user.getAccountName(), (String) session.getAttribute("Capability"));
+            List<String> capabilities = JWTAccount.getInstance().getCapabilities(accountName, (String) session.getAttribute("Capability"));
 
             DBcheck c = (cap) -> {
-                boolean res = SN.getInstance().getPages(user.getAccountName()).stream().anyMatch(p -> p.getPageId() == Integer.parseInt(pageId));
+                boolean res = SN.getInstance().getPages(accountName).stream().anyMatch(p -> p.getPageId() == Integer.parseInt(pageId));
                 if (res) {
                     capabilities.add(cap);
-                    session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(user.getAccountName(), capabilities));
+                    session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(accountName, capabilities));
                 }
                 return res;
             };
+            accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
             accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.DELETE_POST), c);
 
 

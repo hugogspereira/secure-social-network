@@ -49,12 +49,14 @@ public class CreatePostServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Acc userAcc = auth.checkAuthenticatedRequest(request, response);
+            String accountName = userAcc.getAccountName();
 
             String pageId = request.getParameter("pageId");
             HttpSession session = request.getSession();
-            List<String> capabilities = JWTAccount.getInstance().getCapabilities(userAcc.getAccountName(), (String) session.getAttribute("Capability"));
+            List<String> capabilities = JWTAccount.getInstance().getCapabilities(accountName, (String) session.getAttribute("Capability"));
 
-            DBcheck c = createDBchecker(userAcc.getAccountName(), pageId, session, capabilities);
+            DBcheck c = createDBchecker(accountName, pageId, session, capabilities);
+            accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
             accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.CREATE_POST), c);
 
             request.getRequestDispatcher("/WEB-INF/createPost.jsp").forward(request, response);
@@ -85,13 +87,15 @@ public class CreatePostServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Acc userAcc = auth.checkAuthenticatedRequest(request, response);
+            String accountName = userAcc.getAccountName();
 
             String pageIdString = request.getParameter("pageId");
             int pageId = Integer.parseInt(pageIdString);
             HttpSession session = request.getSession();
-            List<String> capabilities = JWTAccount.getInstance().getCapabilities(userAcc.getAccountName(), (String) session.getAttribute("Capability"));
+            List<String> capabilities = JWTAccount.getInstance().getCapabilities(accountName, (String) session.getAttribute("Capability"));
 
-            DBcheck c = createDBchecker(userAcc.getAccountName(), pageIdString, session, capabilities);
+            DBcheck c = createDBchecker(accountName, pageIdString, session, capabilities);
+            accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
             accessController.checkPermission(capabilities,  new ResourceClass("page", pageIdString), new OperationClass(OperationValues.CREATE_POST), c);
 
             String postDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());

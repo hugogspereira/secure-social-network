@@ -44,6 +44,7 @@ public class AcceptFollowServlet extends HttpServlet {
 
         try {
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
+            String accountName = authUser.getAccountName();
 
             String pageId = request.getParameter("pageId");
             String pageRequestId = request.getParameter("pageRequestId");
@@ -52,12 +53,13 @@ public class AcceptFollowServlet extends HttpServlet {
             HttpSession session = request.getSession();
             List<String> capabilities = (List<String>) request.getSession().getAttribute("Capability");
             DBcheck check = (cap) -> {
-                if(SN.getInstance().getPages(authUser.getAccountName()).stream().noneMatch(p -> p.getPageId() == Integer.parseInt(pageId)))
+                if(SN.getInstance().getPages(accountName).stream().noneMatch(p -> p.getPageId() == Integer.parseInt(pageId)))
                     return false;
                 capabilities.add(cap);
                 session.setAttribute("Capability",capabilities);
                 return true;
             };
+            accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
             accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.AUTHORIZE_FOLLOW), check);
 
 
@@ -71,10 +73,10 @@ public class AcceptFollowServlet extends HttpServlet {
                     throw new NotAbleToAccept();
                 }
                 request.getRequestDispatcher("/WEB-INF/sn.jsp").forward(request, response);
-                logger.log(Level.INFO, authUser.getAccountName() + " accepted the follow request in the social network.");
+                logger.log(Level.INFO, accountName + " accepted the follow request in the social network.");
             }
             else {
-                logger.log(Level.WARNING, authUser.getAccountName() + "had an error accepting follow.");
+                logger.log(Level.WARNING, accountName + "had an error accepting follow.");
                 response.sendRedirect(request.getHeader("referer"));
                 request.setAttribute("errorMessage", "No pageId or pageRequestId was provided!");
             }

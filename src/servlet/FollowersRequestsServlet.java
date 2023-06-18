@@ -41,31 +41,32 @@ public class FollowersRequestsServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         try {
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
+            String accountName = authUser.getAccountName();
 
             String pageId = request.getParameter("pageId");
 
             if(pageId != null) {
                 HttpSession session = request.getSession();
-                List<String> capabilities = JWTAccount.getInstance().getCapabilities(authUser.getAccountName(), (String) session.getAttribute("Capability"));
+                List<String> capabilities = JWTAccount.getInstance().getCapabilities(accountName, (String) session.getAttribute("Capability"));
 
                 DBcheck c = (cap) -> {
-                    boolean res = SN.getInstance().getPages(authUser.getAccountName()).stream().anyMatch(p -> p.getPageId() == Integer.parseInt(pageId));
+                    boolean res = SN.getInstance().getPages(accountName).stream().anyMatch(p -> p.getPageId() == Integer.parseInt(pageId));
                     if(res) {
                         capabilities.add(cap);
-                        session.setAttribute("Capability",JWTAccount.getInstance().createJWTCapability(authUser.getAccountName(), capabilities));
+                        session.setAttribute("Capability",JWTAccount.getInstance().createJWTCapability(accountName, capabilities));
                     }
                     return res;
                 };
+                accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
                 accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.AUTHORIZE_FOLLOW), c);
 
                 request.getRequestDispatcher("/WEB-INF/followrequests.jsp").forward(request, response);
-                logger.log(Level.INFO, authUser.getAccountName() + " is viewing the follow requests in the social network.");
+                logger.log(Level.INFO, accountName + " is viewing the follow requests in the social network.");
             }
             else {
-                logger.log(Level.WARNING, authUser.getAccountName() + "tried to follow a null page");
+                logger.log(Level.WARNING, accountName + "tried to follow a null page");
                 response.sendRedirect(request.getHeader("referer"));
                 request.setAttribute("errorMessage", "No pageId or pageRequestId was provided!");            }
         }

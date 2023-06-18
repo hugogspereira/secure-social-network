@@ -43,9 +43,9 @@ public class PostServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         try {
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
+            String accountName = authUser.getAccountName();
 
             String postId = request.getParameter("postId");
             String pageId = request.getParameter("pageId");
@@ -54,7 +54,7 @@ public class PostServlet extends HttpServlet {
 
             if(postId != null && visitedPageId != null && pageId != null) {
                 HttpSession session = request.getSession();
-                List<String> capabilities = JWTAccount.getInstance().getCapabilities(authUser.getAccountName(), (String) session.getAttribute("Capability"));
+                List<String> capabilities = JWTAccount.getInstance().getCapabilities(accountName, (String) session.getAttribute("Capability"));
 
                 DBcheck c = (cap) -> {
                     if(!pageId.equals(visitedPageId)) {
@@ -62,16 +62,17 @@ public class PostServlet extends HttpServlet {
                             return false;
                     }
                     capabilities.add(cap);
-                    session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(authUser.getAccountName(), capabilities));
+                    session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(accountName, capabilities));
                     return true;
                 };
+                accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
                 accessController.checkPermission(capabilities,  new ResourceClass("page", visitedPageId), new OperationClass(OperationValues.ACCESS_POST), c);
 
                 request.getRequestDispatcher("/WEB-INF/post.jsp").forward(request, response);
-                logger.log(Level.INFO, authUser.getAccountName() + " is accessing post: " + postId + " ." );
+                logger.log(Level.INFO, accountName + " is accessing post: " + postId + " ." );
             }
             else {
-                logger.log(Level.WARNING, authUser.getAccountName() + "tried access null post");
+                logger.log(Level.WARNING, accountName + "tried access null post");
                 response.sendRedirect(request.getHeader("referer"));
                 request.setAttribute("errorMessage", "No postId or visterPageId was provided!");
             }

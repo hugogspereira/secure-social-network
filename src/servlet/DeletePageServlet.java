@@ -46,16 +46,18 @@ public class DeletePageServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Acc userAcc = auth.checkAuthenticatedRequest(request, response);
+            String accountName = userAcc.getAccountName();
 
             HttpSession session = request.getSession();
-            List<String> capabilities = JWTAccount.getInstance().getCapabilities(userAcc.getAccountName(), (String) session.getAttribute("Capability"));
+            List<String> capabilities = JWTAccount.getInstance().getCapabilities(accountName, (String) session.getAttribute("Capability"));
 
-            DBcheck c = createDBchecker(session, capabilities, userAcc.getAccountName());
+            DBcheck c = createDBchecker(session, capabilities, accountName);
+            accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
             accessController.checkPermission(capabilities,  new ResourceClass("page", ""), new OperationClass(OperationValues.DELETE_PAGE), c);
 
 
             request.getRequestDispatcher("/WEB-INF/deletePage.jsp").forward(request, response);
-            logger.log(Level.INFO, userAcc.getAccountName() + "is deleting a page");
+            logger.log(Level.INFO, accountName + "is deleting a page");
         }
         catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
@@ -82,11 +84,13 @@ public class DeletePageServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Acc userAcc = auth.checkAuthenticatedRequest(request, response);
+            String accountName = userAcc.getAccountName();
 
             HttpSession session = request.getSession();
-            List<String> capabilities = JWTAccount.getInstance().getCapabilities(userAcc.getAccountName(), (String) session.getAttribute("Capability"));
+            List<String> capabilities = JWTAccount.getInstance().getCapabilities(accountName, (String) session.getAttribute("Capability"));
 
-            DBcheck c = createDBchecker(session, capabilities, userAcc.getAccountName());
+            DBcheck c = createDBchecker(session, capabilities, accountName);
+            accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
             accessController.checkPermission(capabilities,  new ResourceClass("page", ""), new OperationClass(OperationValues.DELETE_PAGE), c);
 
             int pageId = Integer.parseInt(request.getParameter("pageid"));
@@ -94,7 +98,7 @@ public class DeletePageServlet extends HttpServlet {
             PageObject page = socialNetwork.getPage(pageId);
             socialNetwork.deletePage(page);
 
-            logger.log(Level.INFO, "Deleted successfully the page of user: "+page.getUserId()+", by the user: "+userAcc.getAccountName()+".");
+            logger.log(Level.INFO, "Deleted successfully the page of user: "+page.getUserId()+", by the user: "+accountName+".");
 
             // Redirect to home page after successful page deletion
             response.sendRedirect(request.getContextPath() + "/ManageUsers");
