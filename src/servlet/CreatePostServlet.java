@@ -56,7 +56,6 @@ public class CreatePostServlet extends HttpServlet {
             List<String> capabilities = JWTAccount.getInstance().getCapabilities(accountName, (String) session.getAttribute("Capability"));
 
             DBcheck c = createDBchecker(accountName, pageId, session, capabilities);
-            accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
             accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.CREATE_POST), c);
 
             request.getRequestDispatcher("/WEB-INF/createPost.jsp").forward(request, response);
@@ -95,7 +94,6 @@ public class CreatePostServlet extends HttpServlet {
             List<String> capabilities = JWTAccount.getInstance().getCapabilities(accountName, (String) session.getAttribute("Capability"));
 
             DBcheck c = createDBchecker(accountName, pageIdString, session, capabilities);
-            accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
             accessController.checkPermission(capabilities,  new ResourceClass("page", pageIdString), new OperationClass(OperationValues.CREATE_POST), c);
 
             String postDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());

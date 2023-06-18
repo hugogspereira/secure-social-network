@@ -51,7 +51,6 @@ public class CreatePageServlet extends HttpServlet {
             List<String> capabilities = JWTAccount.getInstance().getCapabilities(accountName, (String) session.getAttribute("Capability"));
 
             DBcheck c = createDBchecker(session, capabilities, accountName);
-            accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
             accessController.checkPermission(capabilities, new ResourceClass("page", ""), new OperationClass(OperationValues.CREATE_PAGE), c);
 
             request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
@@ -84,7 +83,6 @@ public class CreatePageServlet extends HttpServlet {
             List<String> capabilities = JWTAccount.getInstance().getCapabilities(accountName, (String) session.getAttribute("Capability"));
 
             DBcheck c = createDBchecker(session, capabilities, accountName);
-            accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
             accessController.checkPermission(capabilities, new ResourceClass("page", ""), new OperationClass(OperationValues.CREATE_PAGE), c);
 
             String username = request.getParameter("username");

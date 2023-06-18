@@ -59,7 +59,6 @@ public class AcceptFollowServlet extends HttpServlet {
                 session.setAttribute("Capability",capabilities);
                 return true;
             };
-            accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
             accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.AUTHORIZE_FOLLOW), check);
 
 

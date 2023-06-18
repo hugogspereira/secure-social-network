@@ -52,7 +52,6 @@ public class DeletePageServlet extends HttpServlet {
             List<String> capabilities = JWTAccount.getInstance().getCapabilities(accountName, (String) session.getAttribute("Capability"));
 
             DBcheck c = createDBchecker(session, capabilities, accountName);
-            accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
             accessController.checkPermission(capabilities,  new ResourceClass("page", ""), new OperationClass(OperationValues.DELETE_PAGE), c);
 
 
@@ -90,7 +89,6 @@ public class DeletePageServlet extends HttpServlet {
             List<String> capabilities = JWTAccount.getInstance().getCapabilities(accountName, (String) session.getAttribute("Capability"));
 
             DBcheck c = createDBchecker(session, capabilities, accountName);
-            accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
             accessController.checkPermission(capabilities,  new ResourceClass("page", ""), new OperationClass(OperationValues.DELETE_PAGE), c);
 
             int pageId = Integer.parseInt(request.getParameter("pageid"));

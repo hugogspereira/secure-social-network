@@ -60,7 +60,6 @@ public class DeletePostServlet extends HttpServlet {
                 }
                 return res;
             };
-            accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
             accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.DELETE_POST), c);
 
 
