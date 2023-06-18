@@ -101,6 +101,7 @@ public class Authenticator implements Auth {
         }
         else if(EncryptDecryptUtils.getInstance().encrypt(pwd).equals(account.getPassword())) {
             account.setLoggedIn(true);
+            DbAccount.getInstance().updateAccount(account);
             return account;
         }
         else {
@@ -109,10 +110,8 @@ public class Authenticator implements Auth {
     }
 
     @Override
-    public void logout(Acc acc) {
-        Acc account = DbAccount.getInstance().getAccount(acc.getAccountName());
-        account.setLoggedIn(false);
-        DbAccount.getInstance().updateAccount(account);
+    public void logout(Acc acc) throws Exception {
+        DbAccount.getInstance().logoutAccount(acc.getAccountName());
     }
 
     @Override

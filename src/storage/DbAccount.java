@@ -6,6 +6,7 @@ import accCtrl.Role;
 import accCtrl.RoleClass;
 import accCtrl.operations.Operation;
 import accCtrl.resources.Resource;
+import socialNetwork.SN;
 import util.Util;
 
 import java.sql.*;
@@ -240,6 +241,30 @@ public class DbAccount {
         }
     }
 
+    public void logoutAccount(String accountName) throws Exception {
+        SN.getInstance().closeConn();
+        Connection conn = getConnection();
+        try {
+            PreparedStatement ps = conn.prepareStatement("UPDATE accounts SET loggedIn = ? WHERE accountName = ?");
+            ps.setInt(1, FALSE);
+            ps.setString(2, accountName);
+            ps.executeUpdate();
+            conn.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if(conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     /**
      * Create a new role in the database
      * @param roleId the role identifier
@@ -451,4 +476,70 @@ public class DbAccount {
         return false;
     }
 
+    private boolean checkIfLoggedInAccount(String accountName) {
+        Connection conn = getConnection();
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT loggedIn FROM accounts WHERE accountName = ?");
+            ps.setString(1, accountName);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()) {
+                return rs.getInt("loggedIn") == 1;
+            }
+            conn.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if(conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    private void lockAccount(String accountName) {
+        auxLockUnlock(accountName, true);
+    }
+
+    private void rollbackLock(String accountName) {
+        auxLockUnlock(accountName, false);
+    }
+
+    private void auxLockUnlock(String accountName, boolean lock) {
+        Connection conn = getConnection();
+        try {
+            PreparedStatement ps = conn.prepareStatement("UPDATE accounts SET locked = ? WHERE accountName = ?");
+            ps.setInt(1, lock ? TRUE : FALSE);
+            ps.setString(2, accountName);
+            ps.executeUpdate();
+            conn.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if(conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void lockAccDb(String accountName) {
+        if(!DbAccount.getInstance().checkIfLoggedInAccount(accountName)) { // if the account is not logged in
+            DbAccount.getInstance().lockAccount(accountName); // lock the account
+            if(DbAccount.getInstance().checkIfLoggedInAccount(accountName)) { // check again to see if someone logged in
+                DbAccount.getInstance().rollbackLock(accountName); // rollback the lock
+            }
+        }
+    }
 }

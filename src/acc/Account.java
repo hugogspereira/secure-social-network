@@ -11,7 +11,6 @@ public class Account implements Acc {
     private String accountName;
     private String password;
 
-    // TODO: Add more fields if needed
     private boolean loggedIn; // true = user is logged in
     private boolean locked; // true = cannot authenticate
 

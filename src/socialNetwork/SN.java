@@ -25,8 +25,6 @@ public class SN {
 		}
     }
 
-    static SN theapp = null;
-
     public SN() throws Exception {
 		DBBuild();
 		Class.forName("org.sqlite.JDBC");
@@ -347,6 +345,16 @@ public class SN {
 		}
 		return lpages;
 	}
-    
+
+	public void closeConn() throws SQLException {
+		instance = null;
+		if(stmt!= null) {
+			stmt.close();
+		}
+		if(theconnection != null) {
+			theconnection.close();
+			theconnection = null;
+		}
+	}
 }
 

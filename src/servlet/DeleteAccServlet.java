@@ -6,6 +6,7 @@ import auth.Authenticator;
 import exc.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
+import storage.DbAccount;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -64,6 +65,7 @@ public class DeleteAccServlet extends HttpServlet {
             auth.checkAuthenticatedRequest(request, response);
             String username = request.getParameter("username");
 
+            DbAccount.getInstance().lockAccDb(username);
             auth.deleteAccount(username);
             logger.log(Level.INFO, "Account deleted: '" + username + "'");
 

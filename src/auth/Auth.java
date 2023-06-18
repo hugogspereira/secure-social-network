@@ -55,7 +55,7 @@ public interface Auth {
      * PRE: pwd1 == pwd2
      * @param acc the account
      */
-    void logout(Acc acc);
+    void logout(Acc acc) throws Exception;
 
     /**
      * Authenticates the caller, given name and password
