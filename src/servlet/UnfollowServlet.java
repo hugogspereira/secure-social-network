@@ -52,7 +52,9 @@ public class UnfollowServlet extends HttpServlet {
                     SN.getInstance().updatefollowsstatus(Integer.parseInt(pageId), Integer.parseInt(visitedPageId), FState.NONE);
                     HttpSession session = request.getSession();
                     List<String> capabilities = JWTAccount.getInstance().getCapabilities(authUser.getAccountName(), (String) session.getAttribute("Capability"));
-                    String cap = Util.getHash(Util.serializeToBytes(new String[]{visitedPageId, OperationValues.ACCESS_POST.getOperation()}));
+                    String cap = Util.getHash(Util.serializeToBytes(new String[]{visitedPageId+pageId, OperationValues.ACCESS_POST.getOperation()}));
+                    capabilities.remove(cap);
+                    cap = Util.getHash(Util.serializeToBytes(new String[]{visitedPageId+pageId, OperationValues.LIKE_UNLIKE_POST.getOperation()}));
                     capabilities.remove(cap);
                     session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(authUser.getAccountName(), capabilities));
                 }
