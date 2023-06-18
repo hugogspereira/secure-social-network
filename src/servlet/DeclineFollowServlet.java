@@ -43,22 +43,23 @@ public class DeclineFollowServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         try {
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
+            String accountName = authUser.getAccountName();
 
             String pageId = request.getParameter("pageId");
             String pageRequestId = request.getParameter("pageRequestId");
             HttpSession session = request.getSession();
-            List<String> capabilities = JWTAccount.getInstance().getCapabilities(authUser.getAccountName(), (String) session.getAttribute("Capability"));
+            List<String> capabilities = JWTAccount.getInstance().getCapabilities(accountName, (String) session.getAttribute("Capability"));
 
             DBcheck check = (cap) -> {
-                if(SN.getInstance().getPages(authUser.getAccountName()).stream().noneMatch(p -> p.getPageId() == Integer.parseInt(pageId)))
+                if(SN.getInstance().getPages(accountName).stream().noneMatch(p -> p.getPageId() == Integer.parseInt(pageId)))
                     return false;
                 capabilities.add(cap);
-                session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(authUser.getAccountName(), capabilities));
+                session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(accountName, capabilities));
                 return true;
             };
+            accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
             accessController.checkPermission(capabilities,  new ResourceClass("page", pageId), new OperationClass(OperationValues.AUTHORIZE_FOLLOW), check);
 
             if(pageId != null && pageRequestId != null) {

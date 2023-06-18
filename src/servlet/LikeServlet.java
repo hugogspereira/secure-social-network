@@ -43,9 +43,9 @@ public class LikeServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         try {
             Acc authUser = auth.checkAuthenticatedRequest(request, response);
+            String accountName = authUser.getAccountName();
 
             String postId = request.getParameter("postId");
             String pageId = request.getParameter("pageId");
@@ -53,20 +53,21 @@ public class LikeServlet extends HttpServlet {
 
             if(postId != null && visitedPageId != null && pageId != null) {
                 HttpSession session = request.getSession();
-                List<String> capabilities = JWTAccount.getInstance().getCapabilities(authUser.getAccountName(), (String) session.getAttribute("Capability"));
+                List<String> capabilities = JWTAccount.getInstance().getCapabilities(accountName, (String) session.getAttribute("Capability"));
 
                 DBcheck c = (cap) -> {
                     if(SN.getInstance().getfollowers(Integer.parseInt(visitedPageId)).stream().noneMatch(p -> p.getPageId() == Integer.parseInt(pageId)))
                         return false;
                     capabilities.add(cap);
-                    session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(authUser.getAccountName(), capabilities));
+                    session.setAttribute("Capability", JWTAccount.getInstance().createJWTCapability(accountName, capabilities));
                     return true;
                 };
+                accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
                 accessController.checkPermission(capabilities,  new ResourceClass("page", visitedPageId), new OperationClass(OperationValues.LIKE_UNLIKE_POST), c);
 
                 SN.getInstance().like(Integer.parseInt(postId), Integer.parseInt(pageId));
                 response.sendRedirect(request.getContextPath() + "/SocialNetwork?pageId=" + pageId);
-                logger.log(Level.INFO, authUser.getAccountName() + " sent a like in the social network.");
+                logger.log(Level.INFO, accountName + " sent a like in the social network.");
             }
             else {
                 logger.log(Level.WARNING, authUser.getAccountName() + " did not provide a pageId or pageRequestId.");

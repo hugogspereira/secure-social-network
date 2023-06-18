@@ -3,6 +3,7 @@ package accCtrl;
 import acc.Acc;
 import accCtrl.operations.Operation;
 import accCtrl.resources.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public interface AccessController {
@@ -13,9 +14,11 @@ public interface AccessController {
 
     List<Role> getRole(Acc user);
 
-    void grantPermission(Role role, Resource res, Operation op) throws Exception;
+    void checkIfNeedsToRefreshCapabilities(String username, HttpSession session);
 
-    void revokePermission(Role role, Resource res, Operation op) throws Exception;
+    void grantPermission(Role role, Resource res, Operation op);
+
+    void revokePermission(Role role, Resource res, Operation op);
 
     List<String> makeKey(Role role);
 

@@ -46,14 +46,16 @@ public class CreatePageServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Acc userAcc = auth.checkAuthenticatedRequest(request, response);
+            String accountName = userAcc.getAccountName();
             HttpSession session = request.getSession();
-            List<String> capabilities = JWTAccount.getInstance().getCapabilities(userAcc.getAccountName(), (String) session.getAttribute("Capability"));
+            List<String> capabilities = JWTAccount.getInstance().getCapabilities(accountName, (String) session.getAttribute("Capability"));
 
-            DBcheck c = createDBchecker(session, capabilities, userAcc.getAccountName());
+            DBcheck c = createDBchecker(session, capabilities, accountName);
+            accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
             accessController.checkPermission(capabilities, new ResourceClass("page", ""), new OperationClass(OperationValues.CREATE_PAGE), c);
 
             request.getRequestDispatcher("/WEB-INF/createPage.jsp").forward(request, response);
-            logger.log(Level.INFO, userAcc.getAccountName() + " is creating a page.");
+            logger.log(Level.INFO, accountName + " is creating a page.");
         } catch (AuthenticationError e) {
             logger.log(Level.WARNING, "Invalid username or password");
             request.setAttribute("errorMessage", "Invalid username and/or password");
@@ -76,11 +78,13 @@ public class CreatePageServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Acc userAcc = auth.checkAuthenticatedRequest(request, response);
+            String accountName = userAcc.getAccountName();
 
             HttpSession session = request.getSession();
-            List<String> capabilities = JWTAccount.getInstance().getCapabilities(userAcc.getAccountName(), (String) session.getAttribute("Capability"));
+            List<String> capabilities = JWTAccount.getInstance().getCapabilities(accountName, (String) session.getAttribute("Capability"));
 
-            DBcheck c = createDBchecker(session, capabilities, userAcc.getAccountName());
+            DBcheck c = createDBchecker(session, capabilities, accountName);
+            accessController.checkIfNeedsToRefreshCapabilities(accountName, session);
             accessController.checkPermission(capabilities, new ResourceClass("page", ""), new OperationClass(OperationValues.CREATE_PAGE), c);
 
             String username = request.getParameter("username");
